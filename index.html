@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Pueblo Encantado – Learn Spanish</title>
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #1a1a2e;
+    --panel: #16213e;
+    --card: #0f3460;
+    --accent: #e94560;
+    --gold: #f5a623;
+    --green: #4caf50;
+    --text: #e0e0e0;
+    --muted: #888;
+    --radius: 12px;
+    --font: 'Segoe UI', system-ui, sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; width: 100%; max-width: 900px; padding: 16px; }
+  .screen.active { display: flex; flex-direction: column; align-items: center; }
+
+  /* ── TITLE SCREEN ── */
+  #screen-title {
+    min-height: 100vh;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 30%, #0f3460 0%, #1a1a2e 70%);
+  }
+  .title-art {
+    font-size: clamp(48px, 10vw, 90px);
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 20px #e94560aa);
+  }
+  .title-main {
+    font-size: clamp(24px, 5vw, 42px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 20px #f5a62388;
+    letter-spacing: 2px;
+  }
+  .title-sub {
+    font-size: 16px;
+    color: var(--muted);
+    margin: 8px 0 40px;
+    letter-spacing: 1px;
+  }
+  .level-select-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 32px;
+  }
+  .level-card {
+    background: var(--card);
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all .2s;
+    text-align: left;
+  }
+  .level-card:hover, .level-card.selected {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px #f5a62322;
+  }
+  .level-card .lc-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .level-card h3 { font-size: 16px; margin-bottom: 6px; }
+  .level-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: 1px;
+  }
+  .btn:hover { background: #ff6b6b; transform: translateY(-2px); box-shadow: 0 6px 20px #e9456044; }
+  .btn:active { transform: translateY(0); }
+  .btn.secondary { background: var(--card); border: 2px solid var(--gold); color: var(--gold); }
+  .btn.secondary:hover { background: var(--gold); color: #1a1a2e; }
+  .btn.green { background: var(--green); }
+  .btn.green:hover { background: #66bb6a; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  /* ── HUD ── */
+  #hud {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: #10101aee;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #ffffff11;
+    padding: 10px 20px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #hud.visible { display: flex; }
+  .hud-section { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .hud-item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+  .hud-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  .hud-val { font-weight: 700; color: var(--gold); }
+  .xp-bar-wrap { background: #ffffff22; border-radius: 99px; height: 8px; width: 100px; overflow: hidden; }
+  .xp-bar { height: 100%; background: var(--gold); border-radius: 99px; transition: width .4s; }
+  .hp-bar-wrap { background: #ffffff22; border-radius: 99px; height: 8px; width: 80px; overflow: hidden; }
+  .hp-bar { height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s; }
+  .badge { background: var(--accent); color: #fff; border-radius: 99px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+
+  /* ── TOWN MAP ── */
+  #screen-town { padding-top: 80px; }
+  .town-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    margin-top: 16px;
+  }
+  .location-card {
+    background: var(--panel);
+    border: 2px solid #ffffff11;
+    border-radius: var(--radius);
+    padding: 24px 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .2s;
+    position: relative;
+  }
+  .location-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .location-card.locked { opacity: .4; cursor: not-allowed; }
+  .location-card .loc-icon { font-size: 40px; margin-bottom: 8px; }
+  .location-card h3 { font-size: 15px; margin-bottom: 4px; }
+  .location-card p { font-size: 12px; color: var(--muted); }
+  .loc-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--gold); color: #1a1a2e;
+    border-radius: 99px; padding: 2px 8px; font-size: 10px; font-weight: 700;
+  }
+  .new-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: var(--accent); color: #fff;
+    border-radius: 99px; padding: 2px 8px; font-size: 10px; font-weight: 700;
+  }
+  .town-header { text-align: center; margin-bottom: 4px; }
+  .town-header h2 { font-size: 22px; color: var(--gold); }
+  .town-header p { font-size: 14px; color: var(--muted); }
+  .story-banner {
+    background: var(--card);
+    border-left: 4px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    width: 100%;
+  }
+
+  /* ── DIALOGUE / NPC ── */
+  #screen-dialogue { padding-top: 80px; max-width: 700px; }
+  .npc-scene {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .npc-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .npc-avatar { font-size: 48px; background: var(--card); border-radius: 50%; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .npc-name { font-size: 18px; font-weight: 700; color: var(--gold); }
+  .npc-role { font-size: 12px; color: var(--muted); }
+  .dialogue-bubble {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .dialogue-bubble .spanish { font-size: 16px; font-weight: 600; color: #fff; }
+  .dialogue-bubble .english { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; }
+  .highlight-word { color: var(--gold); font-weight: 700; }
+  .choices { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .choice-btn {
+    background: var(--panel);
+    border: 2px solid #ffffff22;
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: all .2s;
+    line-height: 1.5;
+  }
+  .choice-btn:hover { border-color: var(--gold); background: var(--card); }
+  .choice-btn.correct { border-color: var(--green) !important; background: #4caf5022 !important; color: #4caf50; }
+  .choice-btn.wrong { border-color: var(--accent) !important; background: #e9456022 !important; color: var(--accent); }
+  .choice-btn:disabled { cursor: not-allowed; }
+  .feedback-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-top: 12px;
+    display: none;
+    animation: fadeIn .3s;
+  }
+  .feedback-box.visible { display: block; }
+  .feedback-box .feedback-title { font-weight: 700; margin-bottom: 6px; font-size: 16px; }
+  .feedback-box .feedback-title.good { color: var(--green); }
+  .feedback-box .feedback-title.bad { color: var(--accent); }
+  .feedback-box p { font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .feedback-box .grammar-note { color: var(--gold); font-size: 13px; margin-top: 8px; font-weight: 600; }
+  .timer-bar-wrap { background: #ffffff22; border-radius: 99px; height: 6px; margin-bottom: 16px; overflow: hidden; }
+  .timer-bar { height: 100%; background: var(--gold); border-radius: 99px; transition: width .1s linear; }
+  .timer-bar.urgent { background: var(--accent); }
+
+  /* ── COMBAT ── */
+  #screen-combat { padding-top: 80px; max-width: 700px; }
+  .combat-stage {
+    background: linear-gradient(180deg, #0f3460 0%, #1a1a2e 100%);
+    border: 2px solid #ffffff11;
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .monster-display { margin-bottom: 16px; }
+  .monster-emoji { font-size: 72px; filter: drop-shadow(0 0 16px #e9456066); animation: float 3s ease-in-out infinite; }
+  .monster-name { font-size: 22px; font-weight: 900; color: var(--accent); margin-top: 8px; }
+  .monster-title { font-size: 13px; color: var(--muted); }
+  .monster-hp-wrap { margin: 12px auto; max-width: 300px; }
+  .monster-hp-bar { height: 12px; background: var(--accent); border-radius: 99px; transition: width .5s; }
+  .monster-hp-bg { background: #ffffff22; border-radius: 99px; height: 12px; overflow: hidden; }
+  .monster-hp-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .combat-question {
+    background: var(--panel);
+    border: 2px solid #ffffff11;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: left;
+    width: 100%;
+  }
+  .combat-question .q-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .combat-question .q-text { font-size: 17px; font-weight: 600; }
+  .combat-question .q-hint { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
+  .combat-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+  @media (max-width: 500px) { .combat-choices { grid-template-columns: 1fr; } .town-grid { grid-template-columns: 1fr 1fr; } }
+  .combo-display {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 8px 16px;
+    font-size: 13px;
+    margin-bottom: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .combo-val { color: var(--gold); font-weight: 700; }
+
+  /* ── INVENTORY ── */
+  #screen-inventory { padding-top: 80px; max-width: 800px; }
+  .inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; width: 100%; margin-top: 16px; }
+  .word-card {
+    background: var(--panel);
+    border: 2px solid #ffffff11;
+    border-radius: var(--radius);
+    padding: 14px 12px;
+    text-align: center;
+    transition: all .2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .word-card:hover { border-color: var(--gold); }
+  .word-card.selected { border-color: var(--accent); background: #e9456011; }
+  .word-card .wc-word { font-size: 16px; font-weight: 700; color: var(--gold); }
+  .word-card .wc-type { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 4px 0; }
+  .word-card .wc-trans { font-size: 12px; color: var(--text); }
+  .word-card .wc-gender { position: absolute; top: 6px; right: 8px; font-size: 10px; font-weight: 700; }
+  .word-card .wc-gender.m { color: #42a5f5; }
+  .word-card .wc-gender.f { color: #ec407a; }
+  .word-card .wc-rarity { position: absolute; top: 6px; left: 8px; font-size: 10px; }
+  .combine-zone {
+    background: var(--panel);
+    border: 2px dashed #ffffff22;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 16px 0;
+    width: 100%;
+    text-align: center;
+  }
+  .combine-slots { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .combine-slot {
+    background: var(--card);
+    border: 2px solid #ffffff22;
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    min-width: 120px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .combine-slot.filled { border-color: var(--gold); color: var(--gold); font-weight: 700; }
+  .combine-arrow { font-size: 24px; display: flex; align-items: center; color: var(--muted); }
+  .combine-result {
+    background: var(--card);
+    border: 2px solid var(--green);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    min-width: 160px;
+    text-align: center;
+  }
+  .inv-tabs { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .inv-tab { background: var(--panel); border: 2px solid #ffffff11; border-radius: 99px; padding: 6px 16px; font-size: 13px; cursor: pointer; transition: all .2s; }
+  .inv-tab.active { border-color: var(--gold); color: var(--gold); }
+
+  /* ── RESULT SCREEN ── */
+  #screen-result { padding-top: 80px; text-align: center; max-width: 600px; }
+  .result-icon { font-size: 80px; margin-bottom: 16px; }
+  .result-title { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
+  .result-title.win { color: var(--gold); }
+  .result-title.lose { color: var(--accent); }
+  .result-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; width: 100%; }
+  .stat-box { background: var(--panel); border-radius: var(--radius); padding: 16px; }
+  .stat-box .sv { font-size: 28px; font-weight: 900; color: var(--gold); }
+  .stat-box .sk { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .loot-box { background: var(--panel); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; width: 100%; }
+  .loot-box h3 { color: var(--gold); margin-bottom: 12px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+  .loot-items { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .loot-item { background: var(--card); border-radius: 99px; padding: 6px 14px; font-size: 13px; border: 1px solid var(--gold); color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  .anim-shake { animation: shake .4s; }
+  .anim-pop { animation: pop .3s; }
+  .anim-fadein { animation: fadeIn .3s; }
+  .damage-float {
+    position: fixed; pointer-events: none; font-size: 24px; font-weight: 900;
+    animation: floatUp .9s forwards; z-index: 999;
+  }
+  @keyframes floatUp { 0% { opacity:1; transform:translateY(0) scale(1); } 100% { opacity:0; transform:translateY(-80px) scale(.8); } }
+
+  /* ── MISC ── */
+  .page-title { font-size: 22px; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
+  .page-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .separator { width: 100%; height: 1px; background: #ffffff11; margin: 16px 0; }
+  .tag { display: inline-block; background: var(--card); border-radius: 99px; padding: 3px 10px; font-size: 11px; margin: 2px; color: var(--muted); }
+  .notification {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--card); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); padding: 14px 20px;
+    font-size: 14px; max-width: 300px; z-index: 200;
+    animation: fadeIn .3s; box-shadow: 0 8px 32px #00000066;
+    display: none;
+  }
+  .notification.visible { display: block; }
+  .notification.green { border-color: var(--green); }
+  .notification.red { border-color: var(--accent); }
+  .scroll-area { overflow-y: auto; max-height: 60vh; width: 100%; padding-right: 4px; }
+  .scroll-area::-webkit-scrollbar { width: 4px; }
+  .scroll-area::-webkit-scrollbar-track { background: transparent; }
+  .scroll-area::-webkit-scrollbar-thumb { background: #ffffff22; border-radius: 99px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 200px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HUD ═══════════════ -->
+<div id="hud">
+  <div class="hud-section">
+    <div class="hud-item">
+      <span>🧙</span>
+      <div>
+        <div class="hud-label">Player</div>
+        <div class="hud-val" id="hud-name">Viajero</div>
+      </div>
+    </div>
+    <div class="hud-item">
+      <span>❤️</span>
+      <div>
+        <div class="hud-label">HP</div>
+        <div class="hp-bar-wrap"><div class="hp-bar" id="hud-hp-bar" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hud-section">
+    <div class="hud-item">
+      <span>⭐</span>
+      <div>
+        <div class="hud-label">XP</div>
+        <div class="xp-bar-wrap"><div class="xp-bar" id="hud-xp-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="hud-item">
+      <div>
+        <div class="hud-label">Level</div>
+        <div class="hud-val" id="hud-level">A1</div>
+      </div>
+    </div>
+    <div class="hud-item">
+      <span>🪙</span>
+      <div>
+        <div class="hud-label">Monedas</div>
+        <div class="hud-val" id="hud-coins">0</div>
+      </div>
+    </div>
+    <div class="hud-item">
+      <span>🎒</span>
+      <div>
+        <div class="hud-label">Words</div>
+        <div class="hud-val" id="hud-words">0</div>
+      </div>
+    </div>
+  </div>
+  <div class="hud-section">
+    <button class="btn secondary" onclick="showTown()" style="padding:8px 16px;font-size:12px;">🗺️ Map</button>
+    <button class="btn secondary" onclick="showInventory()" style="padding:8px 16px;font-size:12px;">🎒 Bag</button>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notif"></div>
+
+<!-- ═══════════════ TITLE SCREEN ═══════════════ -->
+<div class="screen active" id="screen-title">
+  <div class="title-art">🏘️</div>
+  <div class="title-main">El Pueblo Encantado</div>
+  <div class="title-sub">A Spanish Learning Adventure · Spain Edition</div>
+
+  <div style="max-width:560px;text-align:center;margin-bottom:32px;font-size:14px;color:var(--muted);line-height:1.8;">
+    A curse has silenced the village of <strong style="color:var(--text)">Aldea Verborum</strong>. Its inhabitants can no longer speak correctly.
+    Only a language adventurer can restore their voices — one correct word at a time.
+  </div>
+
+  <div style="font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;">Choose your level</div>
+  <div class="level-select-grid">
+    <div class="level-card selected" onclick="selectLevel('A1')" id="lcard-A1">
+      <div class="lc-badge">A1 · Beginner</div>
+      <h3>The Lost Traveller</h3>
+      <p>Greetings, numbers, colours, basic nouns. Match objects to their Spanish names.</p>
+    </div>
+    <div class="level-card" onclick="selectLevel('A2')" id="lcard-A2">
+      <div class="lc-badge">A2 · Elementary</div>
+      <h3>The Village Market</h3>
+      <p>Present tense verbs, shopping phrases, articles (el/la/los/las).</p>
+    </div>
+    <div class="level-card" onclick="selectLevel('B1')" id="lcard-B1">
+      <div class="lc-badge">B1 · Intermediate</div>
+      <h3>Echoes of the Past</h3>
+      <p>Pretérito Indefinido vs Imperfecto. NPCs react differently to tense choices.</p>
+    </div>
+    <div class="level-card" onclick="selectLevel('B2')" id="lcard-B2">
+      <div class="lc-badge">B2 · Upper Intermediate</div>
+      <h3>The Subjunctive Curse</h3>
+      <p>Master the Subjunctive to defeat the final boss and break the curse forever.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn" onclick="startGame()">⚔️ Begin Adventure</button>
+    <button class="btn secondary" onclick="showTutorial()">📖 How to Play</button>
+  </div>
+
+  <div id="tutorial-box" style="display:none;margin-top:24px;background:var(--panel);border-radius:var(--radius);padding:20px;max-width:600px;text-align:left;line-height:1.8;font-size:14px;animation:fadeIn .3s;">
+    <h3 style="color:var(--gold);margin-bottom:12px;">🎮 How to Play</h3>
+    <p><strong style="color:var(--text)">🗺️ Town Map</strong> — Visit locations like the café, market, or train station. Each has quests and NPCs waiting for you.</p>
+    <p style="margin-top:8px;"><strong style="color:var(--text)">⚔️ Dialogue Combat</strong> — Face language monsters! Answer grammar questions before the timer runs out. Wrong answers cost HP.</p>
+    <p style="margin-top:8px;"><strong style="color:var(--text)">🎒 Word Inventory</strong> — Collect Spanish words as loot. Combine articles + nouns (e.g. "el" + "sol") to unlock secrets.</p>
+    <p style="margin-top:8px;"><strong style="color:var(--text)">📈 Progression</strong> — Complete quests to earn XP. Level up from A1 to B2 and defeat the final boss!</p>
+    <p style="margin-top:8px;"><strong style="color:var(--text)">💡 Grammar Notes</strong> — Every answer comes with an explanation so you always learn, win or lose.</p>
+    <button class="btn secondary" onclick="document.getElementById('tutorial-box').style.display='none'" style="margin-top:16px;padding:8px 20px;font-size:13px;">Close</button>
+  </div>
+</div>
+
+<!-- ═══════════════ TOWN MAP ═══════════════ -->
+<div class="screen" id="screen-town">
+  <div class="town-header">
+    <h2>🏘️ Aldea Verborum</h2>
+    <p id="town-sub">Choose where to go…</p>
+  </div>
+  <div id="story-banner" class="story-banner" style="display:none;"></div>
+  <div class="town-grid" id="town-grid"></div>
+</div>
+
+<!-- ═══════════════ DIALOGUE / NPC ═══════════════ -->
+<div class="screen" id="screen-dialogue">
+  <div class="npc-scene" id="npc-scene">
+    <div class="npc-header">
+      <div class="npc-avatar" id="npc-avatar">🧑</div>
+      <div>
+        <div class="npc-name" id="npc-name">NPC</div>
+        <div class="npc-role" id="npc-role">Villager</div>
+      </div>
+    </div>
+    <div class="timer-bar-wrap"><div class="timer-bar" id="npc-timer"></div></div>
+    <div class="dialogue-bubble" id="dialogue-bubble">
+      <div class="spanish" id="dialogue-spanish"></div>
+      <div class="english" id="dialogue-english"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback-box" id="feedback-box">
+      <div class="feedback-title" id="feedback-title"></div>
+      <p id="feedback-body"></p>
+      <div class="grammar-note" id="grammar-note"></div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn green" id="next-btn" onclick="nextDialogue()" style="display:none;">Continue ➤</button>
+      <button class="btn secondary" id="exit-btn" onclick="showTown()" style="padding:10px 20px;font-size:13px;">← Back to Map</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ COMBAT ═══════════════ -->
+<div class="screen" id="screen-combat">
+  <div class="combat-stage">
+    <div class="monster-display">
+      <div class="monster-emoji" id="monster-emoji">👾</div>
+      <div class="monster-name" id="monster-name">Error Monstruo</div>
+      <div class="monster-title" id="monster-title">Grammar Beast</div>
+    </div>
+    <div class="monster-hp-wrap">
+      <div class="monster-hp-bg"><div class="monster-hp-bar" id="monster-hp-bar" style="width:100%"></div></div>
+      <div class="monster-hp-label" id="monster-hp-label">HP: 100/100</div>
+    </div>
+  </div>
+  <div class="combo-display">
+    <span>Combo: <span class="combo-val" id="combo-val">0x</span></span>
+    <span>Score: <span class="combo-val" id="score-val">0</span></span>
+    <span>⏱ <span class="combo-val" id="time-val">--</span></span>
+  </div>
+  <div class="combat-question">
+    <div class="q-label">Question <span id="q-num">1</span> / <span id="q-total">5</span></div>
+    <div class="timer-bar-wrap" style="margin:8px 0;"><div class="timer-bar" id="combat-timer"></div></div>
+    <div class="q-text" id="q-text">Loading…</div>
+    <div class="q-hint" id="q-hint"></div>
+  </div>
+  <div class="combat-choices" id="combat-choices"></div>
+  <div class="feedback-box" id="combat-feedback">
+    <div class="feedback-title" id="cf-title"></div>
+    <p id="cf-body"></p>
+    <div class="grammar-note" id="cf-grammar"></div>
+  </div>
+  <div style="margin-top:12px;display:flex;gap:12px;">
+    <button class="btn green" id="combat-next-btn" onclick="nextCombatQuestion()" style="display:none;">Next ➤</button>
+    <button class="btn secondary" onclick="showTown()" style="padding:10px 20px;font-size:13px;">Flee 🏃</button>
+  </div>
+</div>
+
+<!-- ═══════════════ INVENTORY ═══════════════ -->
+<div class="screen" id="screen-inventory">
+  <div class="page-title">🎒 Word Inventory</div>
+  <div class="page-sub">Tap a word to select it, then combine to unlock secrets</div>
+  <div class="inv-tabs">
+    <div class="inv-tab active" onclick="filterInv('all',this)">All</div>
+    <div class="inv-tab" onclick="filterInv('noun',this)">🔵 Nouns</div>
+    <div class="inv-tab" onclick="filterInv('verb',this)">🔴 Verbs</div>
+    <div class="inv-tab" onclick="filterInv('adjective',this)">🟡 Adjectives</div>
+    <div class="inv-tab" onclick="filterInv('article',this)">🟢 Articles</div>
+  </div>
+  <div class="combine-zone">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">✨ Combination Workshop — select two words to combine</div>
+    <div class="combine-slots">
+      <div class="combine-slot" id="slot-a">Word 1</div>
+      <div class="combine-arrow">+</div>
+      <div class="combine-slot" id="slot-b">Word 2</div>
+      <div class="combine-arrow">→</div>
+      <div class="combine-result" id="slot-result" style="border-color:#ffffff22;color:var(--muted);">Result</div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button class="btn green" id="combine-btn" onclick="combineWords()" disabled>✨ Combine</button>
+      <button class="btn secondary" onclick="clearCombine()" style="padding:10px 20px;font-size:13px;">Clear</button>
+    </div>
+    <div id="combine-msg" style="margin-top:12px;font-size:13px;min-height:20px;color:var(--gold);"></div>
+  </div>
+  <div class="scroll-area">
+    <div class="inv-grid" id="inv-grid"></div>
+  </div>
+  <div style="margin-top:16px;">
+    <button class="btn secondary" onclick="showTown()">← Back to Map</button>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULT SCREEN ═══════════════ -->
+<div class="screen" id="screen-result">
+  <div class="result-icon" id="result-icon">🏆</div>
+  <div class="result-title" id="result-title">Victory!</div>
+  <p id="result-msg" style="color:var(--muted);font-size:15px;margin-bottom:16px;"></p>
+  <div class="result-stats" id="result-stats"></div>
+  <div class="loot-box" id="loot-box">
+    <h3>📦 Words Earned</h3>
+    <div class="loot-items" id="loot-items"></div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn" onclick="showTown()">🗺️ Return to Town</button>
+    <button class="btn secondary" onclick="showInventory()">🎒 View Inventory</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   GAME DATA
+═══════════════════════════════════════════ */
+const LEVELS = ['A1','A2','B1','B2'];
+
+const WORD_POOL = {
+  articles: [
+    { word:'el', type:'article', gender:'m', translation:'the (masc.sg)', rarity:'⚪' },
+    { word:'la', type:'article', gender:'f', translation:'the (fem.sg)', rarity:'⚪' },
+    { word:'los', type:'article', gender:'m', translation:'the (masc.pl)', rarity:'⚪' },
+    { word:'las', type:'article', gender:'f', translation:'the (fem.pl)', rarity:'⚪' },
+    { word:'un', type:'article', gender:'m', translation:'a (masc.)', rarity:'⚪' },
+    { word:'una', type:'article', gender:'f', translation:'a (fem.)', rarity:'⚪' },
+  ],
+  nouns: [
+    { word:'café', type:'noun', gender:'m', translation:'café / coffee', rarity:'⚪' },
+    { word:'mesa', type:'noun', gender:'f', translation:'table', rarity:'⚪' },
+    { word:'libro', type:'noun', gender:'m', translation:'book', rarity:'⚪' },
+    { word:'agua', type:'noun', gender:'f', translation:'water', rarity:'⚪' },
+    { word:'pan', type:'noun', gender:'m', translation:'bread', rarity:'⚪' },
+    { word:'ciudad', type:'noun', gender:'f', translation:'city', rarity:'🟡' },
+    { word:'sol', type:'noun', gender:'m', translation:'sun', rarity:'🟡' },
+    { word:'luna', type:'noun', gender:'f', translation:'moon', rarity:'🟡' },
+    { word:'palabra', type:'noun', gender:'f', translation:'word', rarity:'🟡' },
+    { word:'maldición', type:'noun', gender:'f', translation:'curse', rarity:'🔴' },
+    { word:'aldea', type:'noun', gender:'f', translation:'village', rarity:'🔴' },
+    { word:'verdad', type:'noun', gender:'f', translation:'truth', rarity:'🔴' },
+    { word:'libertad', type:'noun', gender:'f', translation:'freedom', rarity:'🟣' },
+  ],
+  verbs: [
+    { word:'ser', type:'verb', translation:'to be (permanent)', rarity:'⚪' },
+    { word:'estar', type:'verb', translation:'to be (temporary)', rarity:'⚪' },
+    { word:'tener', type:'verb', translation:'to have', rarity:'⚪' },
+    { word:'querer', type:'verb', translation:'to want / to love', rarity:'🟡' },
+    { word:'poder', type:'verb', translation:'to be able to', rarity:'🟡' },
+    { word:'hablar', type:'verb', translation:'to speak', rarity:'⚪' },
+    { word:'ir', type:'verb', translation:'to go', rarity:'🟡' },
+    { word:'volver', type:'verb', translation:'to return', rarity:'🟡' },
+    { word:'romper', type:'verb', translation:'to break', rarity:'🔴' },
+    { word:'esperar', type:'verb', translation:'to hope / to wait', rarity:'🔴' },
+  ],
+  adjectives: [
+    { word:'bueno', type:'adjective', translation:'good', rarity:'⚪' },
+    { word:'malo', type:'adjective', translation:'bad', rarity:'⚪' },
+    { word:'grande', type:'adjective', translation:'big', rarity:'⚪' },
+    { word:'pequeño', type:'adjective', translation:'small', rarity:'⚪' },
+    { word:'encantado', type:'adjective', translation:'enchanted / pleased', rarity:'🟡' },
+    { word:'mágico', type:'adjective', translation:'magical', rarity:'🔴' },
+    { word:'antiguo', type:'adjective', translation:'old / ancient', rarity:'🔴' },
+  ]
+};
+
+const COMBINATIONS = [
+  { a:'el', b:'sol', result:'el sol ☀️', unlock:'Sun Passage opened! You see a glowing door…', xp:50 },
+  { a:'la', b:'luna', result:'la luna 🌙', unlock:'Moon Bridge appears! A secret path opens…', xp:50 },
+  { a:'el', b:'café', result:'el café ☕', unlock:'Café Juan unlocked! New quest available.', xp:30 },
+  { a:'la', b:'maldición', result:'la maldición 🔮', unlock:'You understand the curse deeper. +100 XP!', xp:100 },
+  { a:'la', b:'verdad', result:'la verdad ✨', unlock:'A hidden scroll reveals the boss\'s weakness!', xp:80 },
+  { a:'la', b:'libertad', result:'la libertad 🕊️', unlock:'Final seal weakened! Prepare for the final battle.', xp:150 },
+  { a:'hablar', b:'querer', result:'querer hablar 💬', unlock:'You gain the "Diplomat" skill — charm bonus in dialogues!', xp:60 },
+];
+
+/* ── LOCATIONS DATA ── */
+const LOCATIONS = {
+  A1: [
+    {
+      id:'cafe', icon:'☕', name:'El Café', nameEs:'El Café',
+      desc:'Order your first coffee without a spell going wrong.',
+      minLevel:'A1', quest:'café',
+      npcName:'Juan el Camarero', npcRole:'Waiter', npcAvatar:'👨‍🍳',
+      dialogues: [
+        {
+          spanish:'¡Buenos días! ¿Qué <span class="highlight-word">desea</span> usted?',
+          english:'"Good morning! What would you like?"',
+          choices:[
+            { text:'Quiero un café, por favor. ☕', correct:true, feedback:'¡Perfecto! "Quiero" (I want) + noun is the standard polite order in Spain. Note: Spaniards often say "ponme un café" (put me a coffee) in casual settings.', grammar:'💡 Querer (to want): quiero, quieres, quiere, queremos, queréis, quieren' },
+            { text:'Yo quiero el cafés, favor.', correct:false, feedback:'Almost! Two issues: "cafés" should be "café" (singular), and "por favor" should not be shortened. Article agreement matters — "el café" (masc.) is correct.', grammar:'💡 Indefinite article: "un café" (a coffee). Definite: "el café" (the coffee).' },
+            { text:'Me gustas un café.', correct:false, feedback:'Careful! "Me gustas" means "I like YOU (a person)". For objects use "me gusta": "Me gusta el café." For ordering, use "Quiero un café".', grammar:'💡 Gustar: "me gusta" (I like it) ≠ "me gustas" (I like you).' },
+          ]
+        },
+        {
+          spanish:'¿Solo o con <span class="highlight-word">leche</span>?',
+          english:'"Black (alone) or with milk?"',
+          choices:[
+            { text:'Con leche, gracias. 🥛', correct:true, feedback:'¡Muy bien! "Con leche" (with milk) is the standard phrase. In Spain, a "café con leche" is half espresso, half warm milk — the classic morning drink!', grammar:'💡 Con = with | Sin = without | Solo = black coffee in Spain' },
+            { text:'Sí, yo quiero leche mucho.', correct:false, feedback:'Close but "mucho" needs to agree or be repositioned: "Quiero mucha leche" or more naturally "Con leche, por favor."', grammar:'💡 Mucho/mucha: must agree with noun gender. Leche (f) → mucha leche.' },
+            { text:'No con leche, quiero negra.', correct:false, feedback:'"Café negro" isn\'t typically used in Spain — say "café solo" for a black espresso. Also, article needed: "quiero un café solo".', grammar:'💡 Spain vocab: café solo (black), café con leche (white), cortado (short white).' },
+          ]
+        },
+        {
+          spanish:'Son <span class="highlight-word">dos euros</span>, por favor.',
+          english:'"That\'s two euros, please."',
+          choices:[
+            { text:'Aquí tiene. ¡Hasta luego! 👋', correct:true, feedback:'¡Excelente! "Aquí tiene" (here you are) is polite and natural. "Hasta luego" is a common Spanish farewell — not just "goodbye" but "see you later".', grammar:'💡 Farewells: Adiós (goodbye) | Hasta luego (see you) | Hasta mañana (see you tomorrow)' },
+            { text:'¿Cuánto cuesta los euros?', correct:false, feedback:'You\'re asking "how much do the euros cost?" which doesn\'t make sense here. The price was already given. Use "Aquí tiene" or "Tome" to hand over money.', grammar:'💡 ¿Cuánto cuesta? = How much does it cost? (for asking prices, not paying)' },
+            { text:'Gracias y tchao.', correct:false, feedback:'"Tchao" is informal Italian-influenced slang. In Spain use "chao" (informal) or better "hasta luego". The rest is fine!', grammar:'💡 Register: chao (very informal) | hasta luego (informal) | hasta pronto (see you soon)' },
+          ]
+        },
+      ],
+      loot: ['café','el','la','bueno']
+    },
+    {
+      id:'plaza', icon:'🏛️', name:'La Plaza', nameEs:'La Plaza Mayor',
+      desc:'Meet the villagers and learn who they are.',
+      minLevel:'A1', quest:'greetings',
+      npcName:'Doña Rosario', npcRole:'Elder of the village', npcAvatar:'👵',
+      dialogues: [
+        {
+          spanish:'¡Hola! ¿Cómo <span class="highlight-word">te llamas</span>?',
+          english:'"Hello! What\'s your name?"',
+          choices:[
+            { text:'Me llamo Viajero. ¿Y usted? 🤝', correct:true, feedback:'¡Perfecto! "Me llamo" (I call myself) is the natural way to give your name in Spanish. Using "usted" shows respect to an elder — important in Spain!', grammar:'💡 Llamarse (reflexive): me llamo, te llamas, se llama, nos llamamos, os llamáis, se llaman' },
+            { text:'Yo soy nombre Viajero.', correct:false, feedback:'"Yo soy nombre" isn\'t grammatical. Say "Mi nombre es Viajero" or "Me llamo Viajero". Never insert "nombre" between "soy" and the name.', grammar:'💡 Two correct forms: "Me llamo X" | "Mi nombre es X" | "Soy X"' },
+            { text:'Mi llamo Viajero.', correct:false, feedback:'Almost! It\'s "ME llamo", not "MI llamo". "Mi" is a possessive (my), while "me" is a reflexive pronoun.', grammar:'💡 Me (reflexive) vs Mi (possessive): me llamo = I call myself | mi nombre = my name' },
+          ]
+        },
+        {
+          spanish:'¿De dónde <span class="highlight-word">eres</span>?',
+          english:'"Where are you from?"',
+          choices:[
+            { text:'Soy de Inglaterra. 🇬🇧', correct:true, feedback:'¡Muy bien! "Soy de + country" is the standard formula. Note: "ser" (not "estar") is used for origin — it\'s a permanent characteristic.', grammar:'💡 SER for origin: soy de España, eres de Francia, es de México. Never use ESTAR for origin.' },
+            { text:'Estoy de Inglaterra.', correct:false, feedback:'This is the classic ser/estar mistake! Origin uses SER, not ESTAR. "Estoy en Inglaterra" = I am currently IN England (location). "Soy de Inglaterra" = I am FROM England.', grammar:'💡 SER de = origin | ESTAR en = current location' },
+            { text:'Vengo de el Inglaterra.', correct:false, feedback:'"Vengo de" (I come from) works but country names don\'t take articles in Spanish. Say "Vengo de Inglaterra" or "Soy de Inglaterra".', grammar:'💡 Countries without articles: España, Francia, Alemania, Inglaterra (exceptions: la India, el Reino Unido, los Estados Unidos)' },
+          ]
+        },
+      ],
+      loot: ['mesa','ser','estar','pequeño']
+    },
+    {
+      id:'market_a1', icon:'🛒', name:'El Mercado', nameEs:'El Mercado',
+      desc:'Buy vegetables and learn your colours and numbers.',
+      minLevel:'A1', quest:'market',
+      npcName:'Paco el Frutero', npcRole:'Fruit seller', npcAvatar:'🧑‍🌾',
+      dialogues: [
+        {
+          spanish:'¿Qué <span class="highlight-word">color</span> son las manzanas hoy?',
+          english:'"What colour are the apples today?" (they are red)',
+          choices:[
+            { text:'Las manzanas son rojas. 🍎', correct:true, feedback:'¡Excelente! Perfect adjective agreement: "manzanas" is feminine plural, so "roja" becomes "rojas". This is a key rule in Spanish!', grammar:'💡 Adjective agreement: rojo→roja→rojos→rojas. Always match gender & number of the noun.' },
+            { text:'Las manzanas son rojo.', correct:false, feedback:'"Rojo" is masculine singular but "manzanas" is feminine plural. You need "rojas". Adjectives must agree in BOTH gender AND number.', grammar:'💡 Adjective agreement: manzana (f,sg) → roja | manzanas (f,pl) → rojas' },
+            { text:'Son el roja las manzanas.', correct:false, feedback:'Word order issue and unnecessary article. Correct order: Subject + ser + adjective. No article before the adjective in this context.', grammar:'💡 Basic sentence: Las manzanas son rojas. (Subject + verb + predicate)' },
+          ]
+        },
+        {
+          spanish:'¿Cuántos kilos <span class="highlight-word">quiere</span>? Tenemos: uno, dos, tres, cuatro, cinco…',
+          english:'"How many kilos do you want? We have: one, two, three, four, five…"',
+          choices:[
+            { text:'Quiero dos kilos, por favor. ⚖️', correct:true, feedback:'¡Perfecto! Natural and complete. Note: in Spain "dos kilos de manzanas" is more precise, but "dos kilos" works fine in context.', grammar:'💡 Numbers 1-10: uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez' },
+            { text:'Yo quiero dos kilo.', correct:false, feedback:'Close! "kilo" should be plural: "dos kilos". In Spanish, plural numbers (2+) require plural nouns.', grammar:'💡 Plurals: add -s to vowels (kilo→kilos), add -es to consonants (ciudad→ciudades)' },
+            { text:'Dame dos euros de manzanas.', correct:false, feedback:'"Dame" (give me) is correct and natural, but the question asked about kilos, not euros. "Dame dos kilos" answers the question properly.', grammar:'💡 Dame (give me) is informal imperative of dar. Polite: "Póngame dos kilos"' },
+          ]
+        },
+      ],
+      loot: ['pan','agua','grande','los']
+    },
+  ],
+  A2: [
+    {
+      id:'station', icon:'🚂', name:'La Estación', nameEs:'La Estación de Tren',
+      desc:'Buy a ticket and navigate the train system.',
+      minLevel:'A2', quest:'train',
+      npcName:'Carmen la Taquillera', npcRole:'Ticket officer', npcAvatar:'👩‍💼',
+      dialogues: [
+        {
+          spanish:'¿A qué ciudad <span class="highlight-word">quiere</span> viajar?',
+          english:'"Which city would you like to travel to?"',
+          choices:[
+            { text:'Quiero un billete para Madrid, por favor. 🎫', correct:true, feedback:'¡Perfecto! Note "billete" (Spain) vs "boleto" (Latin America) — important regional vocab! "Para" is used for destination.', grammar:'💡 Spain: billete de tren | Latin America: boleto. Para = for/to (destination)' },
+            { text:'Quiero ir para el Madrid.', correct:false, feedback:'Almost! Madrid (like most cities) doesn\'t use an article. Say "Quiero ir a Madrid" — note "a" not "para" for movement direction.', grammar:'💡 IR + a: voy a Madrid (I\'m going to Madrid). Cities don\'t take articles (except La Habana, El Cairo).' },
+            { text:'Yo necesito viajar Madrid.', correct:false, feedback:'Missing preposition! Always need "a" or "hacia" before destination: "Necesito viajar A Madrid" or "Necesito ir a Madrid."', grammar:'💡 Destination prepositions: ir A, viajar A, llegar A + city/place.' },
+          ]
+        },
+        {
+          spanish:'El tren <span class="highlight-word">sale</span> a las tres y cuarto.',
+          english:'"The train leaves at quarter past three." — What time does it leave?',
+          choices:[
+            { text:'Sale a las 3:15. ⏰', correct:true, feedback:'¡Muy bien! "Y cuarto" = quarter past. Telling time in Spanish: "a las X" for the hour.', grammar:'💡 Time: y cuarto (+15) | y media (+30) | menos cuarto (-15) | en punto (exactly)' },
+            { text:'Sale a la tres y cuarto.', correct:false, feedback:'Almost! Hours 2-12 use "las" (plural). Only 1 o\'clock uses "la una". So: "a LAS tres y cuarto".', grammar:'💡 Time articles: la una (1:00) | las dos (2:00) | las tres (3:00) etc.' },
+            { text:'Sale tres quince.', correct:false, feedback:'Missing the "a las" structure. Spanish clock time always uses: "a las [hour] y [minutes]". Never just state the numbers.', grammar:'💡 Full formula: El tren sale A LAS tres Y cuarto.' },
+          ]
+        },
+        {
+          spanish:'¿<span class="highlight-word">Tiene</span> usted el DNI o pasaporte?',
+          english:'"Do you have your ID card or passport?"',
+          choices:[
+            { text:'Sí, aquí tiene mi pasaporte. 🛂', correct:true, feedback:'¡Excelente! "Aquí tiene" is the perfect phrase for handing something over. Very natural Spanish!', grammar:'💡 Tener (to have): tengo, tienes, tiene, tenemos, tenéis, tienen' },
+            { text:'Sí, yo tengo pasaporte mío.', correct:false, feedback:'"Mío" is a stressed possessive (mine), which sounds odd here. Use unstressed "mi pasaporte" instead. "Yo tengo mi pasaporte" works but "aquí tiene" is more natural in this context.', grammar:'💡 Possessives: mi/tu/su (unstressed, before noun) vs mío/tuyo/suyo (stressed, after noun)' },
+            { text:'Tengo el mi pasaporte.', correct:false, feedback:'Never use article + possessive together! It\'s either "el pasaporte" (with article) OR "mi pasaporte" (with possessive) — never both.', grammar:'💡 RULE: Never el/la + mi/tu/su. Incorrect: "el mi libro" ✗ | Correct: "mi libro" ✓' },
+          ]
+        },
+      ],
+      loot: ['ciudad','ir','palabra','las']
+    },
+    {
+      id:'library', icon:'📚', name:'La Biblioteca', nameEs:'La Biblioteca',
+      desc:'Uncover ancient scrolls with hidden grammar clues.',
+      minLevel:'A2', quest:'library',
+      npcName:'El Bibliotecario', npcRole:'Ancient librarian', npcAvatar:'🧙‍♂️',
+      dialogues: [
+        {
+          spanish:'¿<span class="highlight-word">Cuánto tiempo</span> llevas estudiando español?',
+          english:'"How long have you been studying Spanish?"',
+          choices:[
+            { text:'Llevo tres semanas estudiando español. 📅', correct:true, feedback:'¡Perfecto! "Llevar + time + gerund" is a uniquely Spanish structure. It\'s the natural way to express duration of an ongoing action.', grammar:'💡 llevar + tiempo + gerundio: llevo 3 semanas estudiando (I\'ve been studying for 3 weeks)' },
+            { text:'Estudio español desde tres semanas.', correct:false, feedback:'"Desde" + time works with "hace": "Hace tres semanas que estudio" or "Estudio desde hace tres semanas." The llevar structure is cleaner though!', grammar:'💡 Three options: Llevo X semanas estudiando | Hace X semanas que estudio | Estudio desde hace X semanas' },
+            { text:'He estado estudiando por tres semanas.', correct:false, feedback:'This is a word-for-word translation from English. In Spain the "llevar + gerundio" structure is much more natural and commonly used.', grammar:'💡 Avoid direct translation! English "have been -ing" → Spanish "llevar + gerundio"' },
+          ]
+        },
+        {
+          spanish:'Los libros <span class="highlight-word">están</span> ordenados por tema.',
+          english:'"The books are organised by topic." — Why ESTÁN and not SON?',
+          choices:[
+            { text:'Porque describe el estado actual de los libros, no una característica permanente. 📖', correct:true, feedback:'¡Excelente análisis! ESTAR describes a state/condition that can change. The books COULD be reorganised — it\'s not their inherent nature.', grammar:'💡 SER = permanent qualities, identity, origin | ESTAR = states, conditions, location, feelings' },
+            { text:'Porque "libros" es plural.', correct:false, feedback:'Number doesn\'t decide ser vs estar. Both can be plural: "Son libros viejos" / "Están sucios." The choice depends on permanent vs temporary.', grammar:'💡 Both SER and ESTAR can be used with plural subjects.' },
+            { text:'Porque es una acción continua.', correct:false, feedback:'The "continuous action" test applies to gerunds, not ser/estar. Here it\'s about the state of the books (ordered = a condition).', grammar:'💡 For ongoing action use: estar + gerundio (están ordenándose). For state: estar + adjective/participio (están ordenados).' },
+          ]
+        },
+      ],
+      loot: ['libro','hablar','encantado','un']
+    },
+  ],
+  B1: [
+    {
+      id:'memories', icon:'🌫️', name:'Las Memorias', nameEs:'El Pozo de Memorias',
+      desc:'Dive into the village\'s past — master the past tenses.',
+      minLevel:'B1', quest:'past_tenses',
+      npcName:'El Fantasma', npcRole:'Ghost of the founder', npcAvatar:'👻',
+      dialogues: [
+        {
+          spanish:'De niño, yo <span class="highlight-word">___</span> en este pueblo cada verano.',
+          english:'"As a child, I ___ in this village every summer." (used to live / lived)',
+          choices:[
+            { text:'vivía (Imperfecto) — acción habitual en el pasado 🔁', correct:true, feedback:'¡Exacto! "Cada verano" signals a repeated/habitual past action → use Pretérito Imperfecto. It\'s the tense of "used to" and "was doing".', grammar:'💡 Imperfecto triggers: siempre, nunca, cada año, de niño, antes, normalmente, generalmente' },
+            { text:'viví (Indefinido) — acción completada en el pasado ✅', correct:false, feedback:'Pretérito Indefinido is for completed actions at a specific time ("I lived there in 1990"). "Cada verano" implies ongoing repetition → Imperfecto is needed.', grammar:'💡 Indefinido triggers: ayer, el lunes, en 2005, una vez, de repente, entonces, finalmente' },
+            { text:'he vivido (Perfecto) — acción reciente 🕐', correct:false, feedback:'Perfecto ("he vivido") connects to the present ("I have lived"). The context here is clearly distant past childhood, not recent events.', grammar:'💡 Perfecto in Spain: recent past or connected to now. "He comido hoy." (I ate today)' },
+          ]
+        },
+        {
+          spanish:'El año pasado, el mago <span class="highlight-word">___</span> la maldición al pueblo.',
+          english:'"Last year, the wizard ___ the curse on the village." (cast/placed)',
+          choices:[
+            { text:'lanzó (Indefinido) — acción puntual completada 🎯', correct:true, feedback:'¡Perfecto! "El año pasado" + a single completed action = Pretérito Indefinido. The curse was cast at a specific moment — it\'s not habitual or ongoing.', grammar:'💡 Indefinido for: single events, completed actions, events in a defined time frame.' },
+            { text:'lanzaba (Imperfecto) — acción en progreso 🌊', correct:false, feedback:'Imperfecto would mean he was in the process of casting it (and maybe didn\'t finish?). Since it\'s a completed action ("last year he DID cast it"), use Indefinido.', grammar:'💡 Imperfecto for background/ongoing: "Mientras él lanzaba la maldición, yo dormía." (While he was casting, I was sleeping)' },
+            { text:'va a lanzar (Futuro) — acción futura 🔮', correct:false, feedback:'Futuro is for future actions. The sentence says "last year" — that\'s clearly in the past! Context clues like "el año pasado" always signal past tense.', grammar:'💡 Time markers: ayer/el año pasado → past | hoy → present | mañana/el próximo año → future' },
+          ]
+        },
+        {
+          spanish:'Cuando <span class="highlight-word">era</span> joven, el pueblo <span class="highlight-word">tenía</span> magia.',
+          english:'"When I was young, the village had magic." — Why are BOTH verbs in Imperfecto?',
+          choices:[
+            { text:'Porque ambas describen el contexto y las circunstancias del pasado, no acciones puntuales. 🎭', correct:true, feedback:'¡Brillante! Both clauses describe the ongoing backdrop — the general situation in the past. Neither refers to a specific, completed moment.', grammar:'💡 Classic combo: Era/Estaba (imperfecto — setting the scene) + an action (indefinido/imperfecto)' },
+            { text:'Porque "cuando" siempre requiere Imperfecto.', correct:false, feedback:'"Cuando" doesn\'t always trigger Imperfecto! "Cuando llegué" (when I arrived) uses Indefinido. It\'s the meaning — habitual/ongoing — that determines the tense.', grammar:'💡 Cuando + Indefinido = single completed event. Cuando + Imperfecto = background/habitual.' },
+            { text:'Porque son verbos irregulares.', correct:false, feedback:'Irregularity doesn\'t determine tense choice. The choice is semantic (what you mean to say), not based on the verb\'s regularity.', grammar:'💡 Irregular Imperfecto: ser→era, ir→iba, ver→veía. All others follow regular endings.' },
+          ]
+        },
+      ],
+      loot: ['luna','sol','volver','antiguo']
+    },
+    {
+      id:'tavern', icon:'🍺', name:'La Taberna', nameEs:'La Taberna del Tiempo',
+      desc:'Hear the locals argue about what happened — and when.',
+      minLevel:'B1', quest:'tavern',
+      npcName:'Rodrigo el Tabernero', npcRole:'Innkeeper & storyteller', npcAvatar:'🧔',
+      dialogues: [
+        {
+          spanish:'Ayer, <span class="highlight-word">estaba</span> cerrando cuando <span class="highlight-word">entró</span> el mago.',
+          english:'"Yesterday, I was closing up when the wizard came in." — What\'s happening here?',
+          choices:[
+            { text:'Estaba cerrando (acción en curso) + entró (interrupción). 🎬', correct:true, feedback:'¡Exacto! This is the classic narrative structure: Imperfecto (ongoing background action) + Indefinido (interrupting event). "Was doing X when Y happened."', grammar:'💡 Formula: Imperfecto (background) + "cuando" + Indefinido (interruption). This is narrative gold!' },
+            { text:'Ambos son Imperfecto porque son acciones simultáneas.', correct:false, feedback:'Simultaneous ongoing actions use Imperfecto+Imperfecto: "Mientras comía, hablaba." But here "entró" interrupts — it\'s a specific moment, so Indefinido.', grammar:'💡 Mientras (while) + Imperfecto+Imperfecto = two parallel ongoing actions.' },
+            { text:'Ambos son Indefinido porque pasaron ayer.', correct:false, feedback:'"Ayer" doesn\'t force everything into Indefinido. The "was closing" part is still an ongoing action used as background — that\'s Imperfecto even with "ayer".', grammar:'💡 "Ayer estaba en casa cuando sonó el teléfono." = Yesterday I was home (imp) when the phone rang (ind).' },
+          ]
+        },
+      ],
+      loot: ['maldición','aldea','poder','mágico']
+    },
+  ],
+  B2: [
+    {
+      id:'temple', icon:'🏛️', name:'El Templo', nameEs:'El Templo del Subjuntivo',
+      desc:'Learn the sacred Subjunctive to weaken the curse.',
+      minLevel:'B2', quest:'subjunctive',
+      npcName:'La Sacerdotisa', npcRole:'Guardian of the Subjunctive', npcAvatar:'🧝‍♀️',
+      dialogues: [
+        {
+          spanish:'Espero que el viajero <span class="highlight-word">___</span> la maldición.',
+          english:'"I hope that the traveller ___ the curse." (break)',
+          choices:[
+            { text:'rompa (Presente Subjuntivo) — deseo/esperanza 🌟', correct:true, feedback:'¡Magnífico! "Esperar que" triggers Subjunctive because it expresses a WISH about someone else\'s action. The Subjunctive lives in the dependent clause after "que".', grammar:'💡 Subjuntivo triggers: esperar que, querer que, ojalá, es importante que, dudar que, cuando (future)' },
+            { text:'rompe (Indicativo) — hecho declarado 📣', correct:false, feedback:'Indicativo states facts. "Esperar que" expresses hope/desire — you\'re not declaring it as a fact but expressing a wish. Subjunctive is required.', grammar:'💡 WEIRDO triggers: Wishes, Emotions, Impersonal, Recommendations, Doubt/Denial, Ojalá' },
+            { text:'rompería (Condicional) — hipótesis 🤔', correct:false, feedback:'Conditional expresses "would do" (hypothetical result). "Espero que rompa" (I hope they break it) ≠ "romperían" (they would break it).', grammar:'💡 Condicional: Si + imperfecto subj + condicional (If I were... I would...). Different from expressing hope.' },
+          ]
+        },
+        {
+          spanish:'¡Ojalá <span class="highlight-word">pudiéramos</span> volver al pasado!',
+          english:'"If only we could go back to the past!" — What does this tense signal?',
+          choices:[
+            { text:'Imperfecto de Subjuntivo — deseo imposible o muy improbable. 💫', correct:true, feedback:'¡Brillante! "Ojalá + Imperfecto Subjuntivo" expresses a wish that is impossible or highly unlikely in the present/future. "Pudiéramos" is the imp. subj. of "poder".', grammar:'💡 Ojalá + presente subj. = possible wish | Ojalá + imperfecto subj. = impossible/unlikely wish' },
+            { text:'Pretérito Imperfecto — descripción del pasado. 📜', correct:false, feedback:'"Pudiéramos" is NOT the indicative imperfecto ("podíamos"). The -ra/-se endings signal Imperfecto de Subjuntivo, triggered by "ojalá" for an unlikely wish.', grammar:'💡 Imperfecto Subj. endings: -ra or -se: pudiera/pudiese, fuera/fuese, tuviera/tuviese' },
+            { text:'Presente de Subjuntivo — deseo posible en el presente. ✨', correct:false, feedback:'"Pudiéramos" has the -ra ending = Imperfecto Subjuntivo, not present subjunctive (which would be "podamos"). The "imp. subj." signals this wish is considered impossible.', grammar:'💡 Present subj. of poder: pueda, puedas, pueda, podamos, podáis, puedan' },
+          ]
+        },
+        {
+          spanish:'Cuando <span class="highlight-word">encuentres</span> la palabra perdida, el pueblo se salvará.',
+          english:'"When you FIND the lost word, the village will be saved." — Why subjunctive in "encuentres"?',
+          choices:[
+            { text:'Porque "cuando" + futuro usa Subjuntivo en español. ⏳', correct:true, feedback:'¡Excelente! In Spanish, "cuando" + FUTURE event requires Subjunctive. This is different from English! "Cuando llegues" (when you arrive), "cuando tengas" (when you have). The event hasn\'t happened yet.', grammar:'💡 Future "cuando" + subjuntivo: cuando llegues, cuando puedas, cuando seas. Past/present "cuando" + indicativo.' },
+            { text:'Porque expresa una condición (si → subjuntivo). 🔀', correct:false, feedback:'"Si" (if) + present uses Indicativo: "Si encuentras" uses indicativo. Only "si" with unlikely conditions uses Subjunctive. Here it\'s "cuando" + future = always subjunctive.', grammar:'💡 Si + presente indicativo (real condition) | Si + imperfecto subjuntivo (unreal condition)' },
+            { text:'Porque "encuentres" es irregular en Indicativo. ❌', correct:false, feedback:'"Encuentres" is irregular but that\'s not why it\'s used here. The verb "encontrar" in indicativo would be "encuentras". The choice is due to "cuando" + future rule.', grammar:'💡 Encontrar: presente ind. → encuentro, encuentras | presente subj. → encuentre, encuentres' },
+          ]
+        },
+      ],
+      loot: ['verdad','libertad','esperar','romper']
+    },
+  ]
+};
+
+/* ── COMBAT ENCOUNTERS ── */
+const COMBAT_DATA = {
+  A1: {
+    monster: { emoji:'🔡', name:'El Confundido', title:'Word Scrambler (A1)', maxHp:3 },
+    questions: [
+      { text:'Complete: "Buenos ___, me llamo Ana."', hint:'Morning greeting', options:['días','día','noche','tarde'], correct:0, feedback:'¡Correcto! "Buenos días" = Good morning. "día" (singular) is incorrect here. "Buenas tardes/noches" use buenas (feminine).', grammar:'💡 Greetings: Buenos días | Buenas tardes | Buenas noches' },
+      { text:'Which article is correct? "___ silla es roja."', hint:'Silla = chair (feminine)', options:['La','El','Los','Las'], correct:0, feedback:'"Silla" is feminine singular → needs "La". El is masculine, Los/Las are plural.', grammar:'💡 El (m.sg) | La (f.sg) | Los (m.pl) | Las (f.pl)' },
+      { text:'"I am from Spain." = "Yo ___ de España."', hint:'Origin uses SER', options:['soy','estoy','tengo','voy'], correct:0, feedback:'Origin always uses SER! "Soy de España." ESTAR would be for current location.', grammar:'💡 Soy de + country (origin). Estoy en + place (location).' },
+      { text:'"I have two brothers." = "Yo ___ dos hermanos."', hint:'To have = ?', options:['tengo','soy','estoy','hago'], correct:0, feedback:'"Tener" (to have): yo tengo, tú tienes, él tiene…', grammar:'💡 Tener (to have): tengo, tienes, tiene, tenemos, tenéis, tienen' },
+      { text:'Which is plural? "Las ___"', hint:'Feminine plural noun', options:['casas','casa','el casa','un casa'], correct:0, feedback:'"Las casas" = the houses. "Casa" (house) is feminine → "las" + "casas".', grammar:'💡 Plural rule: add -s after vowels (casa→casas), -es after consonants (ciudad→ciudades).' },
+    ],
+    loot: ['el','la','ser','bueno','pan']
+  },
+  A2: {
+    monster: { emoji:'🌀', name:'El Articulero', title:'Article Chaos Demon (A2)', maxHp:4 },
+    questions: [
+      { text:'"I like the cinema." = "Me ___ el cine."', hint:'Gustar construction', options:['gusta','gusto','gustas','gustan'], correct:0, feedback:'"Gustar" agrees with the subject of the sentence, which is "el cine" (singular) → gusta.', grammar:'💡 Gustar: me gusta (it pleases me) | me gustan (they please me) | me gustas (you please me)' },
+      { text:'"At what time do you eat?" → "¿A qué hora ___?"', hint:'Tú form of comer', options:['comes','come','comas','comés'], correct:0, feedback:'"Comer" tú form = "comes". Spain doesn\'t use "comés" (that\'s Rioplatense Spanish).', grammar:'💡 Comer: como, comes, come, comemos, coméis, comen' },
+      { text:'Fill in: "Voy ___ supermercado."', hint:'Direction to a masculine noun', options:['al','a el','del','en el'], correct:0, feedback:'"A + el" contracts to "al" in Spanish. Never write "a el" separately.', grammar:'💡 Contractions: a + el = al | de + el = del. Only "el" contracts, not "la/los/las".' },
+      { text:'"The train leaves at 3:30." = "El tren sale a las tres ___ media."', hint:'Half past', options:['y','menos','con','de'], correct:0, feedback:'"Y media" = and a half. "Y" adds time. "Menos" subtracts.', grammar:'💡 Time: las tres y media (3:30) | las cuatro menos cuarto (3:45)' },
+      { text:'"He has been here for 2 hours." → "Lleva dos horas ___."', hint:'Gerund of estar', options:['aquí','estar','estando','estado'], correct:0, feedback:'"Llevar + time + gerundio OR location": "Lleva dos horas aquí" or "Lleva dos horas esperando."', grammar:'💡 Llevar + duration: lleva dos horas aquí | llevo 3 años estudiando' },
+    ],
+    loot: ['ciudad','ir','un','una','libro']
+  },
+  B1: {
+    monster: { emoji:'⏳', name:'El Tiempomago', title:'Master of Tenses (B1)', maxHp:5 },
+    questions: [
+      { text:'"Yesterday I ate paella." → "Ayer ___ paella."', hint:'Completed action, specific time', options:['comí','comía','he comido','comeré'], correct:0, feedback:'"Ayer" (yesterday) + completed action = Pretérito Indefinido. "Comía" would mean I was eating habitually.', grammar:'💡 Ayer → Indefinido. Hoy/esta semana (Spain) → Perfecto compuesto.' },
+      { text:'"As a child, I used to play in the street." → "De niño, ___ en la calle."', hint:'Habitual past action', options:['jugaba','jugué','jugaría','juego'], correct:0, feedback:'"De niño" (as a child) + habitual → Imperfecto. "Jugaba" captures the ongoing childhood habit.', grammar:'💡 Imperfecto for habits: de niño jugaba, siempre comía, cada día iba.' },
+      { text:'"I was reading when she called." → "___ cuando ella llamó."', hint:'Background action + interruption', options:['Leía','Leí','Leeré','He leído'], correct:0, feedback:'Background ongoing action (was reading) = Imperfecto "leía". The call interrupts it (Indefinido "llamó").', grammar:'💡 Leía (Imp) + llamó (Ind) = classic past narrative combo.' },
+      { text:'"She told me that she had left." → "Me dijo que ___."', hint:'Past before another past', options:['había salido','salió','salía','saldría'], correct:0, feedback:'"Había salido" = Pluscuamperfecto — the leaving happened BEFORE she told me. It\'s a past action prior to another past moment.', grammar:'💡 Pluscuamperfecto: había/habías/había + participio. For past-before-past.' },
+      { text:'Choose the correct tense: "Normalmente, cuando era joven, ___ al parque los domingos."', hint:'Habitual past, context of childhood', options:['iba','fui','iré','he ido'], correct:0, feedback:'"Normalmente" + childhood habit = Imperfecto. "Fui" would be a single specific trip. "Iba" captures the routine.', grammar:'💡 Imperfecto signals: normalmente, generalmente, siempre, todos los días, antes, de niño.' },
+    ],
+    loot: ['luna','sol','maldición','volver','antiguo']
+  },
+  B2: {
+    monster: { emoji:'👑', name:'El Jefe de la Maldición', title:'Final Boss — Master of Doubt (B2)', maxHp:6 },
+    questions: [
+      { text:'"I hope you pass the exam." → "Espero que ___ el examen."', hint:'Desire about someone else → Subjunctive', options:['apruebes','apruebas','aprobarás','aprueba'], correct:0, feedback:'"Esperar que" triggers Present Subjunctive. "Aprobar" irregular: apruebe/apruebes (boot verb).', grammar:'💡 Boot verbs in Subjunctive: aprob→aprueb (stem change o→ue in all persons except nosotros/vosotros).' },
+      { text:'"I doubt he knows the answer." → "Dudo que ___ la respuesta."', hint:'Doubt triggers Subjunctive', options:['sepa','sabe','sabrá','supo'], correct:0, feedback:'"Dudar que" = doubt + subjunctive. "Saber" present subj. = sepa, sepas, sepa…', grammar:'💡 Doubt/negation triggers: dudar que, no creer que, no pensar que → Subjunctive.' },
+      { text:'"If I were rich, I would travel." → "Si ___ rico, viajaría."', hint:'Unreal condition', options:['fuera','soy','era','sea'], correct:0, feedback:'Unreal/hypothetical conditions: Si + Imperfecto Subjuntivo (fuera) + Condicional (viajaría). Never Si + Present Subjunctive!', grammar:'💡 Conditionals: Si + imperfecto subj + condicional. Si fuera rico, compraría... Si pudiera, iría...' },
+      { text:'"When I finish, I\'ll call you." → "Cuando ___, te llamaré."', hint:'Future event after "cuando"', options:['termine','termino','terminaré','terminé'], correct:0, feedback:'"Cuando" + future event = Present Subjunctive. The finishing hasn\'t happened yet.', grammar:'💡 Future cuando + Subjunctive: cuando llegues, cuando puedas, cuando tengas tiempo.' },
+      { text:'"It\'s important that you rest." → "Es importante que ___."', hint:'Impersonal expression + advice', options:['descanses','descansas','descansarás','descansa'], correct:0, feedback:'Impersonal expressions (es importante, es necesario, es bueno) + que → Subjunctive.', grammar:'💡 Impersonal + que: es importante que + subj | es necesario que + subj | es mejor que + subj.' },
+      { text:'Choose the correct form for an impossible wish: "Ojalá ___ volver a empezar."', hint:'Ojalá + impossible wish = ?', options:['pudiera','puedo','podré','pueda'], correct:0, feedback:'"Ojalá + Imperfecto Subjuntivo" = wish that is impossible or highly unlikely. "Ojalá pudiera" = I wish I could (but I can\'t).', grammar:'💡 Ojalá + pres subj = possible wish | Ojalá + imp subj = impossible/unlikely wish.' },
+    ],
+    loot: ['verdad','libertad','esperar','romper','palabra','mágico']
+  }
+};
+
+/* ═══════════════════════════════════════════
+   GAME STATE
+═══════════════════════════════════════════ */
+let STATE = {
+  playerName: 'Viajero',
+  level: 'A1',
+  xp: 0,
+  xpToNext: 100,
+  hp: 100,
+  maxHp: 100,
+  coins: 0,
+  inventory: [],
+  completedQuests: new Set(),
+  combinesMade: new Set(),
+};
+
+let currentDialogue = null; // { locationId, dialogueIndex, npcData }
+let currentCombat = null;   // { data, questionIndex, score, combo, monsterHp }
+let timerInterval = null;
+let timerVal = 0;
+let selectedLevel = 'A1';
+
+/* ═══════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  if (id === 'title') {
+    document.getElementById('hud').classList.remove('visible');
+  } else {
+    document.getElementById('hud').classList.add('visible');
+  }
+  window.scrollTo(0, 0);
+}
+
+function updateHUD() {
+  document.getElementById('hud-name').textContent = STATE.playerName;
+  document.getElementById('hud-level').textContent = STATE.level;
+  document.getElementById('hud-coins').textContent = STATE.coins;
+  document.getElementById('hud-words').textContent = STATE.inventory.length;
+  const hpPct = Math.max(0, (STATE.hp / STATE.maxHp) * 100);
+  document.getElementById('hud-hp-bar').style.width = hpPct + '%';
+  const xpPct = Math.min(100, (STATE.xp / STATE.xpToNext) * 100);
+  document.getElementById('hud-xp-bar').style.width = xpPct + '%';
+}
+
+function notify(msg, type = '') {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.className = 'notification visible ' + type;
+  clearTimeout(n._t);
+  n._t = setTimeout(() => n.classList.remove('visible'), 3200);
+}
+
+function gainXP(amount) {
+  STATE.xp += amount;
+  notify(`+${amount} XP!`, 'green');
+  while (STATE.xp >= STATE.xpToNext) {
+    STATE.xp -= STATE.xpToNext;
+    STATE.xpToNext = Math.floor(STATE.xpToNext * 1.5);
+    levelUpCheck();
+  }
+  updateHUD();
+}
+
+function gainCoins(amount) {
+  STATE.coins += amount;
+  updateHUD();
+}
+
+function loseHP(amount) {
+  STATE.hp = Math.max(0, STATE.hp - amount);
+  updateHUD();
+  if (STATE.hp === 0) notify('¡Cuidado! You\'ve fainted. HP restored.', 'red');
+}
+
+function restoreHP(amount) {
+  STATE.hp = Math.min(STATE.maxHp, STATE.hp + amount);
+  updateHUD();
+}
+
+function levelUpCheck() {
+  const order = ['A1','A2','B1','B2'];
+  const idx = order.indexOf(STATE.level);
+  if (idx < order.length - 1) {
+    STATE.level = order[idx + 1];
+    notify(`🎉 Level Up! You are now ${STATE.level}!`, 'green');
+    updateHUD();
+    buildTownGrid();
+  }
+}
+
+function addToInventory(words) {
+  words.forEach(w => {
+    const found = findWordData(w);
+    if (found && !STATE.inventory.find(i => i.word === found.word)) {
+      STATE.inventory.push({...found});
+    }
+  });
+  updateHUD();
+}
+
+function findWordData(word) {
+  for (const cat of Object.values(WORD_POOL)) {
+    const match = cat.find(w => w.word === word);
+    if (match) return match;
+  }
+  // If not in pool, create a generic entry
+  return { word, type:'noun', translation:'', rarity:'⚪' };
+}
+
+function floatDamage(text, color = '#e94560', isFromPlayer = false) {
+  const el = document.createElement('div');
+  el.className = 'damage-float';
+  el.textContent = text;
+  el.style.color = color;
+  const rect = document.getElementById('monster-emoji').getBoundingClientRect();
+  el.style.left = (rect.left + rect.width/2 - 20) + 'px';
+  el.style.top = (rect.top - 10) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
+}
+
+function clearTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+/* ═══════════════════════════════════════════
+   TITLE SCREEN
+═══════════════════════════════════════════ */
+function selectLevel(lvl) {
+  selectedLevel = lvl;
+  document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('lcard-' + lvl).classList.add('selected');
+}
+
+function startGame() {
+  STATE.level = selectedLevel;
+  STATE.xp = 0;
+  STATE.hp = 100;
+  STATE.coins = 10;
+  STATE.inventory = [];
+  STATE.completedQuests = new Set();
+  STATE.combinesMade = new Set();
+  // Seed with starting items based on level
+  const seeds = { A1:['el','la'], A2:['el','la','un','una'], B1:['el','la','ser','estar'], B2:['el','la','ser','estar','querer'] };
+  addToInventory(seeds[STATE.level] || ['el','la']);
+  updateHUD();
+  showTown();
+}
+
+function showTutorial() {
+  const t = document.getElementById('tutorial-box');
+  t.style.display = t.style.display === 'none' ? 'block' : 'none';
+}
+
+/* ═══════════════════════════════════════════
+   TOWN MAP
+═══════════════════════════════════════════ */
+const LEVEL_ORDER = ['A1','A2','B1','B2'];
+
+function isLocationUnlocked(loc) {
+  const locLevelIdx = LEVEL_ORDER.indexOf(loc.minLevel);
+  const playerLevelIdx = LEVEL_ORDER.indexOf(STATE.level);
+  return playerLevelIdx >= locLevelIdx;
+}
+
+function buildTownGrid() {
+  const grid = document.getElementById('town-grid');
+  grid.innerHTML = '';
+  // All locations across all levels
+  const allLocs = [...(LOCATIONS.A1||[]), ...(LOCATIONS.A2||[]), ...(LOCATIONS.B1||[]), ...(LOCATIONS.B2||[])];
+  allLocs.forEach(loc => {
+    const unlocked = isLocationUnlocked(loc);
+    const completed = STATE.completedQuests.has(loc.id);
+    const div = document.createElement('div');
+    div.className = 'location-card' + (unlocked ? '' : ' locked');
+    div.innerHTML = `
+      <div class="loc-icon">${loc.icon}</div>
+      <h3>${loc.name}</h3>
+      <p>${unlocked ? loc.desc : '🔒 Requires level ' + loc.minLevel}</p>
+      ${completed ? '<div class="loc-badge">✓ Done</div>' : ''}
+      ${unlocked && !completed ? '<div class="new-badge">!</div>' : ''}
+    `;
+    if (unlocked) {
+      div.onclick = () => enterLocation(loc);
+    }
+    grid.appendChild(div);
+  });
+
+  // Add combat encounter button
+  const combatDiv = document.createElement('div');
+  combatDiv.className = 'location-card';
+  combatDiv.style.borderColor = 'var(--accent)';
+  combatDiv.innerHTML = `
+    <div class="loc-icon">⚔️</div>
+    <h3>Combat Arena</h3>
+    <p>Challenge language monsters to earn loot and XP!</p>
+    <div class="new-badge" style="background:var(--accent);">Battle</div>
+  `;
+  combatDiv.onclick = () => startCombat();
+  grid.appendChild(combatDiv);
+}
+
+function enterLocation(loc) {
+  currentDialogue = { loc, dialogueIndex: 0 };
+  showScreen('dialogue');
+  renderDialogue();
+}
+
+function showTown() {
+  clearTimer();
+  buildTownGrid();
+  // Story banner
+  const banner = document.getElementById('story-banner');
+  const sub = document.getElementById('town-sub');
+  const completedCount = STATE.completedQuests.size;
+  const allLocs = [...(LOCATIONS.A1||[]),...(LOCATIONS.A2||[]),...(LOCATIONS.B1||[]),...(LOCATIONS.B2||[])];
+  const total = allLocs.length;
+  if (completedCount === 0) {
+    banner.style.display = 'block';
+    banner.innerHTML = '📜 <strong>The Curse of Aldea Verborum</strong> — The villagers have lost their ability to speak correctly. A mysterious wizard cast a spell that scrambles their words. You, the Language Adventurer, must visit each location, learn the correct Spanish, and gather enough magic words to confront the wizard and break the curse forever.';
+    sub.textContent = 'Where will you go first?';
+  } else if (completedCount < total) {
+    banner.style.display = 'block';
+    banner.innerHTML = `⚔️ Progress: <strong>${completedCount}/${total}</strong> quests complete. The curse is weakening… Keep going!`;
+    sub.textContent = 'The village needs you!';
+  } else {
+    banner.style.display = 'block';
+    banner.innerHTML = '🌟 <strong>All quests complete!</strong> Now defeat the Final Boss in the Combat Arena to break the curse completely!';
+    sub.textContent = 'Face the final battle!';
+  }
+  showScreen('town');
+}
+
+/* ═══════════════════════════════════════════
+   DIALOGUE SYSTEM
+═══════════════════════════════════════════ */
+const TIMER_DURATION = 25; // seconds per dialogue question
+
+function renderDialogue() {
+  clearTimer();
+  const { loc, dialogueIndex } = currentDialogue;
+  const dialogue = loc.dialogues[dialogueIndex];
+  if (!dialogue) {
+    // All dialogues done — quest complete!
+    finishQuest(loc);
+    return;
+  }
+
+  // NPC info
+  document.getElementById('npc-avatar').textContent = loc.npcAvatar;
+  document.getElementById('npc-name').textContent = loc.npcName;
+  document.getElementById('npc-role').textContent = loc.npcRole;
+
+  // Dialogue text
+  document.getElementById('dialogue-spanish').innerHTML = dialogue.spanish;
+  document.getElementById('dialogue-english').textContent = dialogue.english;
+
+  // Choices
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  dialogue.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c.text;
+    btn.onclick = () => selectDialogueChoice(c, btn, dialogue.choices);
+    choicesEl.appendChild(btn);
+  });
+
+  // Feedback reset
+  const fb = document.getElementById('feedback-box');
+  fb.classList.remove('visible');
+  document.getElementById('next-btn').style.display = 'none';
+
+  // Timer
+  startTimer('npc-timer', TIMER_DURATION, () => {
+    // Time out — treat as wrong
+    const choices = dialogue.choices;
+    notify('⏰ Time\'s up!', 'red');
+    loseHP(10);
+    document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+    const correctChoice = choices.find(c => c.correct);
+    showDialogueFeedback(false, correctChoice, choices);
+  });
+}
+
+function startTimer(barId, duration, onEnd) {
+  clearTimer();
+  const bar = document.getElementById(barId);
+  if (!bar) return;
+  bar.style.width = '100%';
+  bar.classList.remove('urgent');
+  timerVal = duration;
+  timerInterval = setInterval(() => {
+    timerVal -= 0.1;
+    const pct = Math.max(0, (timerVal / duration) * 100);
+    bar.style.width = pct + '%';
+    if (timerVal <= 5) bar.classList.add('urgent');
+    if (timerVal <= 0) {
+      clearTimer();
+      if (onEnd) onEnd();
+    }
+  }, 100);
+}
+
+function selectDialogueChoice(choice, btn, allChoices) {
+  clearTimer();
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+
+  if (choice.correct) {
+    btn.classList.add('correct');
+    gainXP(20);
+    gainCoins(5);
+    restoreHP(5);
+    showDialogueFeedback(true, choice, allChoices);
+  } else {
+    btn.classList.add('wrong');
+    loseHP(15);
+    // Highlight correct
+    document.querySelectorAll('.choice-btn').forEach((b, i) => {
+      if (allChoices[i] && allChoices[i].correct) b.classList.add('correct');
+    });
+    showDialogueFeedback(false, choice, allChoices);
+  }
+}
+
+function showDialogueFeedback(correct, choice, allChoices) {
+  const fb = document.getElementById('feedback-box');
+  const title = document.getElementById('feedback-title');
+  const body = document.getElementById('feedback-body');
+  const grammar = document.getElementById('grammar-note');
+
+  if (correct) {
+    title.textContent = '✅ ¡Correcto!';
+    title.className = 'feedback-title good';
+  } else {
+    title.textContent = '❌ Not quite…';
+    title.className = 'feedback-title bad';
+    // Show correct answer
+    const correctChoice = allChoices.find(c => c.correct);
+    if (correctChoice && choice !== correctChoice) {
+      body.textContent = choice.feedback || 'Try to remember this pattern.';
+    }
+  }
+  body.textContent = choice.feedback || '';
+  grammar.textContent = choice.grammar || '';
+  fb.classList.add('visible');
+  document.getElementById('next-btn').style.display = 'inline-flex';
+}
+
+function nextDialogue() {
+  currentDialogue.dialogueIndex++;
+  renderDialogue();
+}
+
+function finishQuest(loc) {
+  STATE.completedQuests.add(loc.id);
+  addToInventory(loc.loot || []);
+  gainXP(50);
+  gainCoins(20);
+
+  // Show result
+  showResult({
+    win: true,
+    title: 'Quest Complete!',
+    msg: `You helped ${loc.npcName} at ${loc.name}!`,
+    stats: [
+      { k:'XP Earned', v: '+' + (50 + 20*loc.dialogues.length) },
+      { k:'Coins', v: '+20 🪙' },
+      { k:'Words', v: `+${(loc.loot||[]).length} 📦` },
+      { k:'HP Left', v: STATE.hp + '/' + STATE.maxHp },
+    ],
+    loot: loc.loot || []
+  });
+}
+
+/* ═══════════════════════════════════════════
+   COMBAT SYSTEM
+═══════════════════════════════════════════ */
+const COMBAT_TIMER = 20;
+
+function startCombat() {
+  const lvl = STATE.level;
+  const data = COMBAT_DATA[lvl];
+  if (!data) { notify('No combat for this level yet!'); return; }
+
+  currentCombat = {
+    data,
+    questionIndex: 0,
+    score: 0,
+    combo: 0,
+    monsterHp: data.monster.maxHp,
+    maxMonsterHp: data.monster.maxHp,
+    correctCount: 0,
+  };
+
+  document.getElementById('monster-emoji').textContent = data.monster.emoji;
+  document.getElementById('monster-name').textContent = data.monster.name;
+  document.getElementById('monster-title').textContent = data.monster.title;
+  updateMonsterHP();
+  document.getElementById('q-total').textContent = data.questions.length;
+  document.getElementById('combo-val').textContent = '0x';
+  document.getElementById('score-val').textContent = '0';
+
+  showScreen('combat');
+  renderCombatQuestion();
+}
+
+function updateMonsterHP() {
+  const pct = Math.max(0, (currentCombat.monsterHp / currentCombat.maxMonsterHp) * 100);
+  document.getElementById('monster-hp-bar').style.width = pct + '%';
+  document.getElementById('monster-hp-label').textContent = `HP: ${currentCombat.monsterHp}/${currentCombat.maxMonsterHp}`;
+}
+
+function renderCombatQuestion() {
+  clearTimer();
+  const { data, questionIndex } = currentCombat;
+  const q = data.questions[questionIndex];
+  if (!q) {
+    endCombat();
+    return;
+  }
+
+  document.getElementById('q-num').textContent = questionIndex + 1;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-hint').textContent = q.hint ? '💡 ' + q.hint : '';
+
+  const choicesEl = document.getElementById('combat-choices');
+  choicesEl.innerHTML = '';
+  // Shuffle options display
+  const indices = q.options.map((_, i) => i);
+  shuffleArray(indices);
+  indices.forEach(i => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = q.options[i];
+    btn.onclick = () => selectCombatChoice(i, btn, q, indices);
+    choicesEl.appendChild(btn);
+  });
+
+  const fb = document.getElementById('combat-feedback');
+  fb.classList.remove('visible');
+  document.getElementById('combat-next-btn').style.display = 'none';
+
+  // Start timer
+  let timeStart = COMBAT_TIMER;
+  startTimer('combat-timer', COMBAT_TIMER, () => {
+    notify('⏰ Time\'s up! Monster attacks!', 'red');
+    loseHP(20);
+    currentCombat.combo = 0;
+    document.getElementById('combo-val').textContent = '0x';
+    document.querySelectorAll('#combat-choices .choice-btn').forEach(b => b.disabled = true);
+    showCombatFeedback(false, q);
+  });
+
+  // Update time display
+  const timeEl = document.getElementById('time-val');
+  timeEl.textContent = COMBAT_TIMER + 's';
+  const timeDisp = setInterval(() => {
+    timeEl.textContent = Math.ceil(timerVal) + 's';
+    if (timerVal <= 0) clearInterval(timeDisp);
+  }, 200);
+}
+
+function selectCombatChoice(idx, btn, q, displayOrder) {
+  clearTimer();
+  document.querySelectorAll('#combat-choices .choice-btn').forEach(b => b.disabled = true);
+
+  const correct = idx === q.correct;
+  if (correct) {
+    btn.classList.add('correct');
+    currentCombat.combo++;
+    const dmg = 1;
+    currentCombat.monsterHp = Math.max(0, currentCombat.monsterHp - dmg);
+    currentCombat.score += 10 * currentCombat.combo;
+    currentCombat.correctCount++;
+    updateMonsterHP();
+    floatDamage('⚔️ HIT!', '#4caf50');
+    document.getElementById('combo-val').textContent = currentCombat.combo + 'x';
+    document.getElementById('score-val').textContent = currentCombat.score;
+    gainCoins(2 * currentCombat.combo);
+  } else {
+    btn.classList.add('wrong');
+    currentCombat.combo = 0;
+    document.getElementById('combo-val').textContent = '0x';
+    loseHP(15);
+    floatDamage('💥 MISS!', '#e94560');
+    // Show correct
+    document.querySelectorAll('#combat-choices .choice-btn').forEach((b, visIdx) => {
+      const originalIdx = displayOrder[visIdx];
+      if (originalIdx === q.correct) b.classList.add('correct');
+    });
+  }
+  showCombatFeedback(correct, q);
+}
+
+function showCombatFeedback(correct, q) {
+  const fb = document.getElementById('combat-feedback');
+  const title = document.getElementById('cf-title');
+  const body = document.getElementById('cf-body');
+  const grammar = document.getElementById('cf-grammar');
+  title.textContent = correct ? '✅ ¡Correcto!' : '❌ Not quite…';
+  title.className = 'feedback-title ' + (correct ? 'good' : 'bad');
+  body.textContent = q.feedback || '';
+  grammar.textContent = q.grammar || '';
+  fb.classList.add('visible');
+  document.getElementById('combat-next-btn').style.display = 'inline-flex';
+}
+
+function nextCombatQuestion() {
+  currentCombat.questionIndex++;
+  renderCombatQuestion();
+}
+
+function endCombat() {
+  clearTimer();
+  const { data, monsterHp, score, correctCount, maxMonsterHp } = currentCombat;
+  const total = data.questions.length;
+  const win = monsterHp === 0 || correctCount >= Math.ceil(total * 0.6);
+  const xpGain = win ? 80 + score : 20;
+  gainXP(xpGain);
+  if (win) addToInventory(data.loot || []);
+
+  showResult({
+    win,
+    title: win ? `¡Victoria! You defeated ${data.monster.name}!` : `Defeated… ${data.monster.name} still stands.`,
+    msg: win ? 'Your Spanish knowledge is growing stronger!' : 'Review the grammar notes and try again.',
+    stats: [
+      { k:'Score', v: score },
+      { k:'Correct', v: `${correctCount}/${total}` },
+      { k:'XP', v: '+' + xpGain },
+      { k:'HP', v: STATE.hp + '/' + STATE.maxHp },
+    ],
+    loot: win ? (data.loot || []) : []
+  });
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+/* ═══════════════════════════════════════════
+   INVENTORY
+═══════════════════════════════════════════ */
+let invFilter = 'all';
+let combineSelection = [];
+
+function showInventory() {
+  renderInventory();
+  showScreen('inventory');
+}
+
+function renderInventory() {
+  const grid = document.getElementById('inv-grid');
+  grid.innerHTML = '';
+  const items = invFilter === 'all' ? STATE.inventory : STATE.inventory.filter(w => w.type === invFilter);
+  if (items.length === 0) {
+    grid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">No words yet — complete quests to earn words!</p>';
+    return;
+  }
+  items.forEach(item => {
+    const selected = combineSelection.includes(item);
+    const div = document.createElement('div');
+    div.className = 'word-card' + (selected ? ' selected' : '');
+    div.innerHTML = `
+      <div class="wc-rarity">${item.rarity || '⚪'}</div>
+      ${item.gender ? `<div class="wc-gender ${item.gender}">${item.gender === 'm' ? 'M' : 'F'}</div>` : ''}
+      <div class="wc-word">${item.word}</div>
+      <div class="wc-type">${item.type}</div>
+      <div class="wc-trans">${item.translation || ''}</div>
+    `;
+    div.onclick = () => toggleCombineSelect(item);
+    grid.appendChild(div);
+  });
+}
+
+function toggleCombineSelect(item) {
+  const idx = combineSelection.indexOf(item);
+  if (idx > -1) {
+    combineSelection.splice(idx, 1);
+  } else if (combineSelection.length < 2) {
+    combineSelection.push(item);
+  } else {
+    combineSelection = [item];
+  }
+  updateCombineSlots();
+  renderInventory();
+}
+
+function updateCombineSlots() {
+  const slotA = document.getElementById('slot-a');
+  const slotB = document.getElementById('slot-b');
+  const btn = document.getElementById('combine-btn');
+  slotA.textContent = combineSelection[0] ? combineSelection[0].word : 'Word 1';
+  slotA.className = 'combine-slot' + (combineSelection[0] ? ' filled' : '');
+  slotB.textContent = combineSelection[1] ? combineSelection[1].word : 'Word 2';
+  slotB.className = 'combine-slot' + (combineSelection[1] ? ' filled' : '');
+  btn.disabled = combineSelection.length < 2;
+  if (combineSelection.length < 2) {
+    document.getElementById('slot-result').textContent = 'Result';
+    document.getElementById('slot-result').style.borderColor = '#ffffff22';
+    document.getElementById('slot-result').style.color = 'var(--muted)';
+    document.getElementById('combine-msg').textContent = '';
+  }
+}
+
+function clearCombine() {
+  combineSelection = [];
+  updateCombineSlots();
+  renderInventory();
+}
+
+function combineWords() {
+  if (combineSelection.length < 2) return;
+  const [a, b] = combineSelection;
+  const key1 = a.word + '|' + b.word;
+  const key2 = b.word + '|' + a.word;
+
+  const combo = COMBINATIONS.find(c => (c.a === a.word && c.b === b.word) || (c.a === b.word && c.b === a.word));
+  const result = document.getElementById('slot-result');
+  const msg = document.getElementById('combine-msg');
+
+  if (combo) {
+    if (STATE.combinesMade.has(key1) || STATE.combinesMade.has(key2)) {
+      msg.textContent = '✨ Already combined! (bonus XP reduced)';
+      gainXP(10);
+    } else {
+      STATE.combinesMade.add(key1);
+      gainXP(combo.xp);
+      gainCoins(10);
+      msg.textContent = combo.unlock;
+    }
+    result.textContent = combo.result;
+    result.style.borderColor = 'var(--green)';
+    result.style.color = 'var(--green)';
+    notify(`✨ Combined: ${combo.result}`, 'green');
+  } else {
+    result.textContent = `${a.word} ${b.word} 🤔`;
+    result.style.borderColor = 'var(--muted)';
+    result.style.color = 'var(--muted)';
+    msg.textContent = 'No special combination found — keep collecting more words!';
+  }
+}
+
+function filterInv(type, el) {
+  invFilter = type;
+  document.querySelectorAll('.inv-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderInventory();
+}
+
+/* ═══════════════════════════════════════════
+   RESULT SCREEN
+═══════════════════════════════════════════ */
+function showResult({ win, title, msg, stats, loot }) {
+  document.getElementById('result-icon').textContent = win ? '🏆' : '💔';
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-title').className = 'result-title ' + (win ? 'win' : 'lose');
+  document.getElementById('result-msg').textContent = msg;
+
+  const statsEl = document.getElementById('result-stats');
+  statsEl.innerHTML = (stats || []).map(s => `
+    <div class="stat-box">
+      <div class="sv">${s.v}</div>
+      <div class="sk">${s.k}</div>
+    </div>
+  `).join('');
+
+  const lootItems = document.getElementById('loot-items');
+  lootItems.innerHTML = (loot || []).length
+    ? loot.map(w => `<div class="loot-item">📦 ${w}</div>`).join('')
+    : '<span style="color:var(--muted);font-size:13px;">No loot this time.</span>';
+
+  document.getElementById('loot-box').style.display = loot && loot.length ? 'block' : 'none';
+  showScreen('result');
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+// Start on title screen - already shown via class="active"
+</script>
+</body>
+</html>
