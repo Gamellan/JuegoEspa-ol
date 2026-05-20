@@ -40,7 +40,14 @@
     margin: 0 auto;
     padding: 88px 16px 20px;
   }
-  .screen.active { display: block; }
+  .screen.active {
+    display: block;
+    animation: screen-enter 240ms ease-out;
+  }
+  @keyframes screen-enter {
+    0% { opacity: 0; transform: translateY(10px) scale(0.995); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
   #hud {
     position: fixed;
@@ -65,6 +72,26 @@
     border-radius: 999px;
     padding: 6px 12px;
     font-size: 12px;
+  }
+  .chip.audio-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 8px;
+  }
+  .audio-btn {
+    border: 1px solid var(--line);
+    background: #0d2234;
+    color: var(--text);
+    border-radius: 999px;
+    min-width: 30px;
+    height: 24px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .audio-slider {
+    width: 92px;
+    accent-color: var(--gold);
   }
   .hearts { letter-spacing: 3px; font-size: 16px; color: var(--accent); }
 
@@ -138,6 +165,51 @@
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 16px;
+  }
+
+  .section-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    margin: -2px 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    position: relative;
+    overflow: hidden;
+  }
+  .section-banner::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--section-accent, var(--gold));
+  }
+  .section-banner .section-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--section-accent, var(--gold)) 18%, transparent);
+    color: var(--section-accent, var(--gold));
+    flex: 0 0 auto;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--section-accent, var(--gold)) 42%, transparent);
+  }
+  .section-banner .section-copy {
+    min-width: 0;
+  }
+  .section-banner .section-title {
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-banner .section-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
   }
 
   .campaign-grid {
@@ -315,6 +387,18 @@
     margin-top: 8px;
   }
   .gloss-title { color: var(--gold); font-weight: 700; font-size: 13px; }
+  .review-path-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .review-path-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
 
   .medal-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
   .medal-chip {
@@ -358,14 +442,28 @@
   .library-toggle {
     margin-top: 10px;
   }
+  .library-toggle .toggle-icon {
+    display: inline-block;
+    margin-right: 8px;
+    transition: transform 180ms ease;
+  }
+  .library-toggle.is-open .toggle-icon {
+    transform: rotate(90deg);
+  }
   .library-detail {
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid var(--line);
-    display: none;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: max-height 260ms ease, opacity 180ms ease, transform 180ms ease;
   }
   .library-detail.show {
-    display: block;
+    max-height: 900px;
+    opacity: 1;
+    transform: translateY(0);
   }
   .library-examples {
     margin: 8px 0 0;
@@ -424,6 +522,11 @@
     <span class="chip">+Tiempo: <strong id="hud-time-bonus">0s</strong></span>
     <span class="chip">Escudo: <strong id="hud-shield">0</strong></span>
     <span class="chip">Estilo: <strong id="hud-style">Base</strong></span>
+    <span class="chip audio-chip">Audio:
+      <button id="btn-audio-mute" class="audio-btn" onclick="toggleAudioMute()" aria-label="Silenciar o activar sonido">🔊</button>
+      <input id="audio-volume" class="audio-slider" type="range" min="0" max="100" step="5" value="70" oninput="setAudioVolume(this.value)">
+      <strong id="audio-volume-label">70%</strong>
+    </span>
     <button id="btn-nav-campaign" class="btn ghost nav-btn" onclick="goCampaign()">Campaña</button>
     <button id="btn-nav-library" class="btn ghost nav-btn" onclick="goLibrary()">Biblioteca</button>
     <button id="btn-nav-extras" class="btn ghost nav-btn" onclick="goAcademy()">Extras</button>
@@ -538,6 +641,7 @@
   <div class="panel">
     <h2>Biblioteca didáctica / Learning Library</h2>
     <p class="small mt8">Cada tema muestra primero un resumen bilingüe. Usa "Ampliar" para ver explicaciones más completas y ejemplos reales en español e inglés.</p>
+    <p class="small mt8" id="library-progress"></p>
     <div class="library-grid" id="library-grid"></div>
   </div>
 </section>
@@ -576,8 +680,13 @@
     <p class="small mt8">Aquí se guardan reglas de preguntas falladas para repaso rápido.</p>
     <div class="panel mt12">
       <div class="small"><strong>Repaso recomendado hoy</strong></div>
-      <div class="small mt8">Top reglas donde mas fallas (prioridad alta).</div>
+      <div class="small mt8">Top reglas donde más fallas (prioridad alta).</div>
       <div id="glossary-recommended" class="mt8"></div>
+    </div>
+    <div class="panel mt12">
+      <div class="small"><strong>Itinerarios de repaso / Review Paths</strong></div>
+      <div class="small mt8">Se generan con tus errores más frecuentes para practicar justo lo que necesitas.</div>
+      <div class="campaign-grid mt8" id="review-paths"></div>
     </div>
     <div id="glossary-list" class="mt12"></div>
   </div>
@@ -647,6 +756,8 @@ const QUESTION_BANK = {
       mkMcq("El plural de hotel es", "Plural form", ["hoteles", "hotel", "hotelas", "hotels"], 0, "Plural regular: hoteles."),
       mkMcq("Artículo correcto: ___ agua", "The water", ["el", "la", "las", "unos"], 0, "Uso habitual: el agua (sonido tónico)."),
       mkMcq("Yo ___ en Madrid", "I live in Madrid", ["vivo", "vive", "vives", "vivimos"], 0, "Conjugación yo: vivo."),
+      mkMcq("¿Cómo te ___?", "What is your name?", ["llamas", "llamo", "llaman", "llamáis"], 0, "Para tú: te llamas."),
+      mkMcq("No ___ azúcar", "I don't want sugar", ["quiero", "quiere", "queremos", "querer"], 0, "Negación básica: no + verbo conjugado."),
     ],
     group: [
       mkGroup("Selecciona solo sustantivos", "Select nouns", ["café", "bonito", "mesa", "hablar", "tren", "rojo"], ["café", "mesa", "tren"], "Los sustantivos nombran objetos o personas."),
@@ -655,6 +766,7 @@ const QUESTION_BANK = {
       mkGroup("Selecciona solo verbos", "Select verbs", ["ser", "mesa", "estar", "rojo", "comer", "tren"], ["ser", "estar", "comer"], "El verbo expresa acción o estado."),
       mkGroup("Selecciona solo palabras de cafetería", "Cafe words", ["café", "té", "tren", "azúcar", "mesa", "estación"], ["café", "té", "azúcar", "mesa"], "Vocabulario de interacción básica."),
       mkGroup("Selecciona solo saludos comunes", "Greetings", ["hola", "adiós", "mesa", "gracias", "buenos días", "tren"], ["hola", "adiós", "gracias", "buenos días"], "Saludos y cortesía de supervivencia."),
+      mkGroup("Selecciona solo preguntas básicas", "Basic questions", ["¿cómo te llamas?", "¿de dónde eres?", "la mesa", "¿qué hora es?", "yo vivo", "¿cómo estás?"], ["¿cómo te llamas?", "¿de dónde eres?", "¿qué hora es?", "¿cómo estás?"], "Preguntas clave para interacción inicial."),
     ],
     order: [
       mkOrder("Ordena la frase", "Build sentence", ["quiero", "un", "café"], "quiero un café", "Orden natural: verbo + artículo + sustantivo."),
@@ -663,6 +775,7 @@ const QUESTION_BANK = {
       mkOrder("Ordena la frase", "Build sentence", ["estoy", "en", "la", "estación"], "estoy en la estación", "Ubicación con estar + en."),
       mkOrder("Ordena la frase", "Build sentence", ["buenos", "días", "cómo", "estás"], "buenos días cómo estás", "Saludo + pregunta básica."),
       mkOrder("Ordena la frase", "Build sentence", ["quiero", "dos", "cafés", "por", "favor"], "quiero dos cafés por favor", "Petición funcional completa."),
+      mkOrder("Ordena la frase", "Build sentence", ["no", "quiero", "azúcar", "en", "el", "café"], "no quiero azúcar en el café", "Negación funcional en contexto real."),
     ],
     miniBoss: mkMcq("Semijefe: Elige la opción correcta", "Mini boss", ["me llamo Ana", "mi llamo Ana", "soy nombre Ana", "llamo me Ana"], 0, "Me llamo es la estructura correcta."),
     finalBoss: mkMcq("Jefe final A1: Completa", "Final boss", ["hola, quiero un billete por favor", "hola, querer billete", "hola yo billete", "quiero hola billete"], 0, "Frase funcional completa de supervivencia."),
@@ -675,16 +788,20 @@ const QUESTION_BANK = {
       mkMcq("Tú ___ en Madrid", "You live in Madrid", ["vives", "vive", "vivo", "vivís"], 0, "Conjugación tú: vives."),
       mkMcq("Necesito un ___ de tren", "I need a train ticket", ["billete", "mesa", "pan", "libro"], 0, "Billete en España."),
       mkMcq("Yo ___ agua", "I drink water", ["bebo", "bebe", "bebes", "bebemos"], 0, "Conjugación yo: bebo."),
+      mkMcq("Mañana voy a ___ temprano", "Tomorrow I am going to leave early", ["salir", "salgo", "salía", "saldré"], 0, "Perífrasis: ir a + infinitivo."),
+      mkMcq("¿A qué hora ___ el tren?", "What time does the train leave?", ["sale", "salen", "salgo", "salía"], 0, "Concordancia singular: el tren sale."),
     ],
     group: [
       mkGroup("Selecciona verbos en presente", "Select present verbs", ["como", "mesa", "bebe", "rojo", "vivimos", "café"], ["como", "bebe", "vivimos"], "Formas verbales conjugadas."),
       mkGroup("Selecciona palabras de viaje", "Travel words", ["billete", "estación", "manzana", "andén", "cuchara", "tren"], ["billete", "estación", "andén", "tren"], "Vocabulario de transporte."),
       mkGroup("Selecciona expresiones de tiempo", "Time expressions", ["hoy", "mesa", "ahora", "ayer", "cantar", "mañana"], ["hoy", "ahora", "ayer", "mañana"], "Marcadores temporales útiles."),
+      mkGroup("Selecciona expresiones funcionales de viaje", "Travel service language", ["¿cuánto cuesta?", "por favor", "andén", "me gustan", "quiero un billete", "color rojo"], ["¿cuánto cuesta?", "por favor", "andén", "quiero un billete"], "Lenguaje de servicio útil en situaciones reales."),
     ],
     order: [
       mkOrder("Ordena", "Build sentence", ["quiero", "ir", "a", "madrid"], "quiero ir a madrid", "Estructura con infinitivo + destino."),
       mkOrder("Ordena", "Build sentence", ["el", "tren", "sale", "a", "las", "tres"], "el tren sale a las tres", "Fórmula típica para hora de salida."),
       mkOrder("Ordena", "Build sentence", ["me", "gustan", "las", "manzanas"], "me gustan las manzanas", "Gustar con sujeto plural."),
+      mkOrder("Ordena", "Build sentence", ["voy", "a", "comprar", "un", "billete"], "voy a comprar un billete", "Perífrasis ir a + infinitivo para plan inmediato."),
     ],
     miniBoss: mkMcq("Semijefe A2", "Mini boss", ["me gustan los libros", "me gusta los libros", "yo gustan libros", "gustan me libros"], 0, "Con sujeto plural: gustan."),
     finalBoss: mkMcq("Jefe final A2", "Final boss", ["quiero un billete para sevilla a las cinco", "quiero billete sevilla cinco", "billete yo sevilla", "voy sevilla billete"], 0, "Petición completa con destino y hora."),
@@ -697,16 +814,20 @@ const QUESTION_BANK = {
       mkMcq("En 2010 nosotros ___ en Valencia", "In 2010 we lived", ["vivimos", "vivíamos", "viviremos", "hemos vivido"], 0, "Periodo cerrado: indefinido."),
       mkMcq("Siempre ___ café por la mañana", "I always drank", ["tomaba", "tomé", "tomo", "tomaré"], 0, "Siempre: repetición en pasado."),
       mkMcq("Me dijo que ya ___", "He told me he had left", ["había salido", "salió", "sale", "saldrá"], 0, "Pasado anterior: pluscuamperfecto."),
+      mkMcq("Cuando llegué, ellos ya ___", "When I arrived, they had already left", ["habían salido", "salieron", "salen", "saldrán"], 0, "Acción anterior a otra pasada: pluscuamperfecto."),
+      mkMcq("De repente ___ la luz", "Suddenly, the light went out", ["se apagó", "se apagaba", "se apaga", "se apagará"], 0, "Evento puntual: indefinido."),
     ],
     group: [
       mkGroup("Selecciona marcadores de indefinido", "Select indefinido markers", ["ayer", "de repente", "siempre", "el año pasado", "normalmente", "una vez"], ["ayer", "de repente", "el año pasado", "una vez"], "Pistas típicas de acción cerrada."),
       mkGroup("Selecciona marcadores de imperfecto", "Select imperfecto markers", ["siempre", "normalmente", "ayer", "de niño", "en 2015", "a menudo"], ["siempre", "normalmente", "de niño", "a menudo"], "Pistas de hábito/contexto."),
       mkGroup("Selecciona verbos de fondo narrativo", "Narrative background verbs", ["era", "llegó", "tenía", "comió", "había", "salió"], ["era", "tenía", "había"], "El imperfecto sostiene el escenario."),
+      mkGroup("Selecciona conectores narrativos", "Narrative connectors", ["entonces", "después", "mientras", "aunque", "de repente", "ojalá"], ["entonces", "después", "mientras", "de repente"], "Conectores frecuentes para secuenciar relatos."),
     ],
     order: [
       mkOrder("Ordena", "Build sentence", ["mientras", "yo", "estudiaba", "el", "teléfono", "sonó"], "mientras yo estudiaba el teléfono sonó", "Imperfecto de fondo + evento puntual."),
       mkOrder("Ordena", "Build sentence", ["cuando", "era", "pequeño", "jugaba", "en", "la", "calle"], "cuando era pequeño jugaba en la calle", "Contexto habitual en pasado."),
       mkOrder("Ordena", "Build sentence", ["de", "niño", "vivía", "en", "bilbao"], "de niño vivía en bilbao", "Escenario habitual en pasado."),
+      mkOrder("Ordena", "Build sentence", ["cuando", "llegué", "ya", "habían", "salido"], "cuando llegué ya habían salido", "Secuencia temporal: pasado del pasado + evento puntual."),
     ],
     miniBoss: mkMcq("Semijefe B1", "Mini boss", ["cuando llegó, yo cenaba", "cuando llegó, yo cené siempre", "cuando llegaba, yo cené", "cuando llegar, yo cené"], 0, "Interrupción puntual sobre acción en progreso."),
     finalBoss: mkMcq("Jefe final B1", "Final boss", ["de niño vivía en Bilbao y el año pasado me mudé", "de niño viví y siempre me mudé", "de niño me mudo ayer", "de niño mudo y mudé"], 0, "Combina imperfecto habitual + indefinido puntual."),
@@ -719,16 +840,20 @@ const QUESTION_BANK = {
       mkMcq("Cuando ___, te llamaré", "When I finish", ["termine", "termino", "terminaré", "termine ayer"], 0, "Cuando futuro -> subjuntivo."),
       mkMcq("Es importante que ___", "It is important that you rest", ["descanses", "descansas", "descansarás", "descansa"], 0, "Impersonal + que -> subj."),
       mkMcq("Ojalá ___ más tiempo", "I wish I had", ["tuviera", "tengo", "tendré", "tenía seguro"], 0, "Deseo difícil: imperfecto de subjuntivo."),
+      mkMcq("Busco un piso que ___ cerca", "I am looking for a flat that is nearby", ["esté", "está", "estaba", "estará"], 0, "Antecedente no específico: subjuntivo."),
+      mkMcq("Quizá ___ mañana", "Maybe he comes tomorrow", ["venga", "viene", "vino", "vendrá"], 0, "Con quizá (duda), se admite subjuntivo para probabilidad."),
     ],
     group: [
       mkGroup("Selecciona disparadores de subjuntivo", "Subjuntivo triggers", ["ojalá", "es posible que", "creo que", "dudo que", "es cierto que", "quiero que"], ["ojalá", "es posible que", "dudo que", "quiero que"], "No todos los conectores piden subjuntivo."),
       mkGroup("Selecciona estructuras hipotéticas irreales", "Unreal conditional", ["si fuera", "si soy", "si tuviera", "si tendré", "viajaría", "compraría"], ["si fuera", "si tuviera", "viajaría", "compraría"], "Patrón: si + imp. subj. + condicional."),
       mkGroup("Selecciona expresiones de valoración", "Value judgments", ["es importante que", "me parece que", "es urgente que", "creo que", "conviene que", "pienso que"], ["es importante que", "es urgente que", "conviene que"], "Valoración + que suele empujar al subjuntivo."),
+      mkGroup("Selecciona expresiones de no certeza", "Uncertainty expressions", ["tal vez", "quizá", "no creo que", "es seguro que", "dudo que", "es evidente que"], ["tal vez", "quizá", "no creo que", "dudo que"], "No certeza y probabilidad favorecen el subjuntivo."),
     ],
     order: [
       mkOrder("Ordena", "Build sentence", ["es", "mejor", "que", "vengas", "mañana"], "es mejor que vengas mañana", "Impersonal valorativo + subjuntivo."),
       mkOrder("Ordena", "Build sentence", ["ojalá", "pudiéramos", "volver", "a", "empezar"], "ojalá pudiéramos volver a empezar", "Ojalá + imperfecto subjuntivo para deseo remoto."),
       mkOrder("Ordena", "Build sentence", ["si", "yo", "fuera", "rico", "viajaría"], "si yo fuera rico viajaría", "Condicional irreal completo."),
+      mkOrder("Ordena", "Build sentence", ["no", "creo", "que", "tengan", "tiempo"], "no creo que tengan tiempo", "Negación de creencia + subjuntivo."),
     ],
     miniBoss: mkMcq("Semijefe B2", "Mini boss", ["aunque sea difícil, seguiré", "aunque es difícil, seguiré", "aunque fue difícil, seguiré", "aunque ser difícil"], 0, "Con valor hipotético/proyectado, aunque puede ir en subjuntivo."),
     finalBoss: mkMcq("Jefe Final B2", "Final boss", ["ojalá que cuando encuentres la palabra final el pueblo se libere", "ojalá cuando encuentras palabra final", "ojalá pueblo libre palabra", "cuando encontraste se libera"], 0, "Integra deseo + cuando futuro + subjuntivo.")
@@ -792,6 +917,8 @@ const DAILY_THEORY = {
 const LIBRARY_TOPICS = [
   {
     title: "Saludos y cortesía",
+    level: "A1",
+    examFocus: "Interacción social básica: saludar, despedirse y ser cortés.",
     summary: "Saludos básicos y fórmulas de cortesía para abrir, mantener y cerrar interacciones.",
     summaryEn: "Basic greetings and courtesy formulas for opening, maintaining and closing interactions.",
     detail: "En español, el saludo cambia según la hora y el grado de formalidad. Añadir cortesía (por favor, gracias, de nada) mejora la naturalidad y el tono.",
@@ -809,6 +936,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Artículos",
+    level: "A1",
+    examFocus: "Control gramatical básico: género y número en sintagmas nominales.",
     summary: "Uso de artículos definidos e indefinidos con concordancia de género y número.",
     summaryEn: "Using definite and indefinite articles with gender and number agreement.",
     detail: "Los artículos definidos (el, la, los, las) identifican algo conocido. Los indefinidos (un, una, unos, unas) introducen información nueva o no específica.",
@@ -826,6 +955,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Pronombres personales",
+    level: "A1",
+    examFocus: "Gestión de referentes personales en enunciados simples.",
     summary: "Pronombres para marcar quién realiza la acción o para enfatizar el sujeto.",
     summaryEn: "Pronouns used to mark who performs the action or to emphasize the subject.",
     detail: "En español el sujeto puede omitirse porque la conjugación verbal ya aporta información. El pronombre se usa para contraste, claridad o énfasis.",
@@ -843,6 +974,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "SER vs ESTAR",
+    level: "A1",
+    examFocus: "Distinción funcional de copulativos para identidad, estado y ubicación.",
     summary: "SER para identidad/origen; ESTAR para estado o ubicación.",
     summaryEn: "Use SER for identity/origin and ESTAR for state or location.",
     detail: "SER clasifica y define (profesión, nacionalidad, características). ESTAR sitúa en el espacio o describe estados temporales.",
@@ -860,6 +993,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Verbos en presente",
+    level: "A2",
+    examFocus: "Describir rutinas y hábitos con presente de indicativo.",
     summary: "Conjugación en presente para describir rutinas, hábitos y hechos actuales.",
     summaryEn: "Present tense conjugation for routines, habits, and current facts.",
     detail: "Los verbos regulares siguen patrones por terminación: -ar, -er, -ir. Dominar estas terminaciones permite producir frases rápidas en conversación.",
@@ -877,6 +1012,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Estructura de frase",
+    level: "A1",
+    examFocus: "Construcción de oraciones afirmativas e interrogativas sencillas.",
     summary: "Orden básico de la oración y colocación natural de complementos.",
     summaryEn: "Basic sentence order and natural placement of complements.",
     detail: "El orden más neutro es sujeto + verbo + complementos. En contextos reales se puede omitir el sujeto o mover elementos para dar énfasis.",
@@ -894,6 +1031,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Expresiones de viaje",
+    level: "A2",
+    examFocus: "Transacciones y solicitudes en transporte y servicios.",
     summary: "Frases frecuentes para transporte: billetes, horarios, andenes y direcciones.",
     summaryEn: "Common travel phrases for tickets, schedules, platforms, and directions.",
     detail: "En estaciones y aeropuertos conviene usar estructuras claras y corteses para pedir información o confirmar rutas.",
@@ -911,6 +1050,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Tiempos pasados (B1)",
+    level: "B1",
+    examFocus: "Narración de experiencias: contraste aspectual y secuenciación.",
     summary: "Contraste entre indefinido (evento cerrado) e imperfecto (contexto/hábito).",
     summaryEn: "Contrast between the preterite (closed event) and the imperfect (background/habit).",
     detail: "En narración, el imperfecto dibuja el escenario y el indefinido marca las acciones principales que avanzan la historia.",
@@ -928,6 +1069,8 @@ const LIBRARY_TOPICS = [
   },
   {
     title: "Subjuntivo (B2)",
+    level: "B2",
+    examFocus: "Expresión de duda, deseo, valoración e hipótesis no factual.",
     summary: "Uso del subjuntivo en contextos de no certeza: deseo, duda, valoración e hipótesis.",
     summaryEn: "Use of the subjunctive in contexts of uncertainty: wishes, doubt, evaluation, and hypotheses.",
     detail: "El subjuntivo aparece cuando el hablante no presenta el contenido como hecho confirmado. Es frecuente tras ciertos verbos y expresiones con 'que'.",
@@ -941,6 +1084,82 @@ const LIBRARY_TOPICS = [
       "Wish: 'Ojalá venga pronto'",
       "Doubt: 'Dudo que tenga tiempo'",
       "Evaluation: 'Es importante que descanses'"
+    ],
+  },
+  {
+    title: "Preguntas personales y negación (A1)",
+    level: "A1",
+    examFocus: "Interacción inicial: presentarse, pedir datos básicos y negar de forma simple.",
+    summary: "Cómo preguntar y responder datos personales con estructuras frecuentes y negación básica.",
+    summaryEn: "How to ask and answer personal information using frequent structures and basic negation.",
+    detail: "En A1 necesitas preguntar nombre, origen y estado, y también negar de manera simple con no + verbo. Estas fórmulas aparecen continuamente en pruebas orales y escritas iniciales.",
+    detailEn: "At A1, you need to ask about name, origin, and condition, and also negate with no + verb. These formulas appear constantly in beginner speaking and writing tasks.",
+    examples: [
+      "Pregunta personal: '¿Cómo te llamas?'",
+      "Pregunta de origen: '¿De dónde eres?'",
+      "Negación funcional: 'No quiero azúcar'"
+    ],
+    examplesEn: [
+      "Personal question: '¿Cómo te llamas?'",
+      "Origin question: '¿De dónde eres?'",
+      "Functional negation: 'No quiero azúcar'"
+    ],
+  },
+  {
+    title: "Planificación inmediata (A2)",
+    level: "A2",
+    examFocus: "Expresar planes y acciones próximas en contexto cotidiano.",
+    summary: "Uso de ir a + infinitivo para hablar de planes y decisiones cercanas.",
+    summaryEn: "Using ir a + infinitive to talk about near-future plans and decisions.",
+    detail: "La perífrasis ir a + infinitivo es esencial en A2 para comunicar intenciones: compras, desplazamientos, actividades del día y planes de viaje.",
+    detailEn: "The periphrasis ir a + infinitive is essential at A2 to communicate intentions: shopping, movement, daily activities, and travel plans.",
+    examples: [
+      "Plan personal: 'Mañana voy a salir temprano'",
+      "Acción de servicio: 'Voy a comprar un billete'",
+      "Plan de estudio: 'Voy a practicar español esta tarde'"
+    ],
+    examplesEn: [
+      "Personal plan: 'Mañana voy a salir temprano'",
+      "Service action: 'Voy a comprar un billete'",
+      "Study plan: 'Voy a practicar español esta tarde'"
+    ],
+  },
+  {
+    title: "Secuencia temporal y pluscuamperfecto (B1)",
+    level: "B1",
+    examFocus: "Organizar relatos cronológicos con relaciones de anterioridad.",
+    summary: "Cómo marcar qué pasó antes y qué pasó después en una narración.",
+    summaryEn: "How to mark what happened before and after in a narrative.",
+    detail: "En B1 se evalúa contar experiencias con orden claro. El pluscuamperfecto (había + participio) marca una acción anterior a otra también pasada.",
+    detailEn: "At B1, you are assessed on telling experiences with clear order. The pluperfect (había + participle) marks an action that happened before another past action.",
+    examples: [
+      "Secuencia: 'Cuando llegué, ya habían salido'",
+      "Relato completo: 'Estudiaba y de repente se apagó la luz'",
+      "Referencia previa: 'Ya había comido cuando empezó la reunión'"
+    ],
+    examplesEn: [
+      "Sequence: 'Cuando llegué, ya habían salido'",
+      "Full narrative: 'Estudiaba y de repente se apagó la luz'",
+      "Previous reference: 'Ya había comido cuando empezó la reunión'"
+    ],
+  },
+  {
+    title: "Relativos e incertidumbre (B2)",
+    level: "B2",
+    examFocus: "Matizar certeza y especificidad en descripciones complejas.",
+    summary: "Subjuntivo en referentes no específicos y expresiones de probabilidad.",
+    summaryEn: "Subjunctive with non-specific referents and probability expressions.",
+    detail: "En B2 se espera controlar el matiz: si el referente no está identificado o hay duda real, el subjuntivo es la opción más precisa.",
+    detailEn: "At B2, nuanced control is expected: when a referent is not identified or there is real doubt, the subjunctive is often the most precise choice.",
+    examples: [
+      "No especificidad: 'Busco un piso que esté cerca'",
+      "Probabilidad: 'Quizá venga mañana'",
+      "Duda de opinión: 'No creo que tengan tiempo'"
+    ],
+    examplesEn: [
+      "Non-specific referent: 'Busco un piso que esté cerca'",
+      "Probability: 'Quizá venga mañana'",
+      "Opinion doubt: 'No creo que tengan tiempo'"
     ],
   },
 ];
@@ -1017,6 +1236,8 @@ let STATE = {
   badgesUnlockedAt: {},
   badgesSeen: {},
   currentScreen: "campaign",
+  audioMuted: false,
+  audioVolume: 70,
 };
 
 let currentChallenge = null;
@@ -1026,6 +1247,7 @@ let timerId = null;
 let timerRemaining = 0;
 let currentBossRun = null;
 let currentDailyRun = null;
+let currentPathRun = null;
 let currentRun = null;
 let tutorialIndex = 0;
 
@@ -1062,6 +1284,7 @@ function updateHUD() {
   document.getElementById("hud-time-bonus").textContent = (STATE.nextTimeBonusSeconds || 0) + "s";
   document.getElementById("hud-shield").textContent = STATE.shieldCharges || 0;
   document.getElementById("hud-style").textContent = getCosmeticLabel();
+  updateAudioControls();
   applyBadgeCosmetics();
   updateNavButtons();
 }
@@ -1096,6 +1319,8 @@ function newGame() {
     badgesUnlockedAt: {},
     badgesSeen: {},
     currentScreen: "campaign",
+    audioMuted: false,
+    audioVolume: 70,
   };
   saveProgress();
   goCampaign();
@@ -1168,18 +1393,69 @@ function goGlossary() {
   screen("glossary");
 }
 
+const SECTION_IDENTITIES = {
+  campaign: { title: "Campaña / Campaign", subtitle: "Avanza por escenarios, gana dominio y desbloquea el siguiente tramo.", accent: "#d4af37", mark: "⚔" },
+  challenge: { title: "Combate / Challenge", subtitle: "Responde, gana XP y protege tus vidas.", accent: "#f59e0b", mark: "✦" },
+  academy: { title: "Extras / Extra Scenarios", subtitle: "Microlecciones para practicar reglas concretas sin presión.", accent: "#60a5fa", mark: "✎" },
+  library: { title: "Biblioteca / Learning Library", subtitle: "Lee el resumen, amplía la explicación y mira ejemplos reales.", accent: "#6ee7b7", mark: "☰" },
+  daily: { title: "Diario / Daily", subtitle: "Un reto corto para consolidar lo aprendido cada día.", accent: "#f87171", mark: "☀" },
+  shop: { title: "Tienda / Town's Store", subtitle: "Compra ayudas, tiempo extra y escudos para tu aventura.", accent: "#a78bfa", mark: "¤" },
+  glossary: { title: "Glosario / Smart Glossary", subtitle: "Repasa rápidamente las reglas donde más fallas.", accent: "#38bdf8", mark: "§" },
+  badges: { title: "Insignias / Badge Collection", subtitle: "Sigue tu progreso y celebra los hitos logrados.", accent: "#fbbf24", mark: "★" },
+  inventory: { title: "Mochila / Word Backpack", subtitle: "Las palabras que has ganado y que te acompañan en la campaña.", accent: "#34d399", mark: "✦" },
+  title: { title: "Inicio / Title Screen", subtitle: "Empieza una nueva partida o continúa tu progreso guardado.", accent: "#d4af37", mark: "⌂" },
+  result: { title: "Resultado / Result", subtitle: "Resumen de rendimiento y recompensa del escenario.", accent: "#f59e0b", mark: "✓" },
+};
+
+function decorateSectionPanels() {
+  Object.entries(SECTION_IDENTITIES).forEach(([sectionId, identity]) => {
+    const section = document.getElementById("screen-" + sectionId);
+    if (!section) return;
+    const panel = section.querySelector(".panel");
+    if (!panel || panel.querySelector(".section-banner")) return;
+
+    const banner = document.createElement("div");
+    banner.className = "section-banner";
+    banner.style.setProperty("--section-accent", identity.accent);
+    banner.innerHTML =
+      '<div class="section-mark">' + identity.mark + '</div>' +
+      '<div class="section-copy">' +
+      '<div class="section-title">' + identity.title + '</div>' +
+      '<div class="section-subtitle">' + identity.subtitle + '</div>' +
+      '</div>';
+
+    panel.insertBefore(banner, panel.firstChild);
+  });
+}
+
 function renderLibrary() {
   const root = document.getElementById("library-grid");
   if (!root) return;
   root.innerHTML = "";
 
-  LIBRARY_TOPICS.forEach(topic => {
+  const progress = document.getElementById("library-progress");
+  const currentLevelIndex = Math.max(0, LEVELS.indexOf(STATE.level));
+  const availableTopics = LIBRARY_TOPICS.filter(topic => {
+    const idx = Math.max(0, LEVELS.indexOf(topic.level || "A1"));
+    return idx <= currentLevelIndex;
+  });
+  const hiddenCount = Math.max(0, LIBRARY_TOPICS.length - availableTopics.length);
+  if (progress) {
+    progress.textContent = "Contenido disponible para " + STATE.level + ": " + availableTopics.length + "/" + LIBRARY_TOPICS.length + " temas."
+      + (hiddenCount > 0 ? " Se desbloquearán más al avanzar de nivel." : " Ya tienes todo el contenido desbloqueado.");
+  }
+
+  availableTopics.forEach(topic => {
     const card = document.createElement("div");
     card.className = "library-item";
 
     const title = document.createElement("div");
     title.className = "badge-name";
     title.textContent = topic.title;
+
+    const focus = document.createElement("div");
+    focus.className = "small mt8";
+    focus.innerHTML = "<strong>Objetivo CEFR/DELE:</strong> " + (topic.examFocus || "Competencia comunicativa");
 
     const summary = document.createElement("div");
     summary.className = "small mt8";
@@ -1192,7 +1468,7 @@ function renderLibrary() {
 
     const toggle = document.createElement("button");
     toggle.className = "btn secondary library-toggle";
-    toggle.textContent = "Ampliar";
+    toggle.innerHTML = '<span class="toggle-icon">▸</span><span class="toggle-label">Ampliar</span>';
 
     const detail = document.createElement("div");
     detail.className = "library-detail";
@@ -1241,11 +1517,16 @@ function renderLibrary() {
 
     toggle.addEventListener("click", () => {
       const expanded = detail.classList.toggle("show");
-      toggle.textContent = expanded ? "Ocultar" : "Ampliar";
+      toggle.classList.toggle("is-open", expanded);
+      toggle.innerHTML = expanded
+        ? '<span class="toggle-icon">▾</span><span class="toggle-label">Ocultar</span>'
+        : '<span class="toggle-icon">▸</span><span class="toggle-label">Ampliar</span>';
     });
 
     card.appendChild(title);
+    card.appendChild(focus);
     card.appendChild(summary);
+    card.appendChild(summaryEn);
     card.appendChild(toggle);
     card.appendChild(detail);
     root.appendChild(card);
@@ -1361,7 +1642,7 @@ function getShopItems() {
     {
       id: "shield-one",
       name: "Escudo de pergamino",
-      text: "Bloquea una perdida de vida por error en campaña.",
+      text: "Bloquea una pérdida de vida por error en campaña.",
       cost: 45,
       buy: () => { STATE.shieldCharges = (STATE.shieldCharges || 0) + 1; },
     },
@@ -2115,6 +2396,7 @@ function resolveAnswer(correct, timeout) {
     STATE.xp += gainedXp;
     STATE.coins += 5;
     rewardWord();
+    playSoundCue("correct");
     notify("Correcto: +" + gainedXp + " XP");
 
     const timeBonus = Math.max(0, timerRemaining || 0) * 4;
@@ -2137,10 +2419,12 @@ function resolveAnswer(correct, timeout) {
       } else {
         STATE.hp = Math.max(0, STATE.hp - 1);
         if (currentBossRun) currentBossRun.tookDamage = true;
+        playSoundCue("wrong");
         notify(timeout ? "Tiempo agotado: -1 vida" : "Incorrecto: -1 vida");
       }
     } else {
-      notify("Incorrecto en extra. Sin perdida de vidas.");
+      playSoundCue("wrong");
+      notify("Incorrecto en extra. Sin pérdida de vidas.");
     }
     if (currentRun) currentRun.answered += 1;
   }
@@ -2165,13 +2449,65 @@ function showFeedback(correct, gainedXp, timeout) {
   if (currentChallenge.revealedEnglish && !currentChallenge.revealUsedFree && correct) msg += " (Penalización del 50% aplicada por revelar inglés).";
 
   document.getElementById("feedback-text").textContent = msg;
-  document.getElementById("feedback-rule").textContent = "Regla: " + (currentChallenge.rule || "Repasa la explicacion del escenario.");
+  document.getElementById("feedback-rule").textContent = "Regla: " + (currentChallenge.rule || "Repasa la explicación del escenario.");
 }
 
 function nextAfterChallenge() {
   if (currentMode === "daily") return nextDailyStep();
+  if (currentMode === "path") return nextPathStep();
   if (currentMode === "academy") return endAcademyChallenge();
   return endCampaignChallenge();
+}
+
+function nextPathStep() {
+  if (!currentPathRun) return goGlossary();
+  currentPathRun.correct += currentChallenge.wasCorrect ? 1 : 0;
+  currentPathRun.index += 1;
+  if (currentPathRun.index >= currentPathRun.questions.length) {
+    return endPathRun();
+  }
+  loadCurrentPathQuestion();
+}
+
+function loadCurrentPathQuestion() {
+  if (!currentPathRun) return;
+  const q = currentPathRun.questions[currentPathRun.index];
+  if (!q) return endPathRun();
+  setCurrentChallenge(q, "Repaso " + (currentPathRun.index + 1) + "/" + currentPathRun.questions.length);
+}
+
+function getPathStudyTip(pathId, pct) {
+  if (pathId === "a1-base") {
+    if (pct >= 80) return "Recomendación: refuerza con Biblioteca -> Artículos y SER vs ESTAR. Ya estás listo para subir dificultad en A2.";
+    return "Recomendación: repasa Biblioteca -> Saludos y cortesía, Artículos, Pronombres personales y Preguntas personales y negación (A1).";
+  }
+  if (pathId === "a2-funcional") {
+    if (pct >= 80) return "Recomendación: consolida con Biblioteca -> Expresiones de viaje y Planificación inmediata (A2), y empieza a practicar narración B1.";
+    return "Recomendación: repasa Biblioteca -> Expresiones de viaje, Verbos en presente y Planificación inmediata (A2).";
+  }
+  if (pathId === "b1-pasado") {
+    if (pct >= 80) return "Recomendación: mantén ritmo con Biblioteca -> Secuencia temporal y pluscuamperfecto (B1) y comienza Subjuntivo (B2).";
+    return "Recomendación: repasa Biblioteca -> Tiempos pasados (B1) y Secuencia temporal y pluscuamperfecto (B1).";
+  }
+  if (pathId === "b2-subjuntivo") {
+    if (pct >= 80) return "Recomendación: gran progreso. Practica producción escrita combinando hipótesis, duda y valoración en una sola respuesta.";
+    return "Recomendación: repasa Biblioteca -> Subjuntivo (B2) y Relativos e incertidumbre (B2).";
+  }
+  return "Recomendación: repasa los temas desbloqueados en Biblioteca y vuelve a intentar el itinerario para mejorar precisión.";
+}
+
+function endPathRun() {
+  if (!currentPathRun) return goGlossary();
+  const total = currentPathRun.questions.length;
+  const correct = currentPathRun.correct;
+  const pct = total ? Math.round((correct / total) * 100) : 0;
+  const tip = getPathStudyTip(currentPathRun.id, pct);
+  document.getElementById("result-title").textContent = "Itinerario completado";
+  document.getElementById("result-xp").textContent = correct + "/" + total + " aciertos";
+  document.getElementById("result-score").textContent = "Precisión del itinerario: " + pct + "%";
+  document.getElementById("result-msg").textContent = "Ruta: " + currentPathRun.title + ". " + tip + " Vuelve al Glosario para continuar con el siguiente foco recomendado.";
+  currentPathRun = null;
+  screen("result");
 }
 
 function nextDailyStep() {
@@ -2312,12 +2648,13 @@ function endCampaignChallenge() {
 
       document.getElementById("result-title").textContent = "Nivel superado";
       document.getElementById("result-xp").textContent = nextLevel + " desbloqueado";
-      document.getElementById("result-msg").textContent = "Has derrotado al jefe final. Vidas restauradas. El pueblo celebra tu avance y desbloqueas una ayuda gratuita de revelacion para el siguiente tramo.";
+      document.getElementById("result-msg").textContent = "Has derrotado al jefe final. Vidas restauradas. El pueblo celebra tu avance y desbloqueas una ayuda gratuita de revelación para el siguiente tramo.";
     } else {
       document.getElementById("result-title").textContent = "Victoria total";
       document.getElementById("result-xp").textContent = "Campaña completada";
       document.getElementById("result-msg").textContent = "Has completado A1-A2-B1-B2. Puedes repetir niveles para mejorar tu puntuación y seguir practicando.";
     }
+    playSoundCue("victory");
     launchConfetti();
     saveProgress();
     updateHUD();
@@ -2389,6 +2726,107 @@ function notify(msg) {
   console.log("[Juego] " + msg);
 }
 
+function getAudioVolumeRatio() {
+  const vol = Number.isFinite(STATE.audioVolume) ? STATE.audioVolume : 70;
+  if (STATE.audioMuted) return 0;
+  return Math.max(0, Math.min(1, vol / 100));
+}
+
+function updateAudioControls() {
+  const muteBtn = document.getElementById("btn-audio-mute");
+  const slider = document.getElementById("audio-volume");
+  const label = document.getElementById("audio-volume-label");
+  if (!muteBtn || !slider || !label) return;
+  const vol = Number.isFinite(STATE.audioVolume) ? STATE.audioVolume : 70;
+  slider.value = String(vol);
+  label.textContent = vol + "%";
+  muteBtn.textContent = STATE.audioMuted ? "🔇" : "🔊";
+}
+
+function syncAudioMasterGain() {
+  if (!window.__juegoAudioMasterGain) return;
+  const ctx = window.__juegoAudioContext;
+  if (!ctx) return;
+  window.__juegoAudioMasterGain.gain.setValueAtTime(getAudioVolumeRatio(), ctx.currentTime);
+}
+
+function setAudioVolume(value) {
+  const n = Math.max(0, Math.min(100, Number(value) || 0));
+  STATE.audioVolume = n;
+  if (n > 0 && STATE.audioMuted) STATE.audioMuted = false;
+  updateAudioControls();
+  syncAudioMasterGain();
+  saveProgress();
+}
+
+function toggleAudioMute() {
+  STATE.audioMuted = !STATE.audioMuted;
+  updateAudioControls();
+  syncAudioMasterGain();
+  saveProgress();
+}
+
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return null;
+  if (!window.__juegoAudioContext) {
+    window.__juegoAudioContext = new AudioContextClass();
+    window.__juegoAudioMasterGain = window.__juegoAudioContext.createGain();
+    window.__juegoAudioMasterGain.connect(window.__juegoAudioContext.destination);
+  }
+  const ctx = window.__juegoAudioContext;
+  if (ctx.state === "suspended") {
+    ctx.resume().catch(() => {});
+  }
+  syncAudioMasterGain();
+  return ctx;
+}
+
+function playTone(frequency, startTime, duration, gainValue, type) {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || "sine";
+  osc.frequency.setValueAtTime(frequency, startTime);
+  gain.gain.setValueAtTime(0.0001, startTime);
+  gain.gain.exponentialRampToValueAtTime(gainValue, startTime + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+  osc.connect(gain);
+  gain.connect(window.__juegoAudioMasterGain || ctx.destination);
+  osc.start(startTime);
+  osc.stop(startTime + duration + 0.03);
+}
+
+function playSoundCue(kind) {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  const base = ctx.currentTime + 0.02;
+  if (kind === "correct") {
+    playTone(523.25, base, 0.12, 0.06, "triangle");
+    playTone(659.25, base + 0.11, 0.14, 0.07, "triangle");
+    playTone(783.99, base + 0.24, 0.16, 0.08, "triangle");
+    return;
+  }
+  if (kind === "wrong") {
+    playTone(246.94, base, 0.16, 0.06, "sawtooth");
+    playTone(196.0, base + 0.12, 0.20, 0.07, "sawtooth");
+    return;
+  }
+  if (kind === "badge") {
+    playTone(587.33, base, 0.11, 0.05, "triangle");
+    playTone(739.99, base + 0.10, 0.12, 0.06, "triangle");
+    playTone(880.0, base + 0.21, 0.16, 0.08, "triangle");
+    return;
+  }
+  if (kind === "victory") {
+    playTone(392.0, base, 0.14, 0.05, "triangle");
+    playTone(523.25, base + 0.13, 0.15, 0.06, "triangle");
+    playTone(659.25, base + 0.27, 0.18, 0.08, "triangle");
+    playTone(783.99, base + 0.44, 0.22, 0.09, "triangle");
+  }
+}
+
 function normalize(text) {
   return text
     .toLowerCase()
@@ -2423,6 +2861,7 @@ function recordGlossary(challenge, reason) {
 
 function renderGlossary() {
   renderRecommendedGlossary();
+  renderReviewPaths();
 
   const list = document.getElementById("glossary-list");
   list.innerHTML = "";
@@ -2439,6 +2878,158 @@ function renderGlossary() {
       + "<div class='small mt8'>Regla: " + item.rule + "</div>"
       + "<div class='small mt8'>Veces fallada: " + item.count + " | Última: " + item.last + "</div>";
     list.appendChild(card);
+  });
+}
+
+function inferReviewPathId(item) {
+  const text = normalize((item.rule || "") + " " + (item.question || ""));
+  if (/subjuntiv|ojala|hipotes|dud|valoracion|no creo|quiz/.test(text)) return "b2-subjuntivo";
+  if (/indefinid|imperfect|pluscuam|narr|de nino|mientras|cuando lleg/.test(text)) return "b1-pasado";
+  if (/gustar|hora|contraccion|billete|estacion|anden|viaje|ir a/.test(text)) return "a2-funcional";
+  if (/articul|ser|estar|salud|pronombr|plural|negacion|llamas|cortesia/.test(text)) return "a1-base";
+  return "general";
+}
+
+function getReviewPathCatalog() {
+  return {
+    "a1-base": {
+      id: "a1-base",
+      level: "A1",
+      title: "Fundamentos A1",
+      titleEn: "A1 Foundations",
+      desc: "Artículos, saludos, pronombres, SER/ESTAR y negación básica.",
+      keywords: ["artículo", "ser", "estar", "saludo", "pronombre", "plural", "negación", "llamas"],
+    },
+    "a2-funcional": {
+      id: "a2-funcional",
+      level: "A2",
+      title: "Comunicación funcional A2",
+      titleEn: "A2 Functional Communication",
+      desc: "Viajes, horarios, gustar, contracciones y planes con ir a + infinitivo.",
+      keywords: ["gustar", "hora", "contracción", "billete", "estación", "andén", "viaje", "ir a"],
+    },
+    "b1-pasado": {
+      id: "b1-pasado",
+      level: "B1",
+      title: "Narración y pasado B1",
+      titleEn: "B1 Narrative Past",
+      desc: "Indefinido, imperfecto, pluscuamperfecto y conectores narrativos.",
+      keywords: ["indefinido", "imperfecto", "pluscuamperfecto", "narración", "mientras", "de repente", "de niño"],
+    },
+    "b2-subjuntivo": {
+      id: "b2-subjuntivo",
+      level: "B2",
+      title: "Subjuntivo y matiz B2",
+      titleEn: "B2 Subjunctive and Nuance",
+      desc: "Duda, deseo, hipótesis y no certeza en estructuras complejas.",
+      keywords: ["subjuntivo", "ojalá", "duda", "hipótesis", "no creo", "quizá", "valoración"],
+    },
+    general: {
+      id: "general",
+      level: STATE.level,
+      title: "Repaso general",
+      titleEn: "General Review",
+      desc: "Práctica mixta del nivel actual para consolidar bases.",
+      keywords: [],
+    },
+  };
+}
+
+function buildAdaptiveReviewPaths() {
+  const catalog = getReviewPathCatalog();
+  const levelIdx = Math.max(0, LEVELS.indexOf(STATE.level));
+  const aggregate = {};
+
+  (STATE.glossary || []).forEach(item => {
+    const id = inferReviewPathId(item);
+    if (!catalog[id]) return;
+    const requiredIdx = Math.max(0, LEVELS.indexOf(catalog[id].level || "A1"));
+    if (requiredIdx > levelIdx) return;
+    if (!aggregate[id]) {
+      aggregate[id] = { id, score: 0, hits: 0 };
+    }
+    aggregate[id].score += Number(item.count) || 1;
+    aggregate[id].hits += 1;
+  });
+
+  let paths = Object.values(aggregate)
+    .sort((a, b) => b.score - a.score)
+    .map(x => ({ ...catalog[x.id], score: x.score, hits: x.hits }));
+
+  if (!paths.length) {
+    const fallback = catalog.general;
+    paths = [{ ...fallback, score: 0, hits: 0 }];
+  }
+
+  return paths.slice(0, 3);
+}
+
+function pickReviewQuestions(path, limit) {
+  const level = path.level || STATE.level;
+  const bank = QUESTION_BANK[level] || QUESTION_BANK[STATE.level];
+  if (!bank) return [];
+  const pool = [...(bank.mcq || []), ...(bank.group || []), ...(bank.order || [])];
+  const keys = (path.keywords || []).map(normalize);
+  const filtered = keys.length
+    ? pool.filter(ch => {
+      const text = normalize((ch.spanish || "") + " " + (ch.rule || ""));
+      return keys.some(k => text.includes(k));
+    })
+    : pool;
+  const source = filtered.length >= Math.min(3, limit) ? filtered : pool;
+  const shuffled = [...source];
+  shuffle(shuffled);
+  return shuffled.slice(0, limit).map(ch => withMeta(ch, "Itinerario", ch.baseXp || 35, ch.time || 42));
+}
+
+function startReviewPath(pathId) {
+  const paths = buildAdaptiveReviewPaths();
+  const path = paths.find(p => p.id === pathId) || paths[0];
+  if (!path) return;
+  const questions = pickReviewQuestions(path, 6);
+  if (!questions.length) return notify("No hay preguntas suficientes para este itinerario aún.");
+
+  currentMode = "path";
+  currentRun = null;
+  currentBossRun = null;
+  currentDailyRun = null;
+  currentPathRun = {
+    id: path.id,
+    title: path.title,
+    level: path.level || STATE.level,
+    index: 0,
+    correct: 0,
+    questions,
+  };
+
+  loadCurrentPathQuestion();
+  updateHUD();
+  screen("challenge");
+}
+
+function renderReviewPaths() {
+  const root = document.getElementById("review-paths");
+  if (!root) return;
+  root.innerHTML = "";
+  const paths = buildAdaptiveReviewPaths();
+
+  paths.forEach(path => {
+    const card = document.createElement("div");
+    card.className = "review-path-card";
+
+    const score = path.score || 0;
+    const intensity = Math.min(100, score * 8);
+
+    card.innerHTML = "<div class='badge-name'>" + path.title + " / " + path.titleEn + "</div>"
+      + "<div class='small mt8'>" + path.desc + "</div>"
+      + "<div class='review-path-meta'>"
+      + "<span class='medal-chip'>Nivel: " + (path.level || STATE.level) + "</span>"
+      + "<span class='medal-chip'>Prioridad: " + (score > 0 ? score : "base") + "</span>"
+      + "</div>"
+      + "<div class='badge-progress mt8'><div style='width:" + intensity + "%'></div></div>"
+      + "<div class='row mt12'><button class='btn secondary' onclick='startReviewPath(\"" + path.id + "\")'>Practicar itinerario</button></div>";
+
+    root.appendChild(card);
   });
 }
 
@@ -2557,6 +3148,7 @@ function unlockBadge(badgeId) {
   STATE.badgesUnlockedAt[badgeId] = ts;
   STATE.badgesSeen[badgeId] = false;
   STATE.badgeHistory.push({ id: badgeId, name: names[badgeId] || badgeId, ts });
+  playSoundCue("badge");
   notify("Insignia desbloqueada: " + (names[badgeId] || badgeId));
 }
 
@@ -2732,6 +3324,8 @@ function loadProgress() {
             stageBestScores: data.stageBestScores || {},
             shopSeen: !!data.shopSeen,
             tutorialDone: !!data.tutorialDone,
+            audioMuted: !!data.audioMuted,
+            audioVolume: Number.isFinite(data.audioVolume) ? Math.max(0, Math.min(100, data.audioVolume)) : 70,
             currentScreen: "campaign",
           };
           if (!STATE.unlockedLevels.includes(STATE.level)) {
@@ -2778,6 +3372,7 @@ function formatDateTime(ts) {
 
 // Init
 loadProgress();
+decorateSectionPanels();
 updateHUD();
 </script>
 </body>
