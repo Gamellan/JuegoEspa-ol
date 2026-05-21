@@ -711,8 +711,72 @@
     cursor: pointer;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02) inset;
   }
+  .answer-main {
+    display: block;
+    line-height: 1.4;
+  }
+  .answer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .answer-tag {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 11px;
+    letter-spacing: 0.2px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.03);
+  }
+  .answer-tag.good { border-color: color-mix(in srgb, var(--good) 60%, var(--line)); color: #cfeecf; }
+  .answer-tag.warn { border-color: color-mix(in srgb, var(--gold) 60%, var(--line)); color: #f7e7b0; }
+  .answer-tag.bad { border-color: color-mix(in srgb, var(--bad) 60%, var(--line)); color: #ffc7c7; }
   .answer.correct { border-color: var(--good); color: #bbffbb; }
   .answer.wrong { border-color: var(--bad); color: #ffc7c7; }
+
+  .dialogue-wrap {
+    margin-top: 10px;
+    display: grid;
+    gap: 10px;
+  }
+  .dialogue-bubble {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px;
+    background: rgba(22, 37, 53, 0.95);
+  }
+  .dialogue-bubble.npc {
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+  }
+  .dialogue-bubble.player {
+    border-color: color-mix(in srgb, var(--gold) 35%, var(--line));
+    background: rgba(30, 46, 62, 0.96);
+  }
+  .dialogue-name {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .dialogue-line {
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+  .dialogue-echo {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--muted);
+  }
+  .dialogue-echo strong {
+    color: var(--text);
+  }
 
   .word-grid {
     display: grid;
@@ -756,6 +820,32 @@
   }
   .feedback.good { border-color: #2f9f4f; }
   .feedback.bad { border-color: #c44536; }
+  .feedback-detail {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: none;
+  }
+  .feedback-detail.show { display: block; }
+  .feedback-pills {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .feedback-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 9px;
+    border: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+  }
+  .feedback-pill.good { border-color: color-mix(in srgb, var(--good) 60%, var(--line)); color: #d3f7d3; }
+  .feedback-pill.warn { border-color: color-mix(in srgb, var(--gold) 60%, var(--line)); color: #f8e9bc; }
+  .feedback-pill.bad { border-color: color-mix(in srgb, var(--bad) 60%, var(--line)); color: #ffcdcd; }
 
   .inv-items {
     display: flex;
@@ -770,6 +860,43 @@
     border-radius: 999px;
     padding: 5px 11px;
     font-size: 12px;
+  }
+  .inv-chip.common { border-color: rgba(255,255,255,0.14); color: #d8e2ed; }
+  .inv-chip.uncommon { border-color: rgba(110, 231, 183, 0.55); color: #d5ffe8; }
+  .inv-chip.rare { border-color: rgba(96, 165, 250, 0.6); color: #d7eaff; }
+  .inv-chip.epic { border-color: rgba(212, 175, 55, 0.68); color: #ffecb2; box-shadow: inset 0 0 0 1px rgba(255, 226, 150, 0.2); }
+  #inv-craft-status {
+    color: #c7d7e9;
+  }
+  #screen-inventory .panel .row .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .craft-preview-group {
+    margin-top: 8px;
+  }
+  .craft-preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .craft-preview-tag {
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    padding: 4px 8px;
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+  }
+  .craft-preview-tag.new {
+    border-color: rgba(110, 231, 183, 0.65);
+    color: #d8ffe9;
+    box-shadow: inset 0 0 0 1px rgba(110, 231, 183, 0.18);
+  }
+  .craft-preview-tag.owned {
+    border-color: rgba(255,255,255,0.16);
+    color: #aebfd2;
   }
   .badge-grid {
     display: grid;
@@ -841,6 +968,54 @@
   .medal-chip.bronze { border-color: #cd7f32; color: #e5b78e; }
   .medal-chip.silver { border-color: #a5b4c4; color: #e5edf5; }
   .medal-chip.gold { border-color: #d4af37; color: #ffeaa6; }
+
+  .npc-rel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .npc-rel-card {
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 12px;
+    padding: 10px;
+    background: linear-gradient(180deg, rgba(23, 38, 56, 0.95), rgba(17, 30, 45, 0.94));
+  }
+  .npc-rel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .npc-rel-name {
+    color: #f5e5b4;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .npc-rel-tier {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .npc-rel-bar {
+    margin-top: 8px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  .npc-rel-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #d4af37, #f5d986);
+  }
+  .npc-rel-hint {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.35;
+  }
 
   .shop-grid {
     display: grid;
@@ -1130,6 +1305,11 @@
       <div class="small"><strong>Rango de dominio por nivel</strong></div>
       <div class="medal-row" id="campaign-medal-summary"></div>
     </div>
+    <div class="panel mt12">
+      <div class="small"><strong>Relaciones del pueblo</strong></div>
+      <div class="small mt8">La afinidad en diálogo desbloquea pequeñas ventajas contextuales.</div>
+      <div class="npc-rel-grid" id="campaign-npc-relations"></div>
+    </div>
     <div class="campaign-grid" id="stage-grid"></div>
     <div class="row mt16">
       <button class="btn secondary" onclick="startNextStage()">Jugar Siguiente Escenario</button>
@@ -1160,6 +1340,7 @@
       <div id="feedback-title"></div>
       <div class="small mt8" id="feedback-text"></div>
       <div class="small mt8" id="feedback-rule" style="color:var(--gold);"></div>
+      <div id="feedback-detail" class="feedback-detail"></div>
     </div>
 
     <div class="row mt16">
@@ -1249,7 +1430,23 @@
   <div class="panel">
     <h2>Mochila de Palabras / Word Backpack</h2>
     <p class="small mt8">Palabras ganadas en escenarios y jefes.</p>
+    <div class="small mt8" id="inv-summary"></div>
+    <div class="panel mt12">
+      <div class="small"><strong>Fusión de duplicados</strong></div>
+      <div class="small mt8" id="inv-craft-status">Convierte copias sobrantes en palabras de mayor rareza.</div>
+      <div class="row mt8" style="align-items:center;">
+        <div class="small">Nivel objetivo:</div>
+        <select id="inv-craft-level" class="audio-slider" style="max-width:130px;" onchange="setCraftLevel(this.value)"></select>
+      </div>
+      <div class="row mt8">
+        <button class="btn secondary" id="btn-craft-common" onclick="craftWord('common', 3, 'uncommon')">3 Comunes -> 1 Poco común</button>
+        <button class="btn secondary" id="btn-craft-uncommon" onclick="craftWord('uncommon', 2, 'rare')">2 Poco comunes -> 1 Rara</button>
+        <button class="btn secondary" id="btn-craft-rare" onclick="craftWord('rare', 2, 'epic')">2 Raras -> 1 Épica</button>
+      </div>
+      <div id="inv-craft-preview" class="mt8"></div>
+    </div>
     <div class="inv-items" id="inv-list"></div>
+    <div id="inv-history" class="mt12"></div>
   </div>
 </section>
 
@@ -1292,6 +1489,56 @@ const WORD_REWARDS = {
   B2: ["ojalá", "aunque", "dudo", "hipótesis", "subjuntivo", "fuera", "quisiera", "cuando"],
 };
 
+const WORD_LOOT_TABLE = {
+  A1: [
+    { word: "hola", rarity: "common", weight: 22 },
+    { word: "adiós", rarity: "common", weight: 20 },
+    { word: "el", rarity: "common", weight: 24 },
+    { word: "la", rarity: "common", weight: 22 },
+    { word: "café", rarity: "uncommon", weight: 14 },
+    { word: "mercado", rarity: "uncommon", weight: 12 },
+    { word: "tren", rarity: "rare", weight: 7 },
+    { word: "amigo", rarity: "epic", weight: 3 },
+  ],
+  A2: [
+    { word: "billete", rarity: "common", weight: 22 },
+    { word: "estación", rarity: "common", weight: 21 },
+    { word: "tiempo", rarity: "common", weight: 19 },
+    { word: "comer", rarity: "common", weight: 19 },
+    { word: "beber", rarity: "uncommon", weight: 14 },
+    { word: "querer", rarity: "uncommon", weight: 12 },
+    { word: "puedo", rarity: "rare", weight: 7 },
+    { word: "ciudad", rarity: "epic", weight: 3 },
+  ],
+  B1: [
+    { word: "ayer", rarity: "common", weight: 21 },
+    { word: "mientras", rarity: "common", weight: 20 },
+    { word: "entonces", rarity: "common", weight: 19 },
+    { word: "recuerdo", rarity: "common", weight: 19 },
+    { word: "pasado", rarity: "uncommon", weight: 13 },
+    { word: "había", rarity: "uncommon", weight: 12 },
+    { word: "era", rarity: "rare", weight: 7 },
+    { word: "fui", rarity: "epic", weight: 3 },
+  ],
+  B2: [
+    { word: "ojalá", rarity: "common", weight: 21 },
+    { word: "aunque", rarity: "common", weight: 20 },
+    { word: "dudo", rarity: "common", weight: 19 },
+    { word: "hipótesis", rarity: "common", weight: 19 },
+    { word: "subjuntivo", rarity: "uncommon", weight: 13 },
+    { word: "fuera", rarity: "uncommon", weight: 12 },
+    { word: "quisiera", rarity: "rare", weight: 7 },
+    { word: "cuando", rarity: "epic", weight: 3 },
+  ],
+};
+
+const WORD_RARITY = {
+  common: { label: "Común", className: "common", dupCoins: 1, rank: 1 },
+  uncommon: { label: "Poco común", className: "uncommon", dupCoins: 2, rank: 2 },
+  rare: { label: "Rara", className: "rare", dupCoins: 4, rank: 3 },
+  epic: { label: "Épica", className: "epic", dupCoins: 7, rank: 4 },
+};
+
 const QUESTION_BANK = {
   A1: {
     mcq: [
@@ -1316,7 +1563,7 @@ const QUESTION_BANK = {
       mkGroup("Selecciona solo pronombres personales", "Personal pronouns", ["yo", "mesa", "tú", "cantar", "ella", "nosotros"], ["yo", "tú", "ella", "nosotros"], "Los pronombres sustituyen al nombre."),
       mkGroup("Selecciona solo verbos", "Select verbs", ["ser", "mesa", "estar", "rojo", "comer", "tren"], ["ser", "estar", "comer"], "El verbo expresa acción o estado."),
       mkGroup("Selecciona solo palabras de cafetería", "Cafe words", ["café", "té", "tren", "azúcar", "mesa", "estación"], ["café", "té", "azúcar", "mesa"], "Vocabulario de interacción básica."),
-      mkGroup("Selecciona solo saludos comunes", "Greetings", ["hola", "adiós", "mesa", "gracias", "buenos días", "tren"], ["hola", "adiós", "gracias", "buenos días"], "Saludos y cortesía de supervivencia."),
+      mkGroup("Selecciona solo saludos comunes", "Greetings", ["hola", "adiós", "mesa", "gracias", "buenos días", "tren"], ["hola", "adiós", "buenos días"], "Saludos y cortesía de supervivencia."),
       mkGroup("Selecciona solo preguntas básicas", "Basic questions", ["¿cómo te llamas?", "¿de dónde eres?", "la mesa", "¿qué hora es?", "yo vivo", "¿cómo estás?"], ["¿cómo te llamas?", "¿de dónde eres?", "¿qué hora es?", "¿cómo estás?"], "Preguntas clave para interacción inicial."),
     ],
     order: [
@@ -1768,6 +2015,9 @@ let STATE = {
   xp: 0,
   coins: 0,
   inventory: [],
+  wordCollection: {},
+  lootHistory: [],
+  craftLevel: "A1",
   completedAcademy: [],
   dailyDone: {},
   glossary: [],
@@ -1786,6 +2036,9 @@ let STATE = {
   badgeHistory: [],
   badgesUnlockedAt: {},
   badgesSeen: {},
+  npcAffinity: {},
+  npcEventRewards: {},
+  npcTrustDaily: {},
   currentScreen: "campaign",
   audioMuted: false,
   audioVolume: 70,
@@ -1802,6 +2055,35 @@ let currentPathRun = null;
 let currentRun = null;
 let tutorialIndex = 0;
 
+function setGameMode(mode) {
+  currentMode = mode;
+  if (mode !== "daily") currentDailyRun = null;
+  if (mode !== "path") currentPathRun = null;
+  if (mode !== "campaign" && mode !== "review") {
+    currentRun = null;
+    currentBossRun = null;
+  }
+}
+
+function abandonChallengeFlow() {
+  clearTimer();
+  currentChallenge = null;
+  currentAnswerState = { selected: [], built: [] };
+  currentBossRun = null;
+  currentDailyRun = null;
+  currentPathRun = null;
+  if (currentMode === "campaign" || currentMode === "review") {
+    currentRun = null;
+  }
+}
+
+function prepareSectionNavigation(mode) {
+  if (STATE.currentScreen === "challenge") {
+    abandonChallengeFlow();
+  }
+  setGameMode(mode);
+}
+
 function mkMcq(spanish, english, options, correctIndex, rule) {
   return { type: "mcq", spanish, english, options, correctIndex, rule, baseXp: 30, explain: "" };
 }
@@ -1814,6 +2096,207 @@ function mkOrder(spanish, english, tokens, sentence, rule) {
 function mkText(spanish, english, keywords, rule) {
   return { type: "text", spanish, english, keywords, rule, baseXp: 60, explain: "" };
 }
+function mkDialogue(spanish, english, npcName, npcLine, replies, correctReply, rule, replyMeta) {
+  return {
+    type: "dialogue",
+    spanish,
+    english,
+    npcName,
+    npcLine,
+    replies,
+    correctReply,
+    rule,
+    replyMeta: replyMeta || {},
+    baseXp: 52,
+    explain: "",
+  };
+}
+
+const NPC_PERSONAS = {
+  "Guardia del puente": { role: "Control de acceso", style: "directo", expects: "cortesía y claridad" },
+  Alcalde: { role: "Autoridad local", style: "institucional", expects: "respeto y precisión" },
+  "Control de estación": { role: "Gestión de viajes", style: "operativo", expects: "datos concretos" },
+  "Capitana del mercado": { role: "Comercio", style: "negociador", expects: "peticiones completas" },
+  Mensajera: { role: "Comunicación", style: "narrativo", expects: "secuencia temporal" },
+  Cronista: { role: "Memoria histórica", style: "formal", expects: "coherencia narrativa" },
+  "Consejera real": { role: "Estrategia", style: "analítico", expects: "argumentación sólida" },
+  "Oráculo": { role: "Visión", style: "abstracto", expects: "matiz y valoración" },
+};
+
+const NPC_ALLIANCE_EVENTS = {
+  "Guardia del puente": {
+    line: "El guardia baja la barrera y te llama por tu nombre: ya eres de confianza en el puente.",
+    coins: 12,
+    xp: 18,
+    word: "permiso",
+  },
+  Alcalde: {
+    line: "El alcalde te reconoce en público y te encarga tareas de representación del pueblo.",
+    coins: 14,
+    xp: 20,
+    word: "concejo",
+  },
+  "Control de estación": {
+    line: "En la estación te ofrecen prioridad de paso por tu comunicación precisa.",
+    coins: 12,
+    xp: 18,
+    word: "andén",
+  },
+  "Capitana del mercado": {
+    line: "La capitana del mercado abre su red de comerciantes para apoyarte.",
+    coins: 13,
+    xp: 19,
+    word: "trato",
+  },
+  Mensajera: {
+    line: "La mensajera te confía cartas delicadas por tu claridad narrativa.",
+    coins: 12,
+    xp: 18,
+    word: "mensaje",
+  },
+  Cronista: {
+    line: "El cronista registra tu nombre en los anales del pueblo.",
+    coins: 14,
+    xp: 20,
+    word: "crónica",
+  },
+  "Consejera real": {
+    line: "La consejera real aprueba tus argumentos y te permite asistir al consejo.",
+    coins: 15,
+    xp: 22,
+    word: "estrategia",
+  },
+  "Oráculo": {
+    line: "El oráculo te revela una pista reservada a los interlocutores de confianza.",
+    coins: 16,
+    xp: 24,
+    word: "presagio",
+  },
+};
+
+const NPC_TRUST_EVENTS = {
+  "Guardia del puente": { line: "El guardia te comparte una ruta menos vigilada para entrenar conversación real.", words: ["paso", "turno"] },
+  Alcalde: { line: "El alcalde te entrega una nota con fórmulas de cortesía institucional.", words: ["acta", "protocolo"] },
+  "Control de estación": { line: "El personal de estación te deja practicar anuncios breves en ventanilla.", words: ["trayecto", "ventanilla"] },
+  "Capitana del mercado": { line: "La capitana te reserva una negociación exprés para pulir precisión.", words: ["regateo", "oferta"] },
+  Mensajera: { line: "La mensajera te dicta un aviso urgente para practicar secuencias temporales.", words: ["aviso", "recado"] },
+  Cronista: { line: "El cronista te permite resumir un pasaje histórico con tus propias palabras.", words: ["archivo", "relato"] },
+  "Consejera real": { line: "La consejera plantea un mini debate para fortalecer tus matices.", words: ["criterio", "matiz"] },
+  "Oráculo": { line: "El oráculo te susurra una variante más elegante para tu respuesta.", words: ["presente", "augurio"] },
+};
+
+function getNpcPersona(npcName) {
+  return NPC_PERSONAS[npcName] || { role: "Interlocutor", style: "neutral", expects: "claridad" };
+}
+
+function refineNpcReaction(baseReaction, npcName, quality, correct) {
+  const persona = getNpcPersona(npcName);
+  const opening = correct
+    ? [
+      npcName + " asiente con tono " + persona.style + ".",
+      npcName + " valida tu enfoque " + persona.style + ".",
+    ]
+    : [
+      npcName + " mantiene una postura " + persona.style + " y te corrige.",
+      npcName + " frunce el ceño: espera una respuesta más " + persona.expects + ".",
+    ];
+  const pick = opening[Math.floor(Math.random() * opening.length)];
+  const qualityLine = correct
+    ? " Cumples el estándar de " + persona.role.toLowerCase() + "."
+    : " En este rol se exige " + persona.expects + ".";
+  const qualityHint = " Nivel de calidad detectado: " + quality + ".";
+  return pick + " " + baseReaction + qualityLine + qualityHint;
+}
+
+function getNpcAffinity(npcName) {
+  if (!npcName) return 0;
+  return Number(STATE.npcAffinity[npcName] || 0);
+}
+
+function affinityTier(score) {
+  if (score >= 10) return "alianza";
+  if (score >= 4) return "confianza";
+  if (score >= 0) return "neutral";
+  return "tension";
+}
+
+function affinityPerks(score) {
+  if (score >= 10) {
+    return { tier: "alianza", timeBonus: 4, scoreBonus: 20, freeReveal: true, hint: "Vínculo alto: +4s, +20 score y pista gratis." };
+  }
+  if (score >= 4) {
+    return { tier: "confianza", timeBonus: 2, scoreBonus: 8, freeReveal: false, hint: "Buena confianza: +2s y +8 score." };
+  }
+  if (score >= 0) {
+    return { tier: "neutral", timeBonus: 0, scoreBonus: 0, freeReveal: false, hint: "Sin bonus activo por ahora." };
+  }
+  return { tier: "tension", timeBonus: 0, scoreBonus: 0, freeReveal: false, hint: "Relación tensa: mejora tu cortesía para recuperar confianza." };
+}
+
+function updateNpcAffinity(npcName, impact, correct) {
+  if (!npcName) return { delta: 0, total: 0, tier: "neutral" };
+  const boundedImpact = Math.max(-10, Math.min(10, Number(impact) || 0));
+  let delta = correct ? 1 : -1;
+  if (boundedImpact >= 7) delta += 1;
+  if (boundedImpact <= -5) delta -= 1;
+  const current = getNpcAffinity(npcName);
+  const total = Math.max(-12, Math.min(24, current + delta));
+  STATE.npcAffinity[npcName] = total;
+  const crossedAlliance = current < 10 && total >= 10;
+  return { delta, total, tier: affinityTier(total), previous: current, crossedAlliance };
+}
+
+function triggerNpcAllianceEvent(npcName, affinityUpdate) {
+  if (!npcName || !affinityUpdate || !affinityUpdate.crossedAlliance) return null;
+  if (!STATE.npcEventRewards) STATE.npcEventRewards = {};
+  if (STATE.npcEventRewards[npcName]) return null;
+  const eventData = NPC_ALLIANCE_EVENTS[npcName] || {
+    line: npcName + " reconoce tu progreso y fortalece vuestro vínculo.",
+    coins: 10,
+    xp: 15,
+    word: "alianza",
+  };
+  STATE.npcEventRewards[npcName] = true;
+  STATE.coins += eventData.coins;
+  STATE.xp += eventData.xp;
+  if (eventData.word) grantWord(eventData.word, { rarity: "epic", level: STATE.level, source: "alianza" });
+  return eventData;
+}
+
+function triggerNpcTrustEvent(npcName, affinityUpdate, correct, impact) {
+  if (!npcName || !affinityUpdate || !correct) return null;
+  if (affinityUpdate.total < 4) return null;
+  if (!STATE.npcTrustDaily) STATE.npcTrustDaily = {};
+  const today = todayKey();
+  if (STATE.npcTrustDaily[npcName] === today) return null;
+
+  const conf = NPC_TRUST_EVENTS[npcName] || {
+    line: npcName + " te ofrece una práctica breve de confianza.",
+    words: ["confianza"],
+  };
+
+  const highTier = affinityUpdate.total >= 10;
+  const bonusXp = highTier ? 8 : 5;
+  const bonusCoins = highTier ? 6 : 4;
+  let rewardWord = null;
+  if (highTier || (Number(impact) || 0) >= 8) {
+    const list = conf.words && conf.words.length ? conf.words : ["alianza"];
+    rewardWord = list[Math.floor(Math.random() * list.length)];
+  }
+
+  STATE.npcTrustDaily[npcName] = today;
+  STATE.xp += bonusXp;
+  STATE.coins += bonusCoins;
+  if (rewardWord) grantWord(rewardWord, { rarity: highTier ? "rare" : "uncommon", level: STATE.level, source: "diario" });
+
+  return {
+    line: conf.line,
+    xp: bonusXp,
+    coins: bonusCoins,
+    word: rewardWord,
+    date: today,
+  };
+}
 
 function screen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -1822,6 +2305,22 @@ function screen(id) {
   syncHudMetrics();
   updateSectionContext(id);
   updateNavButtons();
+}
+
+function finalizeResultTransition() {
+  clearTimer();
+  updateHUD();
+  saveProgress();
+  screen("result");
+  // Persistimos la pantalla actual para una reanudación coherente.
+  saveProgress();
+}
+
+function openChallengeTransition() {
+  updateHUD();
+  screen("challenge");
+  // Guardamos tras entrar para persistir el estado de pantalla actual.
+  saveProgress();
 }
 
 function setResultPedagogy(learned, nextStep) {
@@ -1924,6 +2423,9 @@ function newGame() {
     xp: 0,
     coins: 0,
     inventory: ["hola", "el", "la"],
+    wordCollection: {},
+    lootHistory: [],
+    craftLevel: "A1",
     completedAcademy: [],
     dailyDone: {},
     glossary: [],
@@ -1942,6 +2444,9 @@ function newGame() {
     badgeHistory: [],
     badgesUnlockedAt: {},
     badgesSeen: {},
+    npcAffinity: {},
+    npcEventRewards: {},
+    npcTrustDaily: {},
     currentScreen: "campaign",
     audioMuted: false,
     audioVolume: 70,
@@ -1953,7 +2458,7 @@ function newGame() {
 
 function continueGame() {
   loadProgress();
-  goCampaign();
+  resumeLastSection();
 }
 
 function resetSave() {
@@ -1961,13 +2466,43 @@ function resetSave() {
   newGame();
 }
 
+function getSafeResumeScreen(screenId) {
+  const allowed = new Set(["campaign", "library", "academy", "daily", "shop", "glossary", "badges", "inventory"]);
+  return allowed.has(screenId) ? screenId : "campaign";
+}
+
+function modeForScreen(screenId) {
+  if (screenId === "daily") return "daily";
+  if (screenId === "academy") return "academy";
+  return "campaign";
+}
+
+function openScreenById(screenId) {
+  if (screenId === "library") return goLibrary();
+  if (screenId === "academy") return goAcademy();
+  if (screenId === "daily") return goDaily();
+  if (screenId === "shop") return goShop();
+  if (screenId === "glossary") return goGlossary();
+  if (screenId === "badges") return goBadges();
+  if (screenId === "inventory") return goInventory();
+  return goCampaign();
+}
+
+function resumeLastSection() {
+  const targetScreen = getSafeResumeScreen(STATE.currentScreen || "campaign");
+  setGameMode(modeForScreen(targetScreen));
+  openScreenById(targetScreen);
+}
+
 function goCampaign() {
+  prepareSectionNavigation("campaign");
   renderCampaign();
   updateHUD();
   screen("campaign");
 }
 
 function goLibrary() {
+  prepareSectionNavigation("campaign");
   renderLibrary();
   updateHUD();
   screen("library");
@@ -1982,12 +2517,14 @@ function selectCampaignLevel(level) {
 }
 
 function goAcademy() {
+  prepareSectionNavigation("academy");
   renderAcademy();
   updateHUD();
   screen("academy");
 }
 
 function goDaily() {
+  prepareSectionNavigation("daily");
   const key = todayKey();
   const levelKey = STATE.level + "-" + key;
   const done = STATE.dailyDone[levelKey];
@@ -2004,6 +2541,7 @@ function goDaily() {
 }
 
 function goShop() {
+  prepareSectionNavigation("campaign");
   renderShop();
   if (isShopUnlocked()) STATE.shopSeen = true;
   saveProgress();
@@ -2012,6 +2550,7 @@ function goShop() {
 }
 
 function goGlossary() {
+  prepareSectionNavigation("campaign");
   renderGlossary();
   updateHUD();
   screen("glossary");
@@ -2205,6 +2744,7 @@ function skipTutorial() {
 }
 
 function goBadges() {
+  prepareSectionNavigation("campaign");
   markBadgesAsSeen();
   renderBadgeCollection();
   renderBadgeHistory();
@@ -2213,20 +2753,319 @@ function goBadges() {
 }
 
 function goInventory() {
+  prepareSectionNavigation("campaign");
   const list = document.getElementById("inv-list");
+  const summary = document.getElementById("inv-summary");
+  const history = document.getElementById("inv-history");
+  const craftStatus = document.getElementById("inv-craft-status");
+  if (!list) return;
+  populateCraftLevelSelector();
   list.innerHTML = "";
-  if (!STATE.inventory.length) {
+  ensureWordCollection();
+  const items = Object.entries(STATE.wordCollection || {});
+
+  if (!items.length) {
+    if (summary) summary.textContent = "Aún no has recogido palabras de botín.";
+    if (history) history.innerHTML = "";
+    if (craftStatus) craftStatus.textContent = "Convierte copias sobrantes en palabras de mayor rareza.";
+    renderCraftPreview();
+    updateCraftButtons();
     list.innerHTML = "<span class='small'>Todavía no tienes palabras.</span>";
-  } else {
-    [...new Set(STATE.inventory)].forEach(w => {
-      const d = document.createElement("span");
-      d.className = "inv-chip";
-      d.textContent = w;
-      list.appendChild(d);
-    });
+    updateHUD();
+    screen("inventory");
+    return;
   }
+
+  const ordered = items
+    .map(([word, data]) => ({ word, ...data }))
+    .sort((a, b) => {
+      const rb = (WORD_RARITY[b.rarity] || WORD_RARITY.common).rank;
+      const ra = (WORD_RARITY[a.rarity] || WORD_RARITY.common).rank;
+      if (rb !== ra) return rb - ra;
+      if ((b.count || 0) !== (a.count || 0)) return (b.count || 0) - (a.count || 0);
+      return a.word.localeCompare(b.word);
+    });
+
+  if (summary) {
+    const totalDrops = ordered.reduce((acc, x) => acc + (x.count || 0), 0);
+    summary.textContent = "Colección: " + ordered.length + " palabras únicas · " + totalDrops + " drops totales.";
+  }
+  if (craftStatus) {
+    const c = getCraftMaterialCount("common");
+    const u = getCraftMaterialCount("uncommon");
+    const r = getCraftMaterialCount("rare");
+    craftStatus.textContent = "Material de fusión (copias sobrantes): C " + c + " · PC " + u + " · R " + r + ". Nivel objetivo: " + getCraftTargetLevel() + ".";
+  }
+  renderCraftPreview();
+
+  ordered.forEach(item => {
+    const chip = document.createElement("span");
+    const rarity = WORD_RARITY[item.rarity] || WORD_RARITY.common;
+    chip.className = "inv-chip " + rarity.className;
+    chip.textContent = item.word + " · " + rarity.label + " · x" + (item.count || 1);
+    list.appendChild(chip);
+  });
+
+  if (history) {
+    const recent = (STATE.lootHistory || []).slice(0, 8);
+    history.innerHTML = "<div class='small'><strong>Últimos drops</strong></div>";
+    if (!recent.length) {
+      history.innerHTML += "<div class='small mt8'>Sin historial todavía.</div>";
+    } else {
+      recent.forEach(row => {
+        const rarity = WORD_RARITY[row.rarity] || WORD_RARITY.common;
+        const line = document.createElement("div");
+        line.className = "small mt8";
+        line.textContent = row.word + " (" + rarity.label + ") · " + row.level + " · " + (row.source || "combate") + (row.duplicate ? " · duplicada" : "");
+        history.appendChild(line);
+      });
+    }
+  }
+
+  updateCraftButtons();
   updateHUD();
   screen("inventory");
+}
+
+function getCraftPreviewByRarity(level, rarity) {
+  const table = WORD_LOOT_TABLE[level] || WORD_LOOT_TABLE.A1;
+  const pool = table.filter(item => item.rarity === rarity);
+  const total = pool.reduce((sum, item) => sum + (item.weight || 1), 0) || 1;
+  return pool
+    .map(item => ({
+      word: item.word,
+      pct: Math.round(((item.weight || 1) / total) * 100),
+    }))
+    .sort((a, b) => b.pct - a.pct || a.word.localeCompare(b.word));
+}
+
+function renderCraftPreview() {
+  const root = document.getElementById("inv-craft-preview");
+  if (!root) return;
+  ensureWordCollection();
+  const level = getCraftTargetLevel();
+
+  const uncommon = getCraftPreviewByRarity(level, "uncommon");
+  const rare = getCraftPreviewByRarity(level, "rare");
+  const epic = getCraftPreviewByRarity(level, "epic");
+
+  const block = (title, items) => {
+    if (!items.length) return "<div class='craft-preview-group'><div class='small'><strong>" + title + "</strong></div><div class='small mt8'>Sin opciones para este nivel.</div></div>";
+    const ranked = [...items].sort((a, b) => {
+      const aOwned = !!STATE.wordCollection[a.word];
+      const bOwned = !!STATE.wordCollection[b.word];
+      if (aOwned !== bOwned) return aOwned ? 1 : -1;
+      if (b.pct !== a.pct) return b.pct - a.pct;
+      return a.word.localeCompare(b.word);
+    });
+    const tags = ranked.slice(0, 6).map(x => {
+      const owned = !!STATE.wordCollection[x.word];
+      const cls = owned ? "owned" : "new";
+      const mark = owned ? "REPETIDA" : "NUEVA";
+      return "<span class='craft-preview-tag " + cls + "'>" + x.word + " ~" + x.pct + "% · " + mark + "</span>";
+    }).join("");
+    return "<div class='craft-preview-group'><div class='small'><strong>" + title + "</strong></div><div class='craft-preview-tags'>" + tags + "</div></div>";
+  };
+
+  root.innerHTML = "<div class='small'><strong>Preview de fusión</strong> · Nivel " + level + "</div>"
+    + block("Resultado Poco común", uncommon)
+    + block("Resultado Rara", rare)
+    + block("Resultado Épica", epic);
+}
+
+function getCraftMaterialCount(rarity) {
+  ensureWordCollection();
+  return Object.values(STATE.wordCollection || {})
+    .filter(item => (item.rarity || "common") === rarity)
+    .reduce((sum, item) => sum + Math.max(0, (item.count || 0) - 1), 0);
+}
+
+function getCraftTargetLevel() {
+  const unlocked = STATE.unlockedLevels && STATE.unlockedLevels.length ? STATE.unlockedLevels : [STATE.level || "A1"];
+  const preferred = STATE.craftLevel || STATE.level || "A1";
+  return unlocked.includes(preferred) ? preferred : (unlocked[0] || "A1");
+}
+
+function populateCraftLevelSelector() {
+  const select = document.getElementById("inv-craft-level");
+  if (!select) return;
+  const unlocked = STATE.unlockedLevels && STATE.unlockedLevels.length ? STATE.unlockedLevels : [STATE.level || "A1"];
+  const current = getCraftTargetLevel();
+  select.innerHTML = "";
+  unlocked.forEach(level => {
+    const opt = document.createElement("option");
+    opt.value = level;
+    opt.textContent = level;
+    opt.selected = level === current;
+    select.appendChild(opt);
+  });
+}
+
+function setCraftLevel(level) {
+  const unlocked = STATE.unlockedLevels && STATE.unlockedLevels.length ? STATE.unlockedLevels : [STATE.level || "A1"];
+  if (!unlocked.includes(level)) return;
+  STATE.craftLevel = level;
+  saveProgress();
+  const craftStatus = document.getElementById("inv-craft-status");
+  if (craftStatus) {
+    const c = getCraftMaterialCount("common");
+    const u = getCraftMaterialCount("uncommon");
+    const r = getCraftMaterialCount("rare");
+    craftStatus.textContent = "Material de fusión (copias sobrantes): C " + c + " · PC " + u + " · R " + r + ". Nivel objetivo: " + getCraftTargetLevel() + ".";
+  }
+  renderCraftPreview();
+}
+
+function updateCraftButtons() {
+  const b1 = document.getElementById("btn-craft-common");
+  const b2 = document.getElementById("btn-craft-uncommon");
+  const b3 = document.getElementById("btn-craft-rare");
+  if (b1) b1.disabled = getCraftMaterialCount("common") < 3;
+  if (b2) b2.disabled = getCraftMaterialCount("uncommon") < 2;
+  if (b3) b3.disabled = getCraftMaterialCount("rare") < 2;
+}
+
+function consumeCraftMaterial(rarity, amount) {
+  const entries = Object.entries(STATE.wordCollection || {})
+    .filter(([, item]) => (item.rarity || "common") === rarity && (item.count || 0) > 1)
+    .sort((a, b) => (b[1].count || 0) - (a[1].count || 0));
+
+  let remaining = amount;
+  for (let i = 0; i < entries.length && remaining > 0; i++) {
+    const [, item] = entries[i];
+    const spare = Math.max(0, (item.count || 0) - 1);
+    const take = Math.min(spare, remaining);
+    item.count -= take;
+    remaining -= take;
+  }
+
+  return remaining === 0;
+}
+
+function pickWordByRarity(level, rarity) {
+  const table = WORD_LOOT_TABLE[level] || WORD_LOOT_TABLE.A1;
+  const pool = table.filter(item => item.rarity === rarity);
+  if (!pool.length) return null;
+  const totalWeight = pool.reduce((sum, item) => sum + (item.weight || 1), 0);
+  let roll = Math.random() * totalWeight;
+  for (let i = 0; i < pool.length; i++) {
+    roll -= pool[i].weight || 1;
+    if (roll <= 0) return pool[i];
+  }
+  return pool[pool.length - 1];
+}
+
+function craftWord(fromRarity, amount, toRarity) {
+  ensureWordCollection();
+  const available = getCraftMaterialCount(fromRarity);
+  if (available < amount) {
+    notify("No hay material suficiente para esa fusión.");
+    return;
+  }
+  const consumed = consumeCraftMaterial(fromRarity, amount);
+  if (!consumed) {
+    notify("No se pudo completar la fusión.");
+    return;
+  }
+
+  const level = getCraftTargetLevel();
+  const target = pickWordByRarity(level, toRarity) || pickWordLoot(level);
+  if (!target) {
+    notify("No hay botín disponible para la fusión.");
+    return;
+  }
+
+  const gained = grantWord(target.word, {
+    rarity: target.rarity || toRarity,
+    level,
+    source: "fusion",
+    noDuplicateRefund: true,
+  });
+  const rarityLabel = (WORD_RARITY[gained.rarity] || WORD_RARITY.common).label;
+  notify("Fusión completada: " + amount + " -> 1 " + rarityLabel + " (" + gained.word + ").");
+  saveProgress();
+  goInventory();
+}
+
+function getWordMeta(word, fallbackLevel) {
+  for (const level of LEVELS) {
+    const pool = WORD_LOOT_TABLE[level] || [];
+    const found = pool.find(entry => entry.word === word);
+    if (found) return { level, rarity: found.rarity || "common" };
+  }
+  return { level: fallbackLevel || STATE.level || "A1", rarity: "common" };
+}
+
+function ensureWordCollection() {
+  if (!STATE.wordCollection) STATE.wordCollection = {};
+  if (!Array.isArray(STATE.lootHistory)) STATE.lootHistory = [];
+  if (!Array.isArray(STATE.inventory)) STATE.inventory = [];
+
+  if (!Object.keys(STATE.wordCollection).length && STATE.inventory.length) {
+    STATE.inventory.forEach(word => {
+      const meta = getWordMeta(word, STATE.level);
+      if (!STATE.wordCollection[word]) {
+        STATE.wordCollection[word] = { count: 0, rarity: meta.rarity, level: meta.level };
+      }
+      STATE.wordCollection[word].count += 1;
+    });
+  }
+
+  STATE.inventory = [...new Set(Object.keys(STATE.wordCollection))];
+}
+
+function pickWordLoot(level) {
+  const table = WORD_LOOT_TABLE[level] || WORD_LOOT_TABLE.A1;
+  if (!table.length) return null;
+  const totalWeight = table.reduce((sum, item) => sum + (item.weight || 1), 0);
+  let roll = Math.random() * totalWeight;
+  for (let i = 0; i < table.length; i++) {
+    roll -= table[i].weight || 1;
+    if (roll <= 0) return table[i];
+  }
+  return table[table.length - 1];
+}
+
+function grantWord(word, opts) {
+  ensureWordCollection();
+  const options = opts || {};
+  const fallback = getWordMeta(word, options.level || STATE.level);
+  const rarity = options.rarity || fallback.rarity || "common";
+  const level = options.level || fallback.level || STATE.level;
+  if (!STATE.wordCollection[word]) {
+    STATE.wordCollection[word] = { count: 0, rarity, level };
+  }
+  const item = STATE.wordCollection[word];
+  const previous = item.count || 0;
+  item.count = previous + 1;
+  item.rarity = item.rarity || rarity;
+  item.level = item.level || level;
+
+  const isDuplicate = previous > 0;
+  if (isDuplicate && !options.noDuplicateRefund) {
+    const dupCoins = (WORD_RARITY[item.rarity] || WORD_RARITY.common).dupCoins;
+    STATE.coins += dupCoins;
+  }
+
+  STATE.inventory = [...new Set([...STATE.inventory, word])];
+  STATE.lootHistory.unshift({
+    word,
+    rarity: item.rarity,
+    level: item.level,
+    source: options.source || "combate",
+    duplicate: isDuplicate,
+    ts: Date.now(),
+  });
+  if (STATE.lootHistory.length > 60) STATE.lootHistory = STATE.lootHistory.slice(0, 60);
+
+  return {
+    word,
+    rarity: item.rarity,
+    level: item.level,
+    duplicate: isDuplicate,
+    count: item.count,
+    duplicateCoins: (isDuplicate && !options.noDuplicateRefund) ? (WORD_RARITY[item.rarity] || WORD_RARITY.common).dupCoins : 0,
+  };
 }
 
 function isShopUnlocked() {
@@ -2334,6 +3173,7 @@ function renderCampaign() {
   document.getElementById("campaign-desc").textContent = "Foco: " + meta.focus + ". Escenario 5 = semijefe. Escenario 11 = jefe final. Puedes revisar niveles ya superados.";
   renderBadges("badge-grid-campaign");
   renderCampaignMedals();
+  renderNpcRelationsCampaign();
 
   const selector = document.getElementById("level-selector");
   if (selector) {
@@ -2387,6 +3227,37 @@ function renderCampaign() {
       nextBtn.onclick = () => selectCampaignLevel(activeLevel);
     }
   }
+}
+
+function renderNpcRelationsCampaign() {
+  const root = document.getElementById("campaign-npc-relations");
+  if (!root) return;
+  root.innerHTML = "";
+  const entries = Object.keys(NPC_PERSONAS)
+    .map(name => {
+      const points = getNpcAffinity(name);
+      const tier = affinityTier(points);
+      const perks = affinityPerks(points);
+      const trustReady = points >= 4 && (!STATE.npcTrustDaily || STATE.npcTrustDaily[name] !== todayKey());
+      const trustText = points < 4
+        ? "Evento diario: bloqueado (sube a confianza)."
+        : (trustReady ? "Evento diario: disponible." : "Evento diario: ya completado hoy.");
+      return { name, points, tier, perks, persona: getNpcPersona(name), trustText };
+    })
+    .sort((a, b) => b.points - a.points);
+
+  entries.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "npc-rel-card";
+    const normalized = Math.max(0, Math.min(100, Math.round(((item.points + 12) / 36) * 100)));
+    card.innerHTML = "<div class='npc-rel-head'><span class='npc-rel-name'>" + item.name + "</span><span class='npc-rel-tier'>" + item.tier + "</span></div>"
+      + "<div class='small mt8'>" + item.persona.role + " · estilo " + item.persona.style + "</div>"
+      + "<div class='small mt8'>Afinidad: <strong>" + item.points + "</strong></div>"
+      + "<div class='npc-rel-bar'><div class='npc-rel-fill' style='width:" + normalized + "%'></div></div>"
+      + "<div class='npc-rel-hint'>" + item.perks.hint + "</div>"
+      + "<div class='npc-rel-hint'>" + item.trustText + "</div>";
+    root.appendChild(card);
+  });
 }
 
 function renderAcademy() {
@@ -2522,7 +3393,7 @@ function ensureCurrentRun(level, mode, replay) {
 }
 
 function startStage(stageNumber, level, mode, options = {}) {
-  currentMode = mode;
+  setGameMode(mode);
   currentBossRun = null;
   if (mode === "review") currentRun = null;
   const run = ensureCurrentRun(level, mode, options.replay);
@@ -2543,18 +3414,31 @@ function startStage(stageNumber, level, mode, options = {}) {
     setCurrentChallenge(challenge, stageNumber);
   }
 
-  updateHUD();
-  screen("challenge");
+  openChallengeTransition();
 }
 
 function setCurrentChallenge(challenge, stageNumber) {
+  clearTimer();
   currentChallenge = {
     ...challenge,
     stage: stageNumber,
     revealedEnglish: false,
     answered: false,
     wasCorrect: false,
+    dialogueEval: null,
+    affinityPerks: null,
+    affinityFreeRevealAvailable: false,
   };
+  if (currentChallenge.type === "dialogue") {
+    const score = getNpcAffinity(currentChallenge.npcName || "NPC");
+    const perks = affinityPerks(score);
+    currentChallenge.affinityPerks = perks;
+    currentChallenge.affinityFreeRevealAvailable = !!perks.freeReveal;
+    if (perks.timeBonus > 0) {
+      currentChallenge.time = (currentChallenge.time || 35) + perks.timeBonus;
+      notify("Afinidad con " + (currentChallenge.npcName || "NPC") + ": +" + perks.timeBonus + "s");
+    }
+  }
   if ((currentMode === "campaign" || currentMode === "review") && (STATE.nextTimeBonusSeconds || 0) > 0) {
     const bonusSecs = STATE.nextTimeBonusSeconds;
     currentChallenge.time = (currentChallenge.time || 35) + bonusSecs;
@@ -2583,9 +3467,8 @@ function startAcademyLesson(index) {
   const lesson = (ACADEMY[STATE.level] || [])[index];
   if (!lesson) return;
 
-  currentMode = "academy";
-  currentRun = null;
-  currentChallenge = {
+  setGameMode("academy");
+  const challenge = {
     ...lesson.quiz,
     stage: "Extra " + (index + 1),
     revealedEnglish: false,
@@ -2595,23 +3478,19 @@ function startAcademyLesson(index) {
     baseXp: 20,
     explain: lesson.text,
   };
-  currentAnswerState = { selected: [], built: [] };
-  renderChallenge();
-  startTimer(45);
-  screen("challenge");
+  setCurrentChallenge(challenge, challenge.stage);
+  openChallengeTransition();
 }
 
 function startDaily() {
   const run = buildDailyRun(STATE.level);
   if (!run || !run.questions.length) return;
 
-  currentMode = "daily";
-  currentRun = null;
+  setGameMode("daily");
   currentBossRun = null;
   currentDailyRun = run;
   loadCurrentDailyQuestion();
-  updateHUD();
-  screen("challenge");
+  openChallengeTransition();
 }
 
 function buildDailyRun(level) {
@@ -2686,6 +3565,86 @@ function buildBossTextPhases(level) {
   return packs[level] || packs.A1;
 }
 
+function buildBossDialoguePhases(level, stageNumber) {
+  const isFinal = stageNumber === 11;
+  const npcByLevel = {
+    A1: isFinal ? "Alcalde" : "Guardia del puente",
+    A2: isFinal ? "Capitana del mercado" : "Control de estación",
+    B1: isFinal ? "Cronista" : "Mensajera del pueblo",
+    B2: isFinal ? "Oráculo" : "Consejera real",
+  };
+  const npc = npcByLevel[level] || "Guardián";
+
+  const packs = {
+    A1: [
+      mkDialogue(
+        "Responde de forma cordial para que te dejen pasar.",
+        "Choose a polite response.",
+        npc,
+        "Buenos días. Antes de pasar, preséntate con cortesía.",
+        ["Hola, me llamo Ana. Encantada.", "Yo pasar ahora.", "Tren café mesa."],
+        "Hola, me llamo Ana. Encantada.",
+        "En A1 se valora saludo + presentación simple y cortesía.",
+        {
+          "Hola, me llamo Ana. Encantada.": { tone: "formal", quality: "alta", impact: 8, npcReaction: "Excelente cortesía: el guardia confía en ti." },
+          "Yo pasar ahora.": { tone: "directo", quality: "baja", impact: -4, npcReaction: "Suena brusco y poco natural para esta situación." },
+          "Tren café mesa.": { tone: "fragmentado", quality: "muy baja", impact: -6, npcReaction: "La respuesta no comunica una intención útil." },
+        }
+      ),
+    ],
+    A2: [
+      mkDialogue(
+        "Negocia un billete indicando destino y hora.",
+        "Request a ticket with destination and time.",
+        npc,
+        "Necesito la frase completa para emitir tu billete.",
+        ["Quiero un billete para Sevilla a las cinco, por favor.", "Billete Sevilla cinco.", "Yo tren luego."],
+        "Quiero un billete para Sevilla a las cinco, por favor.",
+        "En A2 se espera intención clara con destino y referencia temporal.",
+        {
+          "Quiero un billete para Sevilla a las cinco, por favor.": { tone: "formal", quality: "alta", impact: 8, npcReaction: "Solicitud completa: operación validada." },
+          "Billete Sevilla cinco.": { tone: "telegráfico", quality: "media", impact: -3, npcReaction: "Hay intención, pero falta estructura natural." },
+          "Yo tren luego.": { tone: "impreciso", quality: "baja", impact: -5, npcReaction: "No se entiende ni destino ni hora de forma clara." },
+        }
+      ),
+    ],
+    B1: [
+      mkDialogue(
+        "Explica una situación narrativa con contexto y evento.",
+        "Narrate background plus key event.",
+        npc,
+        "Cuéntame qué ocurrió anoche, con detalle temporal.",
+        ["Mientras cenaba, llegó una carta urgente.", "Cené y llegaba carta siempre.", "Yo carta urgente cena."],
+        "Mientras cenaba, llegó una carta urgente.",
+        "En B1 combina imperfecto de fondo con indefinido puntual.",
+        {
+          "Mientras cenaba, llegó una carta urgente.": { tone: "narrativo", quality: "alta", impact: 9, npcReaction: "Buena secuencia temporal: relato claro y natural." },
+          "Cené y llegaba carta siempre.": { tone: "confuso", quality: "baja", impact: -4, npcReaction: "Se mezclan tiempos de forma poco consistente." },
+          "Yo carta urgente cena.": { tone: "fragmentado", quality: "muy baja", impact: -6, npcReaction: "No hay estructura narrativa completa." },
+        }
+      ),
+    ],
+    B2: [
+      mkDialogue(
+        "Responde con hipótesis y valoración formal.",
+        "Respond with hypothesis and evaluation.",
+        npc,
+        "¿Qué propones para resolverlo, aunque sea difícil?",
+        ["Propongo que revisemos el plan para que funcione mejor.", "Reviso plan porque sí.", "Plan difícil, no sé."],
+        "Propongo que revisemos el plan para que funcione mejor.",
+        "En B2 se premia precisión con estructuras de valoración y finalidad.",
+        {
+          "Propongo que revisemos el plan para que funcione mejor.": { tone: "formal", quality: "alta", impact: 10, npcReaction: "Respuesta madura y bien argumentada." },
+          "Reviso plan porque sí.": { tone: "directo", quality: "media", impact: -3, npcReaction: "Demasiado plano: falta matiz y justificación." },
+          "Plan difícil, no sé.": { tone: "evasivo", quality: "baja", impact: -5, npcReaction: "No aporta una propuesta clara ni precisa." },
+        }
+      ),
+    ],
+  };
+
+  return packs[level] || packs.A1;
+}
+
 function buildChallenge(level, stageNumber) {
   const bank = QUESTION_BANK[level];
   if (!bank) return null;
@@ -2730,6 +3689,7 @@ function buildBossPhases(level, stageNumber) {
 
   const run = ensureCurrentRun(level, "campaign", false);
   const bossPool = [
+    ...buildBossDialoguePhases(level, stageNumber).map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 98 : 78, stageNumber === 11 ? 46 : 42)),
     ...bank.mcq.map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 80 : 60, stageNumber === 11 ? 34 : 38)),
     ...bank.group.map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 84 : 66, stageNumber === 11 ? 36 : 40)),
     ...bank.order.map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 88 : 70, stageNumber === 11 ? 38 : 42)),
@@ -2761,7 +3721,12 @@ function renderChallenge() {
   stageTitle.classList.remove("boss-mini", "boss-final");
   if (c.stage === 5) stageTitle.classList.add("boss-mini");
   if (c.stage === 11) stageTitle.classList.add("boss-final");
-  document.getElementById("q-type-label").textContent = "Reto: " + c.type.toUpperCase();
+  const typeLabel = document.getElementById("q-type-label");
+  typeLabel.textContent = "Reto: " + c.type.toUpperCase();
+  if (c.type === "dialogue") {
+    const persona = getNpcPersona(c.npcName || "NPC");
+    typeLabel.textContent = "Reto: DIÁLOGO · " + (c.npcName || "NPC") + " (" + persona.style + ")";
+  }
   document.getElementById("q-main").textContent = c.spanish;
   document.getElementById("q-en").textContent = c.english || "";
   document.getElementById("q-en").style.display = "none";
@@ -2794,6 +3759,7 @@ function renderChallenge() {
   if (c.type === "group") renderGroup(body, c);
   if (c.type === "order") renderOrder(body, c);
   if (c.type === "text") renderText(body, c);
+  if (c.type === "dialogue") renderDialogue(body, c);
 }
 
 function renderText(body, c) {
@@ -2918,6 +3884,53 @@ function renderOrder(body, c) {
   renderBuildZone();
 }
 
+function renderDialogue(body, c) {
+  const persona = getNpcPersona(c.npcName || "NPC");
+  const affinity = getNpcAffinity(c.npcName || "NPC");
+  const info = document.createElement("div");
+  info.className = "small";
+  info.textContent = "Combate de diálogo: " + (c.npcName || "NPC") + " espera " + persona.expects + ". Afinidad actual: " + affinity + " (" + affinityTier(affinity) + ").";
+  body.appendChild(info);
+
+  const wrap = document.createElement("div");
+  wrap.className = "dialogue-wrap";
+
+  const npcBubble = document.createElement("div");
+  npcBubble.className = "dialogue-bubble npc";
+  npcBubble.innerHTML = "<div class='dialogue-name'>" + (c.npcName || "NPC") + "</div><div class='dialogue-line'>" + (c.npcLine || "...") + "</div>";
+  wrap.appendChild(npcBubble);
+
+  const playerWrap = document.createElement("div");
+  playerWrap.className = "answers";
+
+  (c.replies || []).forEach(reply => {
+    const btn = document.createElement("button");
+    btn.className = "answer";
+    btn.dataset.reply = reply;
+    const meta = (c.replyMeta && c.replyMeta[reply]) || {};
+    const qualityLabel = meta.quality || (reply === c.correctReply ? "alta" : "baja");
+    const toneLabel = meta.tone || (reply === c.correctReply ? "adecuado" : "impreciso");
+    const qualityClass = qualityLabel === "alta" ? "good" : qualityLabel === "media" ? "warn" : "bad";
+    const toneClass = reply === c.correctReply ? "good" : qualityLabel === "media" ? "warn" : "bad";
+    btn.innerHTML = "<span class='answer-main'>" + reply + "</span>" +
+      "<span class='answer-meta'><span class='answer-tag " + qualityClass + "'>Calidad: " + qualityLabel + "</span><span class='answer-tag " + toneClass + "'>Tono: " + toneLabel + "</span></span>";
+    btn.onclick = () => {
+      currentAnswerState.selected = [reply];
+      [...playerWrap.children].forEach(x => x.style.outline = "none");
+      btn.style.outline = "2px solid var(--gold)";
+    };
+    playerWrap.appendChild(btn);
+  });
+
+  const playerGuide = document.createElement("div");
+  playerGuide.className = "dialogue-bubble player";
+  playerGuide.innerHTML = "<div class='dialogue-name'>Tu respuesta</div><div class='dialogue-line small'>Selecciona la opción más natural y precisa para el contexto.</div><div class='dialogue-line small'>Estilo del interlocutor: " + persona.style + " · Rol: " + persona.role + "</div>";
+
+  wrap.appendChild(playerGuide);
+  wrap.appendChild(playerWrap);
+  body.appendChild(wrap);
+}
+
 function reenableTokens(tokenGrid) {
   [...tokenGrid.children].forEach(btn => { btn.disabled = false; btn.style.opacity = "1"; });
   currentAnswerState.built.forEach(word => {
@@ -2945,15 +3958,19 @@ function renderBuildZone() {
 function toggleEnglish() {
   if (!currentChallenge || !currentChallenge.english) return;
   currentChallenge.revealedEnglish = true;
-  currentChallenge.revealUsedFree = STATE.freeRevealCharges > 0;
-  if (STATE.freeRevealCharges > 0) {
+  const affinityFree = !!currentChallenge.affinityFreeRevealAvailable;
+  currentChallenge.revealUsedFree = affinityFree || STATE.freeRevealCharges > 0;
+  if (affinityFree) {
+    currentChallenge.affinityFreeRevealAvailable = false;
+    notify("Pista contextual gratis por afinidad.");
+  } else if (STATE.freeRevealCharges > 0) {
     STATE.freeRevealCharges -= 1;
     saveProgress();
   }
   updateHUD();
   document.getElementById("q-en").style.display = "block";
   const btn = document.getElementById("btn-reveal");
-  btn.textContent = currentChallenge.revealUsedFree ? "Ayuda gratis usada" : "Ayuda revelada (XP al 50%)";
+  btn.textContent = affinityFree ? "Ayuda por afinidad usada" : (currentChallenge.revealUsedFree ? "Ayuda gratis usada" : "Ayuda revelada (XP al 50%)");
   btn.disabled = true;
 }
 
@@ -2990,6 +4007,47 @@ function submitChallenge() {
     const allPresent = keywords.every(k => txt.includes(k));
     const enoughWords = txt.split(" ").filter(Boolean).length >= 3;
     correct = allPresent && enoughWords;
+  }
+
+  if (c.type === "dialogue") {
+    if (!currentAnswerState.selected.length) return notify("Selecciona una respuesta de diálogo.");
+    const chosen = currentAnswerState.selected[0];
+    correct = chosen === c.correctReply;
+    const meta = (c.replyMeta && c.replyMeta[chosen]) || {};
+    c.dialogueEval = {
+      chosen,
+      tone: meta.tone || (correct ? "adecuado" : "impreciso"),
+      quality: meta.quality || (correct ? "alta" : "baja"),
+      impact: Number.isFinite(meta.impact) ? meta.impact : (correct ? 6 : -4),
+      npcReaction: meta.npcReaction || (correct ? "Respuesta convincente." : "La respuesta no convence al interlocutor."),
+    };
+    const affinityUpdate = updateNpcAffinity(c.npcName || "NPC", c.dialogueEval.impact, correct);
+    c.dialogueEval.affinityDelta = affinityUpdate.delta;
+    c.dialogueEval.affinityTotal = affinityUpdate.total;
+    c.dialogueEval.affinityTier = affinityUpdate.tier;
+    const allianceEvent = triggerNpcAllianceEvent(c.npcName || "NPC", affinityUpdate);
+    c.dialogueEval.allianceEvent = allianceEvent;
+    if (allianceEvent) {
+      notify("Vínculo de alianza con " + (c.npcName || "NPC") + ": +" + allianceEvent.xp + " XP, +" + allianceEvent.coins + " monedas.");
+    }
+    const trustEvent = allianceEvent ? null : triggerNpcTrustEvent(c.npcName || "NPC", affinityUpdate, correct, c.dialogueEval.impact);
+    c.dialogueEval.trustEvent = trustEvent;
+    if (trustEvent) {
+      notify("Evento diario de confianza: +" + trustEvent.xp + " XP, +" + trustEvent.coins + " monedas.");
+    }
+    c.dialogueEval.npcReaction = refineNpcReaction(
+      c.dialogueEval.npcReaction,
+      c.npcName || "NPC",
+      c.dialogueEval.quality,
+      correct
+    );
+    const btns = document.querySelectorAll("#challenge-body .answer");
+    btns.forEach(btn => {
+      const reply = btn.dataset.reply || btn.textContent;
+      if (reply === c.correctReply) btn.classList.add("correct");
+      if (reply === chosen && chosen !== c.correctReply) btn.classList.add("wrong");
+      btn.disabled = true;
+    });
   }
 
   resolveAnswer(correct, false);
@@ -3037,13 +4095,25 @@ function resolveAnswer(correct, timeout) {
 
     const timeBonus = Math.max(0, timerRemaining || 0) * 4;
     const scoreGain = Math.max(20, Math.floor((c.baseXp || 20) * 1.5)) + timeBonus;
-    const finalScoreGain = revealPenalty ? Math.floor(scoreGain * 0.5) : scoreGain;
+    let finalScoreGain = revealPenalty ? Math.floor(scoreGain * 0.5) : scoreGain;
+    if (c.type === "dialogue" && c.dialogueEval) {
+      const toneBonus = Math.max(0, c.dialogueEval.impact || 0);
+      gainedXp += Math.min(10, toneBonus);
+      finalScoreGain += toneBonus;
+      if (c.affinityPerks && c.affinityPerks.scoreBonus > 0) {
+        finalScoreGain += c.affinityPerks.scoreBonus;
+        notify("Afinidad activa: +" + c.affinityPerks.scoreBonus + " score de vínculo.");
+      }
+      if (toneBonus > 0) {
+        notify("Diálogo (" + c.dialogueEval.tone + "): +" + toneBonus + " pts de calidad.");
+      }
+    }
     if (currentRun) {
       currentRun.correct += 1;
       currentRun.answered += 1;
       currentRun.timeBonus += Math.max(0, timerRemaining || 0);
-      currentRun.score += finalScoreGain;
-      currentRun.stageScore += finalScoreGain;
+      currentRun.score += Math.max(0, finalScoreGain);
+      currentRun.stageScore += Math.max(0, finalScoreGain);
     }
   } else {
     STATE.streak = 0;
@@ -3062,7 +4132,16 @@ function resolveAnswer(correct, timeout) {
       playSoundCue("wrong");
       notify("Incorrecto en extra. Sin pérdida de vidas.");
     }
-    if (currentRun) currentRun.answered += 1;
+    if (currentRun) {
+      currentRun.answered += 1;
+      if (c.type === "dialogue" && c.dialogueEval) {
+        const malus = Math.min(0, c.dialogueEval.impact || 0);
+        if (malus < 0) {
+          currentRun.score = Math.max(0, currentRun.score + malus);
+          currentRun.stageScore = Math.max(0, currentRun.stageScore + malus);
+        }
+      }
+    }
   }
 
   updateHUD();
@@ -3083,9 +4162,52 @@ function showFeedback(correct, gainedXp, timeout) {
   if (correct && currentRun) msg += " Puntuación parcial: " + currentRun.score + ".";
   if (timeout) msg += " Se acabo el tiempo.";
   if (currentChallenge.revealedEnglish && !currentChallenge.revealUsedFree && correct) msg += " (Penalización del 50% aplicada por revelar inglés).";
+  if (currentChallenge.type === "dialogue" && currentChallenge.dialogueEval) {
+    msg += " Tono: " + currentChallenge.dialogueEval.tone + " · Calidad: " + currentChallenge.dialogueEval.quality + ".";
+    msg += " Afinidad: " + (currentChallenge.dialogueEval.affinityDelta >= 0 ? "+" : "") + currentChallenge.dialogueEval.affinityDelta + " (total " + currentChallenge.dialogueEval.affinityTotal + ").";
+    if (currentChallenge.dialogueEval.allianceEvent) {
+      const ev = currentChallenge.dialogueEval.allianceEvent;
+      msg += " Evento de alianza: +" + ev.xp + " XP, +" + ev.coins + " monedas" + (ev.word ? ", palabra '" + ev.word + "'" : "") + ".";
+    }
+    if (currentChallenge.dialogueEval.trustEvent) {
+      const tv = currentChallenge.dialogueEval.trustEvent;
+      msg += " Evento diario: +" + tv.xp + " XP, +" + tv.coins + " monedas" + (tv.word ? ", palabra '" + tv.word + "'" : "") + ".";
+    }
+    msg += " " + currentChallenge.dialogueEval.npcReaction;
+  }
 
   document.getElementById("feedback-text").textContent = msg;
   document.getElementById("feedback-rule").textContent = "Regla: " + (currentChallenge.rule || "Repasa la explicación del escenario.");
+  const detail = document.getElementById("feedback-detail");
+  if (detail) {
+    if (currentChallenge.type === "dialogue" && currentChallenge.dialogueEval) {
+      const dial = currentChallenge.dialogueEval;
+      const qualityClass = dial.quality === "alta" ? "good" : dial.quality === "media" ? "warn" : "bad";
+      const impactClass = (dial.impact || 0) >= 0 ? "good" : "bad";
+      detail.className = "feedback-detail show";
+      detail.innerHTML = "<div class='small'><strong>Lectura de combate</strong></div>" +
+        "<div class='feedback-pills'>" +
+        "<span class='feedback-pill " + qualityClass + "'>Calidad: " + dial.quality + "</span>" +
+        "<span class='feedback-pill " + impactClass + "'>Impacto: " + (dial.impact >= 0 ? "+" : "") + dial.impact + "</span>" +
+        "<span class='feedback-pill " + (dial.affinityDelta >= 0 ? "good" : "bad") + "'>Afinidad: " + (dial.affinityDelta >= 0 ? "+" : "") + dial.affinityDelta + "</span>" +
+        "<span class='feedback-pill'>Estado: " + (dial.affinityTier || "neutral") + "</span>" +
+        "<span class='feedback-pill'>Tono: " + dial.tone + "</span>" +
+        "</div>" +
+        (dial.allianceEvent
+          ? "<div class='small mt8' style='color:#ffe3a4'><strong>Evento de alianza:</strong> " + dial.allianceEvent.line + " (+" + dial.allianceEvent.xp + " XP, +" + dial.allianceEvent.coins + " monedas" + (dial.allianceEvent.word ? ", +" + dial.allianceEvent.word : "") + ")</div>"
+          : "") +
+        (dial.trustEvent
+          ? "<div class='small mt8' style='color:#d7ecff'><strong>Evento diario:</strong> " + dial.trustEvent.line + " (+" + dial.trustEvent.xp + " XP, +" + dial.trustEvent.coins + " monedas" + (dial.trustEvent.word ? ", +" + dial.trustEvent.word : "") + ")</div>"
+          : "") +
+        (currentChallenge.affinityPerks && (currentChallenge.affinityPerks.timeBonus > 0 || currentChallenge.affinityPerks.scoreBonus > 0 || currentChallenge.affinityPerks.freeReveal)
+          ? "<div class='small mt8'>Ventajas de vínculo activas: +" + (currentChallenge.affinityPerks.timeBonus || 0) + "s, +" + (currentChallenge.affinityPerks.scoreBonus || 0) + " score" + (currentChallenge.affinityPerks.freeReveal ? ", pista gratis" : "") + ".</div>"
+          : "") +
+        "<div class='dialogue-echo'><strong>Respuesta del NPC:</strong> " + dial.npcReaction + "</div>";
+    } else {
+      detail.className = "feedback-detail";
+      detail.innerHTML = "";
+    }
+  }
 }
 
 function nextAfterChallenge() {
@@ -3147,7 +4269,7 @@ function endPathRun() {
     tip
   );
   currentPathRun = null;
-  screen("result");
+  finalizeResultTransition();
 }
 
 function nextDailyStep() {
@@ -3189,7 +4311,7 @@ function endDailyRun() {
     firstCompletion ? "Vuelve mañana para mantener la racha diaria y sumar bonificaciones." : "Si quieres más reto, entra en Campaña o Biblioteca para practicar otro foco."
   );
   currentDailyRun = null;
-  screen("result");
+  finalizeResultTransition();
 }
 
 function endAcademyChallenge() {
@@ -3219,7 +4341,7 @@ function endCampaignChallenge() {
       saveProgress();
       updateHUD();
       currentRun = null;
-      screen("result");
+      finalizeResultTransition();
       return;
     }
 
@@ -3236,8 +4358,7 @@ function endCampaignChallenge() {
       "Repite el nivel desde el inicio o usa el Glosario para atacar la regla más débil."
     );
     currentRun = null;
-    screen("result");
-    updateHUD();
+    finalizeResultTransition();
     return;
   }
 
@@ -3286,7 +4407,7 @@ function endCampaignChallenge() {
       saveProgress();
       updateHUD();
       currentRun = null;
-      screen("result");
+      finalizeResultTransition();
       return;
     }
 
@@ -3325,7 +4446,7 @@ function endCampaignChallenge() {
     const rank = getLevelRank(runLevel);
     document.getElementById("result-score").textContent = "Puntuación total del intento: " + (currentRun ? currentRun.score : 0) + " | Rango " + rank.medal + " · " + rank.stars + "/" + rank.maxStars + "★";
     currentRun = null;
-    screen("result");
+    finalizeResultTransition();
     return;
   }
 
@@ -3342,7 +4463,7 @@ function endCampaignChallenge() {
     saveProgress();
     updateHUD();
     currentRun = null;
-    screen("result");
+    finalizeResultTransition();
     return;
   }
 
@@ -3351,10 +4472,16 @@ function endCampaignChallenge() {
 }
 
 function rewardWord() {
-  const pool = WORD_REWARDS[(currentRun && currentRun.level) || STATE.level] || [];
-  if (!pool.length) return;
-  const index = Math.floor(Math.random() * pool.length);
-  STATE.inventory.push(pool[index]);
+  const level = (currentRun && currentRun.level) || STATE.level;
+  const loot = pickWordLoot(level);
+  if (!loot) return;
+  const gained = grantWord(loot.word, { rarity: loot.rarity, level, source: "combate" });
+  const rarityLabel = (WORD_RARITY[gained.rarity] || WORD_RARITY.common).label;
+  if (gained.duplicate) {
+    notify("Botín duplicado: " + gained.word + " (" + rarityLabel + ") · +" + gained.duplicateCoins + " monedas.");
+  } else {
+    notify("Botín nuevo: " + gained.word + " (" + rarityLabel + ").");
+  }
 }
 
 function startTimer(seconds) {
@@ -3657,10 +4784,7 @@ function startReviewPath(pathId) {
   const questions = pickReviewQuestions(path, 6);
   if (!questions.length) return notify("No hay preguntas suficientes para este itinerario aún.");
 
-  currentMode = "path";
-  currentRun = null;
-  currentBossRun = null;
-  currentDailyRun = null;
+  setGameMode("path");
   currentPathRun = {
     id: path.id,
     title: path.title,
@@ -3671,8 +4795,7 @@ function startReviewPath(pathId) {
   };
 
   loadCurrentPathQuestion();
-  updateHUD();
-  screen("challenge");
+  openChallengeTransition();
 }
 
 function renderReviewPaths() {
@@ -3976,6 +5099,9 @@ function loadProgress() {
             unlockedLevels: data.unlockedLevels && data.unlockedLevels.length ? data.unlockedLevels : ["A1"],
             completedAcademy: data.completedAcademy || [],
             inventory: data.inventory || [],
+            wordCollection: data.wordCollection || {},
+            lootHistory: Array.isArray(data.lootHistory) ? data.lootHistory : [],
+            craftLevel: data.craftLevel || data.selectedLevel || data.level || "A1",
             streak: Number.isFinite(data.streak) ? data.streak : 0,
             dailyDone: data.dailyDone || {},
             glossary: data.glossary || [],
@@ -3987,6 +5113,9 @@ function loadProgress() {
             badgeHistory: Array.isArray(data.badgeHistory) ? data.badgeHistory : [],
             badgesUnlockedAt: data.badgesUnlockedAt || {},
             badgesSeen: data.badgesSeen || {},
+            npcAffinity: data.npcAffinity || {},
+            npcEventRewards: data.npcEventRewards || {},
+            npcTrustDaily: data.npcTrustDaily || {},
             selectedLevel: data.selectedLevel || data.level || "A1",
             freeRevealCharges: Number.isFinite(data.freeRevealCharges) ? data.freeRevealCharges : 0,
             nextTimeBonusSeconds: Number.isFinite(data.nextTimeBonusSeconds) ? data.nextTimeBonusSeconds : 0,
@@ -3996,7 +5125,7 @@ function loadProgress() {
             tutorialDone: !!data.tutorialDone,
             audioMuted: !!data.audioMuted,
             audioVolume: Number.isFinite(data.audioVolume) ? Math.max(0, Math.min(100, data.audioVolume)) : 70,
-            currentScreen: "campaign",
+            currentScreen: getSafeResumeScreen(data.currentScreen || "campaign"),
           };
           if (!STATE.unlockedLevels.includes(STATE.level)) {
             STATE.level = STATE.unlockedLevels[0] || "A1";
@@ -4005,6 +5134,7 @@ function loadProgress() {
             STATE.selectedLevel = STATE.level;
           }
           STATE.hp = Math.min(Math.max(STATE.hp || 3, 1), 3);
+          ensureWordCollection();
         }
       } catch (e) {
         console.warn("No se pudo cargar el progreso.", e);
