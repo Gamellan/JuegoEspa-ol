@@ -965,6 +965,111 @@
     height: 100%;
     background: var(--good);
   }
+  .mission-progress-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    background: rgba(147, 166, 185, 0.16);
+    color: #dce7ef;
+  }
+  .mission-progress-pill.low {
+    background: rgba(232, 97, 88, 0.18);
+    border-color: rgba(232, 97, 88, 0.42);
+    color: #ffd4d1;
+  }
+  .mission-progress-pill.mid {
+    background: rgba(232, 199, 109, 0.2);
+    border-color: rgba(232, 199, 109, 0.42);
+    color: #ffe7a8;
+  }
+  .mission-progress-pill.high {
+    background: rgba(69, 180, 106, 0.18);
+    border-color: rgba(69, 180, 106, 0.4);
+    color: #d4f8de;
+  }
+  .mission-progress-pill.done {
+    background: color-mix(in srgb, var(--good) 32%, rgba(13, 25, 36, 0.86));
+    border-color: color-mix(in srgb, var(--good) 60%, rgba(255, 255, 255, 0.14));
+    color: #f1fff5;
+  }
+  .mission-line.pulse {
+    animation: mission-pulse 0.52s ease-out;
+  }
+  .mission-summary.pulse {
+    animation: mission-summary-pulse 0.6s ease-out;
+  }
+  @keyframes mission-pulse {
+    0% {
+      transform: translateY(0) scale(1);
+      filter: brightness(1);
+    }
+    35% {
+      transform: translateY(-1px) scale(1.012);
+      filter: brightness(1.18);
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      filter: brightness(1);
+    }
+  }
+  @keyframes mission-summary-pulse {
+    0% {
+      transform: translateY(0) scale(1);
+      filter: brightness(1);
+    }
+    40% {
+      transform: translateY(-1px) scale(1.015);
+      filter: brightness(1.22);
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      filter: brightness(1);
+    }
+  }
+  .mission-milestone-toast {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--gold) 55%, rgba(255, 255, 255, 0.2));
+    background: color-mix(in srgb, var(--gold) 18%, rgba(11, 20, 30, 0.92));
+    color: #fff4cc;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    animation: milestone-toast 1.1s ease-out;
+  }
+  .mission-milestone-toast.complete {
+    border-color: color-mix(in srgb, var(--good) 62%, rgba(255, 255, 255, 0.24));
+    background: color-mix(in srgb, var(--good) 24%, rgba(11, 20, 30, 0.92));
+    color: #eafff0;
+  }
+  @keyframes milestone-toast {
+    0% {
+      opacity: 0;
+      transform: translateY(4px) scale(0.98);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-2px) scale(1.01);
+    }
+  }
   .gloss-item {
     background: var(--card);
     border: 1px solid var(--line);
@@ -1343,8 +1448,87 @@
     padding: 10px;
   }
 
+  .adaptive-diagnostics-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 12, 20, 0.76);
+    z-index: 62;
+    display: none;
+    place-items: center;
+    padding: 16px;
+  }
+  .adaptive-diagnostics-overlay.show { display: grid; }
+  .adaptive-diagnostics-box {
+    width: min(780px, 100%);
+    max-height: 88vh;
+    overflow: auto;
+    background: linear-gradient(180deg, rgba(17, 33, 50, 0.98), rgba(13, 24, 38, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .adaptive-diag-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .adaptive-diag-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px;
+  }
+  .adaptive-diag-card .small strong {
+    color: #f2f8ff;
+  }
+  .adaptive-type-row {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  }
+  .adaptive-trend-row {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(15, minmax(10px, 1fr));
+    gap: 4px;
+  }
+  .adaptive-trend-cell {
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .adaptive-trend-cell.ok { background: #6ee7b7; }
+  .adaptive-trend-cell.fail { background: #fca5a5; }
+  .adaptive-trend-cell.timeout { background: #fbbf24; }
+  .adaptive-confirm-wrap {
+    margin-top: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .adaptive-confirm-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7dd3fc, #86efac);
+    width: 0%;
+  }
+
   .small { font-size: 12px; color: var(--muted); }
   .big-number { font-size: 34px; color: var(--gold); font-weight: 800; }
+  .hud-adaptive-neutral {
+    border-color: rgba(147, 197, 253, 0.36);
+    color: #d7ecff;
+  }
+  .hud-adaptive-assist {
+    border-color: rgba(134, 239, 172, 0.45);
+    color: #dff7d8;
+  }
+  .hud-adaptive-challenge {
+    border-color: rgba(253, 230, 138, 0.45);
+    color: #ffe7a8;
+  }
 
   @media (max-width: 900px) {
     #hud {
@@ -1460,6 +1644,7 @@
     <span class="chip">+Tiempo: <strong id="hud-time-bonus">0s</strong></span>
     <span class="chip">Escudo: <strong id="hud-shield">0</strong></span>
     <span class="chip">Estilo: <strong id="hud-style">Base</strong></span>
+    <span id="hud-adaptive-chip" class="chip hud-adaptive-neutral"><span id="hud-adaptive-icon">🛟</span> Ajuste: <strong id="hud-adaptive">Neutral</strong></span>
     <span class="chip audio-chip">Audio:
       <button id="btn-audio-mute" class="audio-btn" onclick="toggleAudioMute()" aria-label="Silenciar o activar sonido">🔊</button>
       <input id="audio-volume" class="audio-slider" type="range" min="0" max="100" step="5" value="70" oninput="setAudioVolume(this.value)">
@@ -1515,6 +1700,42 @@
     <div class="row mt12" style="justify-content:flex-end;">
       <button class="btn ghost" onclick="skipTutorial()">Omitir / Skip</button>
       <button class="btn secondary" id="tutorial-next-btn" onclick="advanceTutorial()">Siguiente / Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="adaptive-diagnostics-overlay" class="adaptive-diagnostics-overlay" aria-live="polite" onclick="if(event.target===this)closeAdaptiveDiagnostics()">
+  <div class="adaptive-diagnostics-box">
+    <div class="row" style="justify-content:space-between; align-items:center;">
+      <div>
+        <div class="small"><strong id="adaptive-diag-title">Diagnóstico adaptativo</strong></div>
+        <div class="small mt8" id="adaptive-diag-summary"></div>
+      </div>
+      <button class="btn ghost" onclick="closeAdaptiveDiagnostics()">Cerrar</button>
+    </div>
+    <div class="adaptive-diag-grid" id="adaptive-diag-kpi"></div>
+    <div class="panel mt12">
+      <div class="small"><strong>Precisión por tipo</strong></div>
+      <div id="adaptive-diag-types" class="small mt8"></div>
+    </div>
+    <div class="panel mt12">
+      <div class="small"><strong>Sugerencia táctica</strong></div>
+      <div id="adaptive-diag-reco" class="small mt8"></div>
+      <div class="small mt8" id="adaptive-diag-reason" style="color:#d7ecff"></div>
+      <div class="small mt8" id="adaptive-diag-confidence" style="color:#ffe7a8"></div>
+      <div class="small mt8" id="adaptive-diag-confirmation" style="color:#dff7d8"></div>
+      <div class="adaptive-confirm-wrap"><div class="adaptive-confirm-fill" id="adaptive-diag-confirmation-fill"></div></div>
+      <div class="small mt8" id="adaptive-diag-compare" style="color:#d7ecff"></div>
+      <div class="small mt8" id="adaptive-diag-fatigue" style="color:#ffe7a8"></div>
+      <div class="small mt8" id="adaptive-diag-memo" style="color:#dff7d8"></div>
+    </div>
+    <div class="panel mt12">
+      <div class="small"><strong>Tendencia reciente (últimos 15)</strong></div>
+      <div class="adaptive-trend-row" id="adaptive-diag-trend"></div>
+      <div class="small mt8">Verde = acierto, rojo = fallo, ámbar = timeout.</div>
+    </div>
+    <div class="row mt12" style="justify-content:flex-end;">
+      <button class="btn secondary" id="adaptive-diag-train-btn" onclick="startAdaptivePracticeFromDiagnostics()">Entrenar punto débil (3 retos)</button>
     </div>
   </div>
 </div>
@@ -1761,6 +1982,7 @@
       </div>
     </div>
     <div class="row center mt16" style="justify-content:center;">
+      <button class="btn secondary" id="result-repeat-adaptive-btn" onclick="repeatLastAdaptiveFocus()" style="display:none;">Repetir mismo foco (3 retos)</button>
       <button class="btn primary" onclick="goCampaign()">Volver a Campaña</button>
     </div>
   </div>
@@ -1778,33 +2000,150 @@ const LEVEL_META = {
 
 const LEVEL_PROGRESS_MISSIONS = {
   A1: [
-    { id: "camp3", text: "Completa hasta el escenario 3 de A1.", check: level => (STATE.progress[level] || 0) >= 3 },
-    { id: "brief70", text: "Logra al menos 70% de precisión en el briefing A1.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.7 },
-    { id: "mcq4", text: "Acierta 4 retos de elección múltiple en campaña A1.", check: level => (getLevelMissionStats(level).winsByType.mcq || 0) >= 4 },
-    { id: "dialog2", text: "Acierta 2 retos de diálogo en campaña A1.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 2 },
+    { id: "camp3", tags: ["campaign"], text: "Completa hasta el escenario 3 de A1.", check: level => (STATE.progress[level] || 0) >= 3, progress: level => ({ value: STATE.progress[level] || 0, target: 3 }) },
+    { id: "brief70", tags: ["briefing"], text: "Logra al menos 70% de precisión en el briefing A1.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.7, progress: level => ({ value: Math.round((getLevelMissionStats(level).briefingBestAccuracy || 0) * 100), target: 70, suffix: "%" }) },
+    { id: "mcq4", tags: ["challenge", "mcq"], text: "Acierta 4 retos de elección múltiple en campaña A1.", check: level => (getLevelMissionStats(level).winsByType.mcq || 0) >= 4, progress: level => ({ value: getLevelMissionStats(level).winsByType.mcq || 0, target: 4 }) },
+    { id: "dialog2", tags: ["challenge", "dialogue"], text: "Acierta 2 retos de diálogo en campaña A1.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 2, progress: level => ({ value: getLevelMissionStats(level).dialogueCorrect || 0, target: 2 }) },
   ],
   A2: [
-    { id: "camp4", text: "Completa hasta el escenario 4 de A2.", check: level => (STATE.progress[level] || 0) >= 4 },
-    { id: "brief75", text: "Logra al menos 75% de precisión en el briefing A2.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.75 },
-    { id: "order4", text: "Acierta 4 retos de orden de frase en campaña A2.", check: level => (getLevelMissionStats(level).winsByType.order || 0) >= 4 },
-    { id: "dialog3", text: "Acierta 3 retos de diálogo en campaña A2.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 3 },
+    { id: "camp4", tags: ["campaign"], text: "Completa hasta el escenario 4 de A2.", check: level => (STATE.progress[level] || 0) >= 4, progress: level => ({ value: STATE.progress[level] || 0, target: 4 }) },
+    { id: "brief75", tags: ["briefing"], text: "Logra al menos 75% de precisión en el briefing A2.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.75, progress: level => ({ value: Math.round((getLevelMissionStats(level).briefingBestAccuracy || 0) * 100), target: 75, suffix: "%" }) },
+    { id: "order4", tags: ["challenge", "order"], text: "Acierta 4 retos de orden de frase en campaña A2.", check: level => (getLevelMissionStats(level).winsByType.order || 0) >= 4, progress: level => ({ value: getLevelMissionStats(level).winsByType.order || 0, target: 4 }) },
+    { id: "dialog3", tags: ["challenge", "dialogue"], text: "Acierta 3 retos de diálogo en campaña A2.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 3, progress: level => ({ value: getLevelMissionStats(level).dialogueCorrect || 0, target: 3 }) },
   ],
   B1: [
-    { id: "camp5", text: "Supera el semijefe del escenario 5 en B1.", check: level => (STATE.progress[level] || 0) >= 5 },
-    { id: "brief75", text: "Logra al menos 75% de precisión en el briefing B1.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.75 },
-    { id: "group4", text: "Acierta 4 retos de agrupación en campaña B1.", check: level => (getLevelMissionStats(level).winsByType.group || 0) >= 4 },
-    { id: "dialog4", text: "Acierta 4 retos de diálogo en campaña B1.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 4 },
+    { id: "camp5", tags: ["campaign"], text: "Supera el semijefe del escenario 5 en B1.", check: level => (STATE.progress[level] || 0) >= 5, progress: level => ({ value: STATE.progress[level] || 0, target: 5 }) },
+    { id: "brief75", tags: ["briefing"], text: "Logra al menos 75% de precisión en el briefing B1.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.75, progress: level => ({ value: Math.round((getLevelMissionStats(level).briefingBestAccuracy || 0) * 100), target: 75, suffix: "%" }) },
+    { id: "group4", tags: ["challenge", "group"], text: "Acierta 4 retos de agrupación en campaña B1.", check: level => (getLevelMissionStats(level).winsByType.group || 0) >= 4, progress: level => ({ value: getLevelMissionStats(level).winsByType.group || 0, target: 4 }) },
+    { id: "dialog4", tags: ["challenge", "dialogue"], text: "Acierta 4 retos de diálogo en campaña B1.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 4, progress: level => ({ value: getLevelMissionStats(level).dialogueCorrect || 0, target: 4 }) },
   ],
   B2: [
-    { id: "camp11", text: "Derrota al jefe final del escenario 11 en B2.", check: level => (STATE.progress[level] || 0) >= 11 },
-    { id: "brief80", text: "Logra al menos 80% de precisión en el briefing B2.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.8 },
-    { id: "dialog6", text: "Acierta 6 retos de diálogo en campaña B2.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 6 },
+    { id: "camp11", tags: ["campaign"], text: "Derrota al jefe final del escenario 11 en B2.", check: level => (STATE.progress[level] || 0) >= 11, progress: level => ({ value: STATE.progress[level] || 0, target: 11 }) },
+    { id: "brief80", tags: ["briefing"], text: "Logra al menos 80% de precisión en el briefing B2.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.8, progress: level => ({ value: Math.round((getLevelMissionStats(level).briefingBestAccuracy || 0) * 100), target: 80, suffix: "%" }) },
+    { id: "dialog6", tags: ["challenge", "dialogue"], text: "Acierta 6 retos de diálogo en campaña B2.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 6, progress: level => ({ value: getLevelMissionStats(level).dialogueCorrect || 0, target: 6 }) },
     { id: "precision8", text: "Consigue 8 aciertos combinados en retos de texto/orden en campaña B2.", check: level => {
       const s = getLevelMissionStats(level);
       return ((s.winsByType.text || 0) + (s.winsByType.order || 0)) >= 8;
-    } },
+    }, progress: level => {
+      const s = getLevelMissionStats(level);
+      return { value: (s.winsByType.text || 0) + (s.winsByType.order || 0), target: 8 };
+    }, tags: ["challenge", "text", "order"] },
   ],
 };
+
+const MISSION_CHALLENGE_TAGS = ["mcq", "group", "order", "text", "dialogue"];
+
+function getMissionActionText(row) {
+  const p = row.progress;
+  const tags = Array.isArray(row.tags) ? row.tags : [];
+  if (!p || !p.target || p.value >= p.target) return row.text;
+  const missing = Math.max(0, p.target - p.value);
+  if (tags.includes("briefing")) return "Sube la precisión del briefing: faltan " + missing + "%.";
+  if (tags.includes("campaign")) return "Avanza campaña: faltan " + missing + " escenario(s).";
+  if (tags.includes("dialogue")) return "Acierta " + missing + " reto(s) de diálogo en campaña.";
+  if (tags.includes("mcq")) return "Acierta " + missing + " reto(s) de elección múltiple.";
+  if (tags.includes("group")) return "Acierta " + missing + " reto(s) de agrupación.";
+  if (tags.includes("order") && tags.includes("text")) return "Suma " + missing + " acierto(s) en retos de texto/orden.";
+  if (tags.includes("order")) return "Acierta " + missing + " reto(s) de orden de frase.";
+  if (tags.includes("text")) return "Acierta " + missing + " reto(s) de texto.";
+  return row.text;
+}
+
+function getMissionRowsForChallengeType(level, challengeType) {
+  const missions = LEVEL_PROGRESS_MISSIONS[level] || [];
+  return missions.filter(m => {
+    const tags = Array.isArray(m.tags) ? m.tags : [];
+    if (!tags.includes("challenge")) return false;
+    if (challengeType === "dialogue") return tags.includes("dialogue");
+    if (challengeType === "mcq") return tags.includes("mcq");
+    if (challengeType === "group") return tags.includes("group");
+    if (challengeType === "order") return tags.includes("order");
+    if (challengeType === "text") return tags.includes("text") || tags.includes("order");
+    return false;
+  });
+}
+
+function getDailyMissionAttemptSummary(level) {
+  const progress = Number(STATE.progress[level] || 0);
+  const openUntil = Math.max(1, Math.min(progress + 1, 11));
+  const today = todayKey();
+  const store = (STATE.levelMissionDailyAttempts && typeof STATE.levelMissionDailyAttempts === "object")
+    ? STATE.levelMissionDailyAttempts
+    : {};
+
+  let consumed = 0;
+  for (let stage = 1; stage <= openUntil; stage++) {
+    const key = today + "|" + level + "|" + stage;
+    if (store[key]) consumed += 1;
+  }
+
+  const totalEligible = openUntil;
+  const remaining = Math.max(0, totalEligible - consumed);
+  return { totalEligible, consumed, remaining, openUntil };
+}
+
+function getDailyResetCountdownText() {
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(24, 0, 0, 0);
+  const ms = Math.max(0, next.getTime() - now.getTime());
+  const totalMin = Math.floor(ms / 60000);
+  const hh = String(Math.floor(totalMin / 60)).padStart(2, "0");
+  const mm = String(totalMin % 60).padStart(2, "0");
+  return hh + ":" + mm;
+}
+
+function getMissionPriorityScore(row) {
+  const p = row.progress;
+  const tags = Array.isArray(row.tags) ? row.tags : [];
+  if (!p || !p.target || p.target <= 0) return 999;
+  const ratioMissing = Math.max(0, (p.target - p.value) / p.target);
+  let weight = 1;
+  if (tags.includes("challenge")) weight = 0.9;
+  if (tags.includes("campaign")) weight = 1.05;
+  if (tags.includes("briefing")) weight = 1.15;
+  let tieBreak = 0.03;
+  if (tags.includes("challenge")) tieBreak = 0.0;
+  else if (tags.includes("campaign")) tieBreak = 0.01;
+  else if (tags.includes("briefing")) tieBreak = 0.02;
+  return (ratioMissing * weight) + tieBreak;
+}
+
+function getConsistencyBonusStatus(level) {
+  const status = getLevelMissionStatus(level);
+  const doneRows = status.rows.filter(r => r.done);
+  const hasBriefing = doneRows.some(r => Array.isArray(r.tags) && r.tags.includes("briefing"));
+  const hasCampaign = doneRows.some(r => Array.isArray(r.tags) && r.tags.includes("campaign"));
+  const challengeDoneCount = doneRows.filter(r => Array.isArray(r.tags) && r.tags.includes("challenge")).length;
+  const completedTypeCount = (hasCampaign ? 1 : 0) + (hasBriefing ? 1 : 0) + (challengeDoneCount >= 1 ? 1 : 0);
+  return {
+    eligible: hasBriefing && hasCampaign && challengeDoneCount >= 1 && doneRows.length >= 3,
+    hasBriefing,
+    hasCampaign,
+    challengeDoneCount,
+    completedTypeCount,
+    targetTypeCount: 3,
+    status,
+  };
+}
+
+function maybeGrantConsistencyBonus(level) {
+  if (!STATE.levelConsistencyBonusClaimed) {
+    STATE.levelConsistencyBonusClaimed = { A1: false, A2: false, B1: false, B2: false };
+  }
+  if (STATE.levelConsistencyBonusClaimed[level]) return false;
+  const check = getConsistencyBonusStatus(level);
+  if (!check.eligible) return false;
+
+  const xpGain = 18;
+  const coinGain = 12;
+  STATE.levelConsistencyBonusClaimed[level] = true;
+  STATE.xp += xpGain;
+  STATE.coins += coinGain;
+  notify("Bonus de consistencia " + level + ": +" + xpGain + " XP y +" + coinGain + " monedas.");
+  saveProgress();
+  return true;
+}
 
 const GHOST_BRIEFING_CONTENT = {
   A1: {
@@ -2446,7 +2785,15 @@ let STATE = {
   shieldCharges: 0,
   levelBriefingSeen: { A1: false, A2: false, B1: false, B2: false },
   levelMissionRewardsClaimed: { A1: false, A2: false, B1: false, B2: false },
+  levelConsistencyBonusClaimed: { A1: false, A2: false, B1: false, B2: false },
+  levelMissionDailyAttempts: {},
   levelMissionStats: {},
+  combatTelemetry: {},
+  adaptivePracticeLastByLevel: {},
+  adaptiveWeakMemo: {},
+  adaptiveWeeklyStability: {},
+  adaptiveWeeklyClaimed: {},
+  adaptiveTransferTracking: {},
   stageBestScores: {},
   shopSeen: false,
   tutorialDone: false,
@@ -2485,16 +2832,20 @@ let timerRemaining = 0;
 let currentBossRun = null;
 let currentDailyRun = null;
 let currentPathRun = null;
+let currentAdaptiveRun = null;
 let currentRun = null;
 let tutorialIndex = 0;
 let activeTownTalkDrill = null;
 let activeGhostBriefing = null;
 let pendingCampaignStage = null;
+let missionRenderState = {};
+let missionSummaryRenderState = {};
 
 function setGameMode(mode) {
   currentMode = mode;
   if (mode !== "daily") currentDailyRun = null;
   if (mode !== "path") currentPathRun = null;
+  if (mode !== "adaptive") currentAdaptiveRun = null;
   if (mode !== "campaign" && mode !== "review") {
     currentRun = null;
     currentBossRun = null;
@@ -2508,6 +2859,7 @@ function abandonChallengeFlow() {
   currentBossRun = null;
   currentDailyRun = null;
   currentPathRun = null;
+  currentAdaptiveRun = null;
   if (currentMode === "campaign" || currentMode === "review") {
     currentRun = null;
   }
@@ -3250,12 +3602,14 @@ function screen(id) {
   updateNavButtons();
 }
 
-function finalizeResultTransition() {
+function finalizeResultTransition(showAdaptiveRepeat) {
   clearTimer();
   updateHUD();
   saveProgress();
   screen("result");
   renderResultLoadoutHistory();
+  const repeatBtn = document.getElementById("result-repeat-adaptive-btn");
+  if (repeatBtn) repeatBtn.style.display = showAdaptiveRepeat ? "inline-block" : "none";
   // Persistimos la pantalla actual para una reanudación coherente.
   saveProgress();
 }
@@ -3340,6 +3694,24 @@ function updateHUD() {
   document.getElementById("hud-time-bonus").textContent = (STATE.nextTimeBonusSeconds || 0) + "s";
   document.getElementById("hud-shield").textContent = STATE.shieldCharges || 0;
   document.getElementById("hud-style").textContent = getCosmeticLabel();
+  const adaptive = getAdaptiveTelemetryUi(STATE.level || "A1");
+  const adaptiveNode = document.getElementById("hud-adaptive");
+  const adaptiveIcon = document.getElementById("hud-adaptive-icon");
+  const adaptiveChip = document.getElementById("hud-adaptive-chip");
+  if (adaptiveNode) adaptiveNode.textContent = adaptive.label;
+  if (adaptiveIcon) {
+    adaptiveIcon.textContent = adaptive.label === "Asistencia"
+      ? "🧭"
+      : (adaptive.label === "Desafío" ? "⚔" : "🛟");
+  }
+  if (adaptiveChip) {
+    adaptiveChip.classList.remove("hud-adaptive-neutral", "hud-adaptive-assist", "hud-adaptive-challenge");
+    const cls = adaptive.label === "Asistencia"
+      ? "hud-adaptive-assist"
+      : (adaptive.label === "Desafío" ? "hud-adaptive-challenge" : "hud-adaptive-neutral");
+    adaptiveChip.classList.add(cls);
+    adaptiveChip.title = adaptive.detail + " (muestras: " + adaptive.attempts + ")";
+  }
   updateAudioControls();
   applyBadgeCosmetics();
   updateNavButtons();
@@ -3385,7 +3757,15 @@ function newGame() {
     shieldCharges: 0,
     levelBriefingSeen: { A1: false, A2: false, B1: false, B2: false },
     levelMissionRewardsClaimed: { A1: false, A2: false, B1: false, B2: false },
+    levelConsistencyBonusClaimed: { A1: false, A2: false, B1: false, B2: false },
+    levelMissionDailyAttempts: {},
     levelMissionStats: {},
+    combatTelemetry: {},
+    adaptivePracticeLastByLevel: {},
+    adaptiveWeakMemo: {},
+    adaptiveWeeklyStability: {},
+    adaptiveWeeklyClaimed: {},
+    adaptiveTransferTracking: {},
     stageBestScores: {},
     shopSeen: false,
     tutorialDone: false,
@@ -5121,6 +5501,7 @@ function renderCampaign() {
   const selectedLevel = STATE.selectedLevel || STATE.level;
   const meta = LEVEL_META[selectedLevel];
   const activeLevel = STATE.level;
+  maybeGrantConsistencyBonus(selectedLevel);
   document.getElementById("campaign-title").textContent = meta.name;
   document.getElementById("campaign-desc").textContent = "Foco: " + meta.focus + ". Escenario 5 = semijefe. Escenario 11 = jefe final. Puedes revisar niveles ya superados.";
   renderBadges("badge-grid-campaign");
@@ -5159,7 +5540,7 @@ function renderCampaign() {
     card.className = "stage-card" + bossClass + (locked ? " locked" : "") + (done ? " replayable" : "");
     card.innerHTML = "<div class='num'>" + type + " " + i + "</div>"
       + "<div class='type'>" + (done ? "Completado" : (locked ? "Bloqueado" : "Disponible")) + "</div>"
-      + "<div class='small mt8'>" + stageTypeLabel(i) + "</div>"
+      + "<div class='small mt8'>" + stageTypeLabel(i, selectedLevel) + "</div>"
       + "<div class='stage-stars'>" + starText + "</div>"
       + (best ? "<div class='small mt8'>Mejor puntuación: " + best + "</div>" : "");
 
@@ -5184,7 +5565,20 @@ function renderCampaign() {
 
 function getLevelMissionStatus(level) {
   const missions = LEVEL_PROGRESS_MISSIONS[level] || [];
-  const rows = missions.map(m => ({ ...m, done: !!m.check(level) }));
+  const rows = missions.map(m => {
+    let progress = null;
+    if (typeof m.progress === "function") {
+      const p = m.progress(level) || {};
+      const value = Math.max(0, Number(p.value) || 0);
+      const target = Math.max(0, Number(p.target) || 0);
+      const suffix = typeof p.suffix === "string" ? p.suffix : "";
+      progress = { value, target, suffix };
+    }
+    const done = progress && progress.target > 0
+      ? progress.value >= progress.target
+      : !!m.check(level);
+    return { ...m, done, progress };
+  });
   const done = rows.filter(r => r.done).length;
   const total = rows.length;
   const complete = total > 0 && done === total;
@@ -5232,21 +5626,102 @@ function renderLevelMissions(level) {
   const root = document.getElementById("campaign-level-missions");
   if (!root) return;
   const status = getLevelMissionStatus(level);
+  const daySummary = getDailyMissionAttemptSummary(level);
+  const adaptiveUi = getAdaptiveTelemetryUi(level);
+  const adaptiveProfile = getAdaptiveTelemetryProfile(level);
+  const adaptiveAlert = getAdaptivePreventiveAlert(level);
+  const adaptiveStabilityGoal = getAdaptiveStabilityGoalText(level);
+  const adaptiveWeekly = getAdaptiveWeeklyStatus(level);
+  updateAdaptiveWeakMemo(level);
+  const adaptiveMemo = getAdaptiveWeakMemoText(level);
+  const typeStats = getCombatTypeAccuracySummary(level);
+  const typeStatsHtml = typeStats.map(row => {
+    return "<div class='small mt8'>" + row.label + ": " + row.correct + "/" + row.attempts + " (" + row.pct + "%)"
+      + "<div class='badge-progress mt8'><div style='width:" + row.pct + "%; background:#7dd3fc;'></div></div></div>";
+  }).join("");
+  const daySummaryColor = daySummary.remaining > 0 ? "#dff7d8" : "#ffe7a8";
+  const resetCountdown = getDailyResetCountdownText();
+  const pendingActions = status.rows
+    .filter(row => !row.done)
+    .sort((a, b) => getMissionPriorityScore(a) - getMissionPriorityScore(b))
+    .map(getMissionActionText)
+    .slice(0, 2);
+  const actionsText = pendingActions.length
+    ? "<div class='small mt8' style='color:#dff7d8'><strong>Siguiente objetivo:</strong> " + pendingActions.join(" ") + "</div>"
+    : "<div class='small mt8' style='color:#dff7d8'><strong>Siguiente objetivo:</strong> Todo completado en este bloque.</div>";
   const lines = status.rows.map((row, idx) => {
     const mark = row.done ? "✅" : "◻";
-    return "<div class='small mt8'>" + mark + " M" + (idx + 1) + ": " + row.text + "</div>";
+    let tone = row.done ? "done" : "low";
+    let progressText = "";
+    if (row.progress && row.progress.target > 0) {
+      const value = Math.min(row.progress.value, row.progress.target);
+      const suffix = row.progress.suffix || "";
+      const ratio = row.progress.target > 0 ? (value / row.progress.target) : 0;
+      if (row.done) {
+        tone = "done";
+      } else if (ratio >= 0.66) {
+        tone = "high";
+      } else if (ratio >= 0.33) {
+        tone = "mid";
+      }
+      progressText = " <span class='mission-progress-pill " + tone + "'>" + value + suffix + "/" + row.progress.target + suffix + "</span>";
+    }
+    const missionKey = level + ":" + row.id;
+    const currentState = row.done ? "done" : tone;
+    const previousState = missionRenderState[missionKey];
+    const pulseClass = previousState && previousState !== currentState ? " pulse" : "";
+    missionRenderState[missionKey] = currentState;
+    return "<div class='small mt8 mission-line" + pulseClass + "'>" + mark + " M" + (idx + 1) + ": " + row.text + progressText + "</div>";
   }).join("");
 
   const progressPct = status.total > 0 ? Math.round((status.done / status.total) * 100) : 0;
+  const currentMilestone = progressPct >= 100 ? 100 : (progressPct >= 75 ? 75 : (progressPct >= 50 ? 50 : (progressPct >= 25 ? 25 : 0)));
+  const summaryKey = "summary:" + level;
+  const previousMilestone = missionSummaryRenderState[summaryKey];
+  const summaryPulseClass = (typeof previousMilestone === "number" && currentMilestone > previousMilestone) ? " pulse" : "";
+  const reachedFull = summaryPulseClass && currentMilestone === 100;
+  const milestoneToast = summaryPulseClass
+    ? "<div class='mission-milestone-toast" + (reachedFull ? " complete" : "") + "'>"
+      + (reachedFull ? "Nivel CEFR completado" : ("Hito " + currentMilestone + "% alcanzado"))
+      + "</div>"
+    : "";
+  missionSummaryRenderState[summaryKey] = currentMilestone;
   const rewardState = status.claimed
     ? "Recompensa de nivel ya reclamada."
     : (status.complete ? "Recompensa lista para reclamar." : "Completa todas las misiones para desbloquear recompensa.");
+  const consistencyClaimed = !!(STATE.levelConsistencyBonusClaimed && STATE.levelConsistencyBonusClaimed[level]);
+  const consistencyStatus = getConsistencyBonusStatus(level);
+  const consistencyPct = Math.round((consistencyStatus.completedTypeCount / consistencyStatus.targetTypeCount) * 100);
+  const consistencyInfo = consistencyClaimed
+    ? "Bonus de consistencia lingüística: reclamado (+18 XP, +12 monedas)."
+    : "Bonus de consistencia: completa 3 misiones de tipos distintos (campaña + briefing + reto) para desbloquear +18 XP y +12 monedas.";
+  const dayCta = daySummary.remaining === 0
+    ? "<div class='small mt8' style='color:#ffe7a8'><strong>Hoy ya consumiste todos los intentos que suman misión.</strong> Sigue con briefing o biblioteca para preparar el próximo reinicio.</div>"
+    : "";
 
-  root.innerHTML = "<div class='small'><strong>" + level + " · progreso de misión:</strong> " + status.done + "/" + status.total + " (" + progressPct + "%)</div>"
+  root.innerHTML = "<div class='small mission-summary" + summaryPulseClass + "'><strong>" + level + " · progreso de misión:</strong> " + status.done + "/" + status.total + " (" + progressPct + "%)</div>"
+    + milestoneToast
     + "<div class='badge-progress mt8'><div style='width:" + progressPct + "%'></div></div>"
+    + "<div class='small mt8' style='color:" + adaptiveUi.color + "'><strong>Ajuste actual:</strong> " + adaptiveUi.label + " · " + adaptiveUi.detail + " (muestras: " + adaptiveUi.attempts + ")</div>"
+    + "<div class='small mt8' style='color:#cfe2f8'><strong>Estabilidad adaptativa:</strong> objetivo " + (adaptiveProfile.desired || "neutral") + " · enfriamiento " + (adaptiveProfile.streak || 0) + "</div>"
+    + "<div class='small mt8' style='color:" + adaptiveProfile.confidence.color + "'><strong>Confiabilidad:</strong> " + adaptiveProfile.confidence.label + " (" + adaptiveProfile.attempts + " muestras)</div>"
+    + "<div class='small mt8' style='color:#d7ecff'><strong>Motivo del objetivo:</strong> " + (adaptiveProfile.desiredReason || "sin datos") + "</div>"
+    + (adaptiveAlert ? ("<div class='small mt8' style='color:#ffe7a8'><strong>Prevención:</strong> " + adaptiveAlert + "</div>") : "")
+    + "<div class='small mt8' style='color:" + daySummaryColor + "'><strong>Escenarios que aún pueden sumar hoy:</strong> " + daySummary.remaining + " / " + daySummary.totalEligible + " (consumidos: " + daySummary.consumed + ")</div>"
+    + "<div class='small mt8' style='color:#d7ecff'><strong>Reinicio diario de intentos:</strong> en " + resetCountdown + "</div>"
+    + "<div class='small mt8' style='color:#dff7d8'><strong>Meta del día:</strong> " + adaptiveStabilityGoal + "</div>"
+    + "<div class='small mt8' style='color:#d7ecff'><strong>Misión semanal de estabilidad:</strong> " + adaptiveWeekly.stable + "/" + adaptiveWeekly.target + (adaptiveWeekly.claimed ? " (recompensa reclamada)" : "") + "</div>"
+    + (adaptiveMemo ? ("<div class='small mt8' style='color:#dff7d8'><strong>Memo contextual:</strong> " + adaptiveMemo + "</div>") : "")
+    + "<div class='small mt8' style='color:#d7ecff'><strong>Precisión reciente por tipo</strong></div>"
+    + typeStatsHtml
+    + actionsText
     + lines
+    + "<div class='small mt8' style='color:#d7ecff'><strong>Consistencia lingüística:</strong> " + consistencyStatus.completedTypeCount + "/" + consistencyStatus.targetTypeCount + " tipos</div>"
+    + "<div class='badge-progress mt8'><div style='width:" + consistencyPct + "%; background:#6ee7b7;'></div></div>"
+    + "<div class='small mt8' style='color:#e3f0ff'>" + consistencyInfo + "</div>"
+    + dayCta
     + "<div class='small mt8'>" + rewardState + " Premio: +30 XP, +20 monedas y botín raro.</div>"
-    + "<div class='row mt8'><button class='btn secondary' " + ((status.complete && !status.claimed) ? "" : "disabled") + " onclick='claimLevelMissionReward(\"" + level + "\")'>Reclamar recompensa CEFR</button></div>";
+    + "<div class='row mt8'><button class='btn secondary' " + ((status.complete && !status.claimed) ? "" : "disabled") + " onclick='claimLevelMissionReward(\"" + level + "\")'>Reclamar recompensa CEFR</button><button class='btn ghost' onclick='openAdaptiveDiagnostics(\"" + level + "\")'>Ver diagnóstico adaptativo</button></div>";
 }
 
 function renderNpcRelationsCampaign() {
@@ -5305,11 +5780,796 @@ function renderAcademy() {
   });
 }
 
-function stageTypeLabel(stage) {
-  if (stage === 5) return "Combate de precisión";
-  if (stage === 11) return "Prueba de ascenso";
-  const cycle = ["Elección múltiple", "Agrupación", "Formulación de frase"];
-  return cycle[(stage - 1) % cycle.length];
+const LEVEL_STAGE_TYPE_WEIGHTS = {
+  A1: { mcq: 5, group: 3, order: 2, text: 1, dialogue: 1 },
+  A2: { mcq: 3, group: 2, order: 4, text: 2, dialogue: 3 },
+  B1: { mcq: 2, group: 3, order: 3, text: 3, dialogue: 4 },
+  B2: { mcq: 1, group: 2, order: 4, text: 4, dialogue: 4 },
+};
+
+const LEVEL_STAGE_MODIFIER_ROTATION = {
+  A1: ["time-lite", "clean-bonus", "none", "time-lite"],
+  A2: ["no-reveal", "clean-bonus", "time-mid", "none"],
+  B1: ["time-mid", "clean-bonus", "no-reveal", "clean-bonus"],
+  B2: ["time-hard", "no-reveal", "clean-bonus", "none"],
+};
+
+const LEVEL_BOSS_PHASE_PLANS = {
+  A1: {
+    mini: ["mcq", "group", "dialogue", "order", "mcq"],
+    final: ["mcq", "group", "order", "dialogue", "mcq", "group", "order", "dialogue", "text", "order"],
+    miniMechanic: "Ronda de fundamentos: alterna comprensión y cortesía.",
+    finalMechanic: "Asalto de claridad total: exige precisión básica sin cortes.",
+  },
+  A2: {
+    mini: ["order", "dialogue", "mcq", "order", "dialogue"],
+    final: ["order", "dialogue", "mcq", "order", "dialogue", "text", "order", "dialogue", "mcq", "order"],
+    miniMechanic: "Control funcional: destino, hora y forma completa.",
+    finalMechanic: "Cadena de servicio: respuesta útil en secuencia sostenida.",
+  },
+  B1: {
+    mini: ["dialogue", "order", "group", "text", "dialogue"],
+    final: ["dialogue", "order", "text", "group", "dialogue", "order", "text", "dialogue", "group", "order"],
+    miniMechanic: "Pulso narrativo: contexto + evento sin perder coherencia.",
+    finalMechanic: "Ruta narrativa: alterna relato, matiz y orden temporal.",
+  },
+  B2: {
+    mini: ["text", "dialogue", "order", "text", "dialogue"],
+    final: ["text", "dialogue", "order", "text", "dialogue", "order", "text", "dialogue", "order", "text"],
+    miniMechanic: "Precisión argumentativa: hipótesis y finalidad en presión.",
+    finalMechanic: "Concilio final: solo valen respuestas con matiz y rigor.",
+  },
+};
+
+function stageTypeLabel(stage, level) {
+  if (stage === 5) return "Semijefe táctico";
+  if (stage === 11) return "Jefe con mecánica";
+  const lvl = level || STATE.selectedLevel || STATE.level || "A1";
+  const profile = LEVEL_STAGE_TYPE_WEIGHTS[lvl] || LEVEL_STAGE_TYPE_WEIGHTS.A1;
+  const top = Object.entries(profile).sort((a, b) => b[1] - a[1])[0];
+  const byKind = {
+    mcq: "Elección múltiple guiada",
+    group: "Agrupación estratégica",
+    order: "Orden de frase",
+    text: "Producción breve",
+    dialogue: "Diálogo contextual",
+  };
+  return byKind[top ? top[0] : "mcq"] || "Escenario";
+}
+
+function ensureCombatTelemetryLevel(level) {
+  const lvl = level || STATE.level || "A1";
+  if (!STATE.combatTelemetry || typeof STATE.combatTelemetry !== "object") {
+    STATE.combatTelemetry = {};
+  }
+  if (!STATE.combatTelemetry[lvl]) {
+    STATE.combatTelemetry[lvl] = {
+      attempts: 0,
+      correct: 0,
+      timeouts: 0,
+      totalTimeSpent: 0,
+      recent: [],
+      adaptiveControl: {
+        mode: "neutral",
+        desired: "neutral",
+        streak: 0,
+        lastEvalAttempts: 0,
+        lastChange: null,
+      },
+      types: {
+        mcq: { attempts: 0, correct: 0 },
+        group: { attempts: 0, correct: 0 },
+        order: { attempts: 0, correct: 0 },
+        text: { attempts: 0, correct: 0 },
+        dialogue: { attempts: 0, correct: 0 },
+      },
+      campaignTypes: {
+        mcq: { attempts: 0, correct: 0 },
+        group: { attempts: 0, correct: 0 },
+        order: { attempts: 0, correct: 0 },
+        text: { attempts: 0, correct: 0 },
+        dialogue: { attempts: 0, correct: 0 },
+      },
+    };
+  }
+  if (!Array.isArray(STATE.combatTelemetry[lvl].recent)) {
+    STATE.combatTelemetry[lvl].recent = [];
+  }
+  if (!STATE.combatTelemetry[lvl].adaptiveControl) {
+    STATE.combatTelemetry[lvl].adaptiveControl = {
+      mode: "neutral",
+      desired: "neutral",
+      streak: 0,
+      lastEvalAttempts: 0,
+      lastChange: null,
+    };
+  }
+  if (typeof STATE.combatTelemetry[lvl].adaptiveControl !== "object") {
+    STATE.combatTelemetry[lvl].adaptiveControl = {
+      mode: "neutral",
+      desired: "neutral",
+      streak: 0,
+      lastEvalAttempts: 0,
+      lastChange: null,
+    };
+  }
+  if (!STATE.combatTelemetry[lvl].adaptiveControl.lastChange) {
+    STATE.combatTelemetry[lvl].adaptiveControl.lastChange = null;
+  }
+  if (!STATE.combatTelemetry[lvl].campaignTypes || typeof STATE.combatTelemetry[lvl].campaignTypes !== "object") {
+    STATE.combatTelemetry[lvl].campaignTypes = {
+      mcq: { attempts: 0, correct: 0 },
+      group: { attempts: 0, correct: 0 },
+      order: { attempts: 0, correct: 0 },
+      text: { attempts: 0, correct: 0 },
+      dialogue: { attempts: 0, correct: 0 },
+    };
+  }
+  return STATE.combatTelemetry[lvl];
+}
+
+function getAdaptiveConfidence(attempts) {
+  const n = Math.max(0, Number(attempts || 0));
+  if (n >= 18) return { label: "alta", color: "#dff7d8" };
+  if (n >= 8) return { label: "media", color: "#ffe7a8" };
+  return { label: "baja", color: "#ffd2d2" };
+}
+
+function getAdaptiveDesiredReason(attempts, failRate, timeoutRate, desired) {
+  const failPct = Math.round(Math.max(0, failRate || 0) * 100);
+  const timeoutPct = Math.round(Math.max(0, timeoutRate || 0) * 100);
+  if (desired === "assist") {
+    return "fallo " + failPct + "% y timeout " + timeoutPct + "% en " + attempts + " muestras";
+  }
+  if (desired === "challenge") {
+    return "fallo " + failPct + "% y timeout " + timeoutPct + "% con consistencia alta en " + attempts + " muestras";
+  }
+  return "métricas equilibradas (fallo " + failPct + "%, timeout " + timeoutPct + "%)";
+}
+
+function getAdaptivePreventiveAlert(level) {
+  const profile = getAdaptiveTelemetryProfile(level);
+  if (profile.attempts < 6) return "";
+  if (profile.adaptive === "assist") return "";
+  const risk = Math.max(profile.failRate, profile.timeoutRate);
+  if (profile.desired === "assist" && profile.streak >= 1) {
+    return "Aviso adaptativo: si mantienes esta tendencia, el sistema entrará en Asistencia pronto.";
+  }
+  if (risk >= 0.38) {
+    return "Aviso adaptativo: estás cerca del umbral de ayuda. Prioriza precisión sobre velocidad en las próximas 2 rondas.";
+  }
+  return "";
+}
+
+function getAdaptiveStabilityGoalText(level) {
+  const profile = getAdaptiveTelemetryProfile(level);
+  const row = ensureCombatTelemetryLevel(level);
+  const recent = Array.isArray(row.recent) ? row.recent.slice(-5) : [];
+  const noTimeout = recent.filter(item => !item.timeout).length;
+  const targetMode = profile.adaptive === "challenge" ? "Desafío" : "Neutral";
+  const target = 5;
+  return "mantener " + targetMode + " con " + noTimeout + "/" + target + " retos recientes sin timeout";
+}
+
+function getWeekKey(date) {
+  const d = date ? new Date(date) : new Date();
+  const start = new Date(d.getFullYear(), 0, 1);
+  const dayOfYear = Math.floor((d - start) / 86400000) + 1;
+  const week = Math.ceil(dayOfYear / 7);
+  return d.getFullYear() + "-W" + String(week).padStart(2, "0");
+}
+
+function getAdaptiveChangeConfirmation(profile) {
+  const p = profile || getAdaptiveTelemetryProfile(STATE.level || "A1");
+  const mode = p.adaptive || "neutral";
+  const desired = p.desired || "neutral";
+  if (desired === mode) {
+    return { current: 1, need: 1, pct: 100, text: "Cambio confirmado" };
+  }
+  const need = desired === "challenge" ? 3 : 2;
+  const current = Math.min(need, Math.max(0, Number(p.streak || 0)));
+  const pct = Math.round((current / need) * 100);
+  return {
+    current,
+    need,
+    pct,
+    text: "Confirmación de cambio: " + current + "/" + need + " hacia " + desired,
+  };
+}
+
+function getAdaptiveFatigueSignal(level) {
+  const p = getAdaptiveTelemetryProfile(level);
+  if (p.attempts < 8) return "";
+  if (p.timeoutRate >= 0.3 && p.failRate <= 0.25) {
+    return "Patrón de fatiga detectado: suben timeout sin caída fuerte de calidad. Recomendación: pausa breve o ritmo más calmado durante 2 rondas.";
+  }
+  return "";
+}
+
+function updateAdaptiveWeakMemo(level) {
+  const lvl = level || STATE.level || "A1";
+  const weak = getWeakestCombatType(lvl);
+  if (!weak) return null;
+  if (!STATE.adaptiveWeakMemo || typeof STATE.adaptiveWeakMemo !== "object") STATE.adaptiveWeakMemo = {};
+  const text = "Memo: foco recomendado en " + weak.label + " (" + weak.pct + "%).";
+  STATE.adaptiveWeakMemo[lvl] = { kind: weak.kind, label: weak.label, pct: weak.pct, at: Date.now(), text };
+  return STATE.adaptiveWeakMemo[lvl];
+}
+
+function getAdaptiveWeakMemoText(level) {
+  const lvl = level || STATE.level || "A1";
+  const memo = STATE.adaptiveWeakMemo && STATE.adaptiveWeakMemo[lvl];
+  return memo ? memo.text : "";
+}
+
+function getCampaignTypeSnapshot(level, kind) {
+  const lvl = level || STATE.level || "A1";
+  const k = kind || "mcq";
+  const row = ensureCombatTelemetryLevel(lvl);
+  const c = (row.campaignTypes && row.campaignTypes[k]) || { attempts: 0, correct: 0 };
+  const attempts = Math.max(0, Number(c.attempts || 0));
+  const correct = Math.max(0, Number(c.correct || 0));
+  const pct = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
+  return { attempts, correct, pct };
+}
+
+function registerAdaptiveWeeklyStability(level, stable) {
+  const lvl = level || STATE.level || "A1";
+  const week = getWeekKey();
+  const key = week + "|" + lvl;
+  if (!STATE.adaptiveWeeklyStability || typeof STATE.adaptiveWeeklyStability !== "object") STATE.adaptiveWeeklyStability = {};
+  if (!STATE.adaptiveWeeklyClaimed || typeof STATE.adaptiveWeeklyClaimed !== "object") STATE.adaptiveWeeklyClaimed = {};
+  if (!STATE.adaptiveWeeklyStability[key]) {
+    STATE.adaptiveWeeklyStability[key] = { stableSessions: 0, totalSessions: 0 };
+  }
+  STATE.adaptiveWeeklyStability[key].totalSessions += 1;
+  if (stable) STATE.adaptiveWeeklyStability[key].stableSessions += 1;
+
+  const row = STATE.adaptiveWeeklyStability[key];
+  if (row.stableSessions >= 3 && !STATE.adaptiveWeeklyClaimed[key]) {
+    STATE.adaptiveWeeklyClaimed[key] = true;
+    STATE.xp += 20;
+    STATE.coins += 10;
+    notify("Misión semanal de estabilidad completada: +20 XP, +10 monedas.");
+  }
+}
+
+function getAdaptiveWeeklyStatus(level) {
+  const lvl = level || STATE.level || "A1";
+  const week = getWeekKey();
+  const key = week + "|" + lvl;
+  const row = (STATE.adaptiveWeeklyStability && STATE.adaptiveWeeklyStability[key]) || { stableSessions: 0, totalSessions: 0 };
+  const claimed = !!(STATE.adaptiveWeeklyClaimed && STATE.adaptiveWeeklyClaimed[key]);
+  return { stable: row.stableSessions || 0, total: row.totalSessions || 0, target: 3, claimed, week };
+}
+
+function registerCombatTelemetry(level, challenge, correct, timeout, mode) {
+  if (mode !== "campaign" && mode !== "adaptive") return;
+  const row = ensureCombatTelemetryLevel(level);
+  row.attempts += 1;
+  row.correct += correct ? 1 : 0;
+  row.timeouts += timeout ? 1 : 0;
+  const totalTime = Math.max(0, Number((challenge && challenge.time) || 0));
+  const remaining = Math.max(0, Number(timerRemaining || 0));
+  const spent = Math.max(0, totalTime - remaining);
+  row.totalTimeSpent += spent;
+  row.recent.push({
+    at: Date.now(),
+    type: (challenge && challenge.type) || "mcq",
+    correct: !!correct,
+    timeout: !!timeout,
+    spent,
+  });
+  if (row.recent.length > 15) row.recent = row.recent.slice(-15);
+
+  const t = (challenge && challenge.type) || "mcq";
+  if (!row.types[t]) row.types[t] = { attempts: 0, correct: 0 };
+  row.types[t].attempts += 1;
+  row.types[t].correct += correct ? 1 : 0;
+
+  if (mode === "campaign") {
+    if (!row.campaignTypes[t]) row.campaignTypes[t] = { attempts: 0, correct: 0 };
+    row.campaignTypes[t].attempts += 1;
+    row.campaignTypes[t].correct += correct ? 1 : 0;
+
+    const lvl = level || STATE.level || "A1";
+    const track = STATE.adaptiveTransferTracking && STATE.adaptiveTransferTracking[lvl];
+    if (track && !track.resolved && track.kind === t) {
+      track.collected = Math.max(0, Number(track.collected || 0) + 1);
+      track.correct = Math.max(0, Number(track.correct || 0) + (correct ? 1 : 0));
+      if (track.collected >= 3) {
+        const after = getCampaignTypeSnapshot(lvl, t);
+        const delta = after.pct - Number(track.baselinePct || 0);
+        if (!STATE.adaptivePracticeLastByLevel || typeof STATE.adaptivePracticeLastByLevel !== "object") {
+          STATE.adaptivePracticeLastByLevel = {};
+        }
+        const bucket = STATE.adaptivePracticeLastByLevel[lvl] || {};
+        bucket.transfer = {
+          kind: t,
+          baselinePct: Number(track.baselinePct || 0),
+          afterPct: after.pct,
+          delta,
+          samples: track.collected,
+          at: Date.now(),
+        };
+        STATE.adaptivePracticeLastByLevel[lvl] = bucket;
+        track.resolved = true;
+      }
+    }
+  }
+}
+
+function getAdaptiveTelemetryProfile(level) {
+  const row = ensureCombatTelemetryLevel(level);
+  const attempts = Math.max(0, Number(row.attempts || 0));
+  const correct = Math.max(0, Number(row.correct || 0));
+  const timeouts = Math.max(0, Number(row.timeouts || 0));
+  const control = row.adaptiveControl || (row.adaptiveControl = {
+    mode: "neutral",
+    desired: "neutral",
+    streak: 0,
+    lastEvalAttempts: 0,
+    lastChange: null,
+  });
+  if (attempts <= 0) {
+    return {
+      attempts: 0,
+      failRate: 0,
+      timeoutRate: 0,
+      adaptive: "neutral",
+      desired: "neutral",
+      streak: 0,
+      desiredReason: "sin datos suficientes",
+      lastChange: control.lastChange || null,
+      confidence: getAdaptiveConfidence(0),
+    };
+  }
+  const failRate = Math.max(0, (attempts - correct) / attempts);
+  const timeoutRate = Math.max(0, timeouts / attempts);
+  let desired = "neutral";
+  if (attempts >= 8 && (failRate >= 0.45 || timeoutRate >= 0.28)) desired = "assist";
+  else if (attempts >= 12 && failRate <= 0.18 && timeoutRate <= 0.08) desired = "challenge";
+  const desiredReason = getAdaptiveDesiredReason(attempts, failRate, timeoutRate, desired);
+
+  if (control.lastEvalAttempts !== attempts) {
+    control.lastEvalAttempts = attempts;
+    if (desired === control.mode) {
+      control.desired = desired;
+      control.streak = 0;
+    } else {
+      if (desired === control.desired) {
+        control.streak += 1;
+      } else {
+        control.desired = desired;
+        control.streak = 1;
+      }
+      const need = desired === "challenge" ? 3 : 2;
+      if (control.streak >= need) {
+        const from = control.mode || "neutral";
+        control.mode = desired;
+        control.lastChange = {
+          at: Date.now(),
+          from,
+          to: desired,
+          reason: desiredReason,
+          attempts,
+          failRate,
+          timeoutRate,
+        };
+        control.streak = 0;
+      }
+    }
+  }
+
+  return {
+    attempts,
+    failRate,
+    timeoutRate,
+    adaptive: control.mode || "neutral",
+    desired,
+    streak: control.streak || 0,
+    desiredReason,
+    lastChange: control.lastChange || null,
+    confidence: getAdaptiveConfidence(attempts),
+  };
+}
+
+function getCombatTypeAccuracySummary(level) {
+  const row = ensureCombatTelemetryLevel(level);
+  const types = row.types || {};
+  const order = ["mcq", "group", "order", "text", "dialogue"];
+  const labels = { mcq: "MCQ", group: "Grupo", order: "Orden", text: "Texto", dialogue: "Diálogo" };
+  return order.map(kind => {
+    const r = types[kind] || { attempts: 0, correct: 0 };
+    const attempts = Math.max(0, Number(r.attempts || 0));
+    const correct = Math.max(0, Number(r.correct || 0));
+    const pct = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
+    return { kind, label: labels[kind], attempts, correct, pct };
+  });
+}
+
+function getAdaptiveRecommendation(level) {
+  const profile = getAdaptiveTelemetryProfile(level);
+  const typeRows = getCombatTypeAccuracySummary(level);
+  const sampled = typeRows.filter(row => row.attempts >= 3);
+  const weakest = sampled.sort((a, b) => a.pct - b.pct)[0] || null;
+
+  if (profile.attempts < 8) {
+    return "Calibración inicial activa: completa al menos 8 intentos para activar recomendaciones más finas.";
+  }
+  if (profile.adaptive === "assist") {
+    if (weakest) {
+      return "Enfoca 2-3 rondas en " + weakest.label + " (" + weakest.pct + "%) con ritmo más lento y sin revelar hasta el segundo intento.";
+    }
+    return "Modo asistencia activo: prioriza precisión antes de velocidad durante las próximas rondas.";
+  }
+  if (profile.adaptive === "challenge") {
+    return "Modo desafío activo: intenta conservar racha limpia en tipos mixtos para consolidar dominio avanzado.";
+  }
+  if (weakest) {
+    return "Perfil estable. Refuerza " + weakest.label + " para subir consistencia global sin perder ritmo.";
+  }
+  return "Perfil neutral y estable. Mantén variedad de tipos para una lectura adaptativa más robusta.";
+}
+
+function getWeakestCombatType(level) {
+  const rows = getCombatTypeAccuracySummary(level)
+    .filter(row => row.attempts >= 2)
+    .sort((a, b) => {
+      if (a.pct !== b.pct) return a.pct - b.pct;
+      return b.attempts - a.attempts;
+    });
+  return rows[0] || null;
+}
+
+function getAdaptiveTrendHtml(level) {
+  const row = ensureCombatTelemetryLevel(level);
+  const recent = Array.isArray(row.recent) ? row.recent.slice(-15) : [];
+  if (!recent.length) {
+    return "<span class='small'>Aún no hay historial reciente.</span>";
+  }
+  return recent.map(item => {
+    const cls = item.timeout ? "timeout" : (item.correct ? "ok" : "fail");
+    const tag = item.timeout ? "timeout" : (item.correct ? "acierto" : "fallo");
+    const typ = (item.type || "mcq").toUpperCase();
+    const spent = Math.max(0, Number(item.spent || 0));
+    const stamp = item.at ? formatDateTime(item.at) : "";
+    return "<span class='adaptive-trend-cell " + cls + "' title='" + typ + " · " + tag + " · " + spent + "s · " + stamp + "'></span>";
+  }).join("");
+}
+
+function buildAdaptivePracticeQuestions(level, kind, count) {
+  const lvl = level || STATE.level || "A1";
+  const total = Math.max(1, Number(count || 3));
+  const bank = QUESTION_BANK[lvl] || QUESTION_BANK.A1;
+  const targetKind = kind || "mcq";
+  const poolByKind = {
+    mcq: (bank.mcq || []).map(q => withMeta(q, "Entrenamiento adaptativo", 36, 40)),
+    group: (bank.group || []).map(q => withMeta(q, "Entrenamiento adaptativo", 38, 42)),
+    order: (bank.order || []).map(q => withMeta(q, "Entrenamiento adaptativo", 40, 44)),
+    text: buildBossTextPhases(lvl).map(q => withMeta(q, "Entrenamiento adaptativo", 48, 48)),
+    dialogue: buildBossDialoguePhases(lvl, 5).map(q => withMeta(q, "Entrenamiento adaptativo", 44, 44)),
+  };
+
+  const list = [];
+  const used = new Set();
+  const primary = poolByKind[targetKind] || [];
+  while (list.length < total && primary.length) {
+    const picked = pickUniqueChallenge(primary, used);
+    if (!picked) break;
+    list.push(picked);
+  }
+
+  const fallbackKinds = ["mcq", "group", "order", "text", "dialogue"].filter(k => k !== targetKind);
+  for (let i = 0; i < fallbackKinds.length && list.length < total; i++) {
+    const arr = poolByKind[fallbackKinds[i]] || [];
+    while (list.length < total && arr.length) {
+      const p = pickUniqueChallenge(arr, used);
+      if (!p) break;
+      list.push(p);
+    }
+  }
+
+  return list.slice(0, total);
+}
+
+function loadCurrentAdaptiveQuestion() {
+  if (!currentAdaptiveRun) return;
+  const q = currentAdaptiveRun.questions[currentAdaptiveRun.index];
+  if (!q) return endAdaptiveRun();
+  setCurrentChallenge(q, "Adaptivo " + (currentAdaptiveRun.index + 1) + "/" + currentAdaptiveRun.questions.length);
+}
+
+function startAdaptivePracticeFromDiagnostics(preferredKind) {
+  const lvl = STATE.selectedLevel || STATE.level || "A1";
+  const weakest = getWeakestCombatType(lvl);
+  const targetKind = preferredKind || (weakest ? weakest.kind : "mcq");
+  const questions = buildAdaptivePracticeQuestions(lvl, targetKind, 3);
+  if (!questions.length) return notify("No se pudo generar práctica adaptativa ahora mismo.");
+  const telemetry = ensureCombatTelemetryLevel(lvl);
+  const baseRow = (telemetry.types && telemetry.types[targetKind]) || { attempts: 0, correct: 0 };
+  const baselineAttempts = Math.max(0, Number(baseRow.attempts || 0));
+  const baselineCorrect = Math.max(0, Number(baseRow.correct || 0));
+  const campaignBase = getCampaignTypeSnapshot(lvl, targetKind);
+
+  closeAdaptiveDiagnostics();
+  setGameMode("adaptive");
+  currentBossRun = null;
+  currentRun = null;
+  currentAdaptiveRun = {
+    level: lvl,
+    targetKind,
+    index: 0,
+    correct: 0,
+    targetAnswered: 0,
+    targetCorrect: 0,
+    baselineAttempts,
+    baselineCorrect,
+    campaignBaselinePct: campaignBase.pct,
+    questions,
+  };
+  if (!STATE.adaptiveTransferTracking || typeof STATE.adaptiveTransferTracking !== "object") {
+    STATE.adaptiveTransferTracking = {};
+  }
+  STATE.adaptiveTransferTracking[lvl] = {
+    kind: targetKind,
+    baselinePct: campaignBase.pct,
+    collected: 0,
+    correct: 0,
+    resolved: false,
+    startedAt: Date.now(),
+  };
+  const kindLabels = { mcq: "MCQ", group: "Grupo", order: "Orden", text: "Texto", dialogue: "Diálogo" };
+  notify("Entrenamiento adaptativo iniciado: foco en " + (kindLabels[targetKind] || "fundamentos") + ".");
+  loadCurrentAdaptiveQuestion();
+  openChallengeTransition();
+}
+
+function repeatLastAdaptiveFocus() {
+  const lvl = STATE.selectedLevel || STATE.level || "A1";
+  const last = STATE.adaptivePracticeLastByLevel && STATE.adaptivePracticeLastByLevel[lvl];
+  const kind = last && last.kind;
+  if (!kind) return notify("No hay foco previo guardado para repetir todavía.");
+  startAdaptivePracticeFromDiagnostics(kind);
+}
+
+function nextAdaptiveStep() {
+  if (!currentAdaptiveRun) return goCampaign();
+  if ((currentChallenge && currentChallenge.type) === currentAdaptiveRun.targetKind) {
+    currentAdaptiveRun.targetAnswered += 1;
+    currentAdaptiveRun.targetCorrect += currentChallenge.wasCorrect ? 1 : 0;
+  }
+  currentAdaptiveRun.correct += currentChallenge.wasCorrect ? 1 : 0;
+  currentAdaptiveRun.index += 1;
+  if (currentAdaptiveRun.index >= currentAdaptiveRun.questions.length) {
+    return endAdaptiveRun();
+  }
+  loadCurrentAdaptiveQuestion();
+}
+
+function endAdaptiveRun() {
+  const run = currentAdaptiveRun;
+  const total = run ? run.questions.length : 0;
+  const ok = run ? run.correct : 0;
+  const pct = total > 0 ? Math.round((ok / total) * 100) : 0;
+  const level = (run && run.level) || STATE.level;
+  const kind = (run && run.targetKind) || "mcq";
+  const labels = { mcq: "MCQ", group: "Grupo", order: "Orden", text: "Texto", dialogue: "Diálogo" };
+  const kindLabel = labels[kind] || kind.toUpperCase();
+  const telemetry = ensureCombatTelemetryLevel(level);
+  const postRow = (telemetry.types && telemetry.types[kind]) || { attempts: 0, correct: 0 };
+  const postAttempts = Math.max(0, Number(postRow.attempts || 0));
+  const postCorrect = Math.max(0, Number(postRow.correct || 0));
+  const preAttempts = Math.max(0, Number((run && run.baselineAttempts) || 0));
+  const preCorrect = Math.max(0, Number((run && run.baselineCorrect) || 0));
+  const prePct = preAttempts > 0 ? Math.round((preCorrect / preAttempts) * 100) : 0;
+  const postPct = postAttempts > 0 ? Math.round((postCorrect / postAttempts) * 100) : 0;
+  const delta = postPct - prePct;
+  const deltaText = (delta >= 0 ? "+" : "") + delta + " pp";
+  const deltaColor = delta > 0 ? "#86efac" : (delta < 0 ? "#fca5a5" : "#fcd34d");
+  const deltaLabel = delta > 0 ? "mejora" : (delta < 0 ? "descenso" : "estable");
+  const targetAnswered = Math.max(0, Number((run && run.targetAnswered) || 0));
+  const targetCorrect = Math.max(0, Number((run && run.targetCorrect) || 0));
+  const blockPct = targetAnswered > 0 ? Math.round((targetCorrect / targetAnswered) * 100) : 0;
+  const weak = getWeakestCombatType((run && run.level) || STATE.level);
+  const stable = blockPct >= 67 && targetAnswered >= 2;
+  registerAdaptiveWeeklyStability(level, stable);
+  const weekly = getAdaptiveWeeklyStatus(level);
+  const memo = updateAdaptiveWeakMemo(level);
+
+  if (!STATE.adaptivePracticeLastByLevel || typeof STATE.adaptivePracticeLastByLevel !== "object") {
+    STATE.adaptivePracticeLastByLevel = {};
+  }
+  const transfer = (STATE.adaptivePracticeLastByLevel[level] && STATE.adaptivePracticeLastByLevel[level].transfer) || null;
+  STATE.adaptivePracticeLastByLevel[level] = {
+    level,
+    kind,
+    kindLabel,
+    prePct,
+    postPct,
+    delta,
+    blockPct,
+    blockCorrect: targetCorrect,
+    blockAttempts: targetAnswered,
+    at: Date.now(),
+    memoText: memo ? memo.text : "",
+    weeklyStable: weekly.stable,
+    weeklyTarget: weekly.target,
+    weeklyClaimed: weekly.claimed,
+    transfer,
+  };
+
+  document.getElementById("result-title").textContent = "Práctica adaptativa completada";
+  document.getElementById("result-xp").textContent = "Aciertos: " + ok + "/" + total;
+  document.getElementById("result-score").innerHTML = "Precisión del bloque: " + pct + "% · " + kindLabel + " antes " + prePct + "% -> ahora " + postPct + "% (<span style='color:" + deltaColor + "'>" + deltaText + " · " + deltaLabel + "</span>)";
+  document.getElementById("result-msg").textContent =
+    "Has cerrado una micro-sesión dirigida para estabilizar el rendimiento."
+    + " Resultado del foco " + kindLabel + ": " + targetCorrect + "/" + targetAnswered + " (" + blockPct + "%)."
+    + " Estabilidad semanal: " + weekly.stable + "/" + weekly.target + (weekly.claimed ? " (recompensa ya reclamada)." : ".")
+    + (weak ? (" Punto más débil actual: " + weak.label + " (" + weak.pct + "%).") : "")
+    + " Abre el diagnóstico para ver si mejoró la tendencia.";
+  setResultPedagogy(
+    "La práctica dirigida reduce variabilidad y acelera la recuperación de precisión en puntos concretos.",
+    "Repite otro bloque adaptativo o vuelve a campaña para validar la mejora en contexto real."
+  );
+  currentAdaptiveRun = null;
+  finalizeResultTransition(true);
+}
+
+function openAdaptiveDiagnostics(level) {
+  const lvl = level || STATE.selectedLevel || STATE.level || "A1";
+  const overlay = document.getElementById("adaptive-diagnostics-overlay");
+  const title = document.getElementById("adaptive-diag-title");
+  const summary = document.getElementById("adaptive-diag-summary");
+  const kpi = document.getElementById("adaptive-diag-kpi");
+  const typesRoot = document.getElementById("adaptive-diag-types");
+  const reco = document.getElementById("adaptive-diag-reco");
+  const reasonNode = document.getElementById("adaptive-diag-reason");
+  const confidenceNode = document.getElementById("adaptive-diag-confidence");
+  const confirmationNode = document.getElementById("adaptive-diag-confirmation");
+  const confirmationFill = document.getElementById("adaptive-diag-confirmation-fill");
+  const compareNode = document.getElementById("adaptive-diag-compare");
+  const fatigueNode = document.getElementById("adaptive-diag-fatigue");
+  const memoNode = document.getElementById("adaptive-diag-memo");
+  const trendNode = document.getElementById("adaptive-diag-trend");
+  const trainBtn = document.getElementById("adaptive-diag-train-btn");
+  if (!overlay || !title || !summary || !kpi || !typesRoot || !reco || !reasonNode || !confidenceNode || !confirmationNode || !confirmationFill || !compareNode || !fatigueNode || !memoNode || !trendNode || !trainBtn) return;
+
+  const profile = getAdaptiveTelemetryProfile(lvl);
+  const ui = getAdaptiveTelemetryUi(lvl);
+  const telemetry = ensureCombatTelemetryLevel(lvl);
+  const types = getCombatTypeAccuracySummary(lvl);
+  const avgTime = profile.attempts > 0 ? (Number(telemetry.totalTimeSpent || 0) / profile.attempts) : 0;
+  const failPct = Math.round((profile.failRate || 0) * 100);
+  const timeoutPct = Math.round((profile.timeoutRate || 0) * 100);
+  const weakest = getWeakestCombatType(lvl);
+  const confirmation = getAdaptiveChangeConfirmation(profile);
+  const fatigue = getAdaptiveFatigueSignal(lvl);
+  const memoText = getAdaptiveWeakMemoText(lvl);
+  const weekly = getAdaptiveWeeklyStatus(lvl);
+  const last = STATE.adaptivePracticeLastByLevel && STATE.adaptivePracticeLastByLevel[lvl];
+  STATE.selectedLevel = lvl;
+
+  title.textContent = "Diagnóstico adaptativo · " + lvl;
+  summary.textContent = "Estado: " + ui.label + " · " + ui.detail + " · muestras " + profile.attempts + ".";
+
+  kpi.innerHTML = ""
+    + "<div class='adaptive-diag-card'><div class='small'>Fallos recientes</div><div class='small mt8'><strong>" + failPct + "%</strong></div></div>"
+    + "<div class='adaptive-diag-card'><div class='small'>Timeout recientes</div><div class='small mt8'><strong>" + timeoutPct + "%</strong></div></div>"
+    + "<div class='adaptive-diag-card'><div class='small'>Tiempo medio por reto</div><div class='small mt8'><strong>" + avgTime.toFixed(1) + " s</strong></div></div>"
+    + "<div class='adaptive-diag-card'><div class='small'>Estabilidad</div><div class='small mt8'><strong>objetivo " + (profile.desired || "neutral") + " · enfriamiento " + (profile.streak || 0) + "</strong></div></div>";
+
+  typesRoot.innerHTML = types.map(row => {
+    return "<div class='adaptive-type-row'>"
+      + row.label + ": " + row.correct + "/" + row.attempts + " (" + row.pct + "%)"
+      + "<div class='badge-progress mt8'><div style='width:" + row.pct + "%; background:#93c5fd;'></div></div>"
+      + "</div>";
+  }).join("");
+
+  reco.textContent = getAdaptiveRecommendation(lvl);
+  reasonNode.textContent = profile.lastChange
+    ? ("Último cambio: " + profile.lastChange.from + " -> " + profile.lastChange.to + " por " + profile.lastChange.reason + ".")
+    : ("Motivo del objetivo actual: " + (profile.desiredReason || "sin datos suficientes") + ".");
+  confidenceNode.textContent = "Confiabilidad del diagnóstico: " + profile.confidence.label + " (" + profile.attempts + " muestras).";
+  confidenceNode.style.color = profile.confidence.color;
+  confirmationNode.textContent = confirmation.text;
+  confirmationFill.style.width = confirmation.pct + "%";
+  compareNode.textContent = last
+    ? ("Comparación persistente: " + (last.kindLabel || String(last.kind || "FOCO").toUpperCase()) + " " + (Number(last.prePct || 0)) + "% -> " + (Number(last.postPct || 0)) + "% (" + ((Number(last.delta || 0) >= 0) ? "+" : "") + Number(last.delta || 0) + " pp) · bloque " + (Number(last.blockCorrect || 0)) + "/" + (Number(last.blockAttempts || 0)) + ".")
+    : "Comparación persistente: aún no hay una sesión adaptativa cerrada en este nivel.";
+  fatigueNode.textContent = fatigue || "Fatiga: sin señales fuertes por timeout.";
+  memoNode.textContent = memoText || "Memo contextual: sin foco débil persistente por ahora.";
+  reasonNode.textContent += " · Estabilidad semanal " + weekly.stable + "/" + weekly.target + (weekly.claimed ? " (recompensa reclamada)." : ".");
+  if (last && last.transfer) {
+    const tr = last.transfer;
+    compareNode.textContent += " Transferencia en campaña: " + tr.baselinePct + "% -> " + tr.afterPct + "% (" + (tr.delta >= 0 ? "+" : "") + tr.delta + " pp en " + tr.samples + " muestras).";
+  }
+  trendNode.innerHTML = getAdaptiveTrendHtml(lvl);
+  trainBtn.textContent = weakest
+    ? ("Entrenar " + weakest.label + " (3 retos)")
+    : "Entrenar fundamentos (3 retos)";
+  overlay.classList.add("show");
+}
+
+function closeAdaptiveDiagnostics() {
+  const overlay = document.getElementById("adaptive-diagnostics-overlay");
+  if (overlay) overlay.classList.remove("show");
+}
+
+function getAdaptiveTelemetryUi(level) {
+  const p = getAdaptiveTelemetryProfile(level);
+  if (p.adaptive === "assist") {
+    return {
+      label: "Asistencia",
+      color: "#dff7d8",
+      detail: "Condiciones suavizadas por rendimiento reciente.",
+      attempts: p.attempts,
+    };
+  }
+  if (p.adaptive === "challenge") {
+    return {
+      label: "Desafío",
+      color: "#ffe7a8",
+      detail: "Reto elevado por consistencia alta.",
+      attempts: p.attempts,
+    };
+  }
+  return {
+    label: "Neutral",
+    color: "#d7ecff",
+    detail: "Balance estándar activo.",
+    attempts: p.attempts,
+  };
+}
+
+function applyAdaptiveModifier(baseModifier, level) {
+  const base = { ...(baseModifier || {}) };
+  const profile = getAdaptiveTelemetryProfile(level);
+  if (profile.adaptive === "assist") {
+    if (Number.isFinite(base.timeDelta)) {
+      base.timeDelta = Math.min(0, base.timeDelta + 2);
+    }
+    if (base.cleanBonus) {
+      base.cleanBonus = {
+        xp: Number(base.cleanBonus.xp || 0) + 3,
+        score: Number(base.cleanBonus.score || 0) + 8,
+      };
+    }
+    base.text = (base.text || "") + " Ajuste dinámico: dificultad suavizada por rendimiento reciente.";
+  } else if (profile.adaptive === "challenge") {
+    if (Number.isFinite(base.timeDelta) && base.timeDelta < 0) {
+      base.timeDelta = base.timeDelta - 1;
+    }
+    if (base.cleanBonus) {
+      base.cleanBonus = {
+        xp: Math.max(4, Number(base.cleanBonus.xp || 0) - 1),
+        score: Math.max(10, Number(base.cleanBonus.score || 0) - 4),
+      };
+    }
+    base.text = (base.text || "") + " Ajuste dinámico: reto aumentado por consistencia alta.";
+  }
+  return base;
+}
+
+function getStageScenarioModifier(level, stageNumber) {
+  const lvl = level || "A1";
+  if (stageNumber === 5 || stageNumber === 11) return applyAdaptiveModifier({ code: "boss", text: "Mecánica de jefe activa." }, lvl);
+  const rota = LEVEL_STAGE_MODIFIER_ROTATION[lvl] || LEVEL_STAGE_MODIFIER_ROTATION.A1;
+  const code = rota[(Math.max(1, Number(stageNumber) || 1) - 1) % rota.length] || "none";
+  if (code === "time-lite") return applyAdaptiveModifier({ code, timeDelta: -4, text: "Condición: ventana rápida (-4s)." }, lvl);
+  if (code === "time-mid") return applyAdaptiveModifier({ code, timeDelta: -6, text: "Condición: ritmo alto (-6s)." }, lvl);
+  if (code === "time-hard") return applyAdaptiveModifier({ code, timeDelta: -6, text: "Condición: presión avanzada (-6s)." }, lvl);
+  if (code === "no-reveal") return applyAdaptiveModifier({ code, noReveal: true, text: "Condición: sin traducción instantánea." }, lvl);
+  if (code === "clean-bonus") return applyAdaptiveModifier({ code, cleanBonus: { xp: 8, score: 18 }, text: "Condición: bonus por respuesta limpia (+8 XP, +18 score)." }, lvl);
+  return applyAdaptiveModifier({ code: "none", text: "Condición: estándar." }, lvl);
+}
+
+function getStagePreferredKinds(level, stageNumber) {
+  const weights = LEVEL_STAGE_TYPE_WEIGHTS[level] || LEVEL_STAGE_TYPE_WEIGHTS.A1;
+  const sortedKinds = Object.entries(weights).sort((a, b) => b[1] - a[1]).map(entry => entry[0]);
+  const offset = (Math.max(1, Number(stageNumber) || 1) - 1) % sortedKinds.length;
+  const rotated = sortedKinds.slice(offset).concat(sortedKinds.slice(0, offset));
+  return rotated.filter(k => ["mcq", "group", "order", "text", "dialogue"].includes(k));
 }
 
 function nextStageForLevel(level) {
@@ -5600,7 +6860,7 @@ function ensureCurrentRun(level, mode, replay) {
     answered: 0,
     timeBonus: 0,
     loadoutStats: { procs: 0, totalXp: 0, totalScore: 0, totalDialogue: 0, setCounts: {} },
-    used: { mcq: new Set(), group: new Set(), order: new Set() },
+    used: { mcq: new Set(), group: new Set(), order: new Set(), text: new Set(), dialogue: new Set() },
     bossUsed: { mini: new Set(), final: new Set() },
   };
   return currentRun;
@@ -5653,6 +6913,19 @@ function setCurrentChallenge(challenge, stageNumber) {
     affinityPerks: null,
     affinityFreeRevealAvailable: false,
   };
+  const mod = currentChallenge.stageModifier || null;
+  if (mod && Number.isFinite(mod.timeDelta) && mod.timeDelta !== 0) {
+    currentChallenge.time = Math.max(24, (currentChallenge.time || 40) + mod.timeDelta);
+  }
+  if (mod && mod.noReveal) {
+    currentChallenge.revealLocked = true;
+  }
+  if (mod && mod.cleanBonus) {
+    currentChallenge.cleanBonus = {
+      xp: Number(mod.cleanBonus.xp || 0),
+      score: Number(mod.cleanBonus.score || 0),
+    };
+  }
   if (currentChallenge.type === "dialogue") {
     const score = getNpcAffinity(currentChallenge.npcName || "NPC");
     const perks = affinityPerks(score);
@@ -5890,21 +7163,52 @@ function buildChallenge(level, stageNumber) {
     return withMeta(picked, "Reintento", picked.baseXp || 35, 42);
   }
 
-  const cycle = ["mcq", "group", "order"];
-  const kind = cycle[(stageNumber - 1) % cycle.length];
-  const arr = bank[kind];
-  let picked = pickUniqueChallenge(arr, currentRun.used[kind]);
+  const preferredKinds = getStagePreferredKinds(level, stageNumber);
+  const dialoguePool = buildBossDialoguePhases(level, 5) || [];
+  const textPool = buildBossTextPhases(level) || [];
+  const pools = {
+    mcq: bank.mcq || [],
+    group: bank.group || [],
+    order: bank.order || [],
+    text: textPool,
+    dialogue: dialoguePool,
+  };
+
+  let picked = null;
+  let chosenKind = "mcq";
+  for (let i = 0; i < preferredKinds.length; i++) {
+    const kind = preferredKinds[i];
+    const arr = pools[kind] || [];
+    const used = currentRun.used[kind] || (currentRun.used[kind] = new Set());
+    picked = pickUniqueChallenge(arr, used);
+    if (picked) {
+      chosenKind = kind;
+      break;
+    }
+  }
+
   if (!picked) {
-    const fallbackKinds = cycle.filter(k => k !== kind);
-    for (const fk of fallbackKinds) {
-      picked = pickUniqueChallenge(bank[fk], currentRun.used[fk]);
-      if (picked) break;
+    const fallbackKinds = ["mcq", "group", "order"];
+    for (let i = 0; i < fallbackKinds.length; i++) {
+      const fk = fallbackKinds[i];
+      const used = currentRun.used[fk] || (currentRun.used[fk] = new Set());
+      picked = pickUniqueChallenge(bank[fk], used);
+      if (picked) {
+        chosenKind = fk;
+        break;
+      }
     }
   }
   if (!picked) return null;
-  const timeByKind = { mcq: 38, group: 44, order: 48 };
-  const chosenKind = picked.type || kind;
-  return withMeta(picked, "Escenario", picked.baseXp, timeByKind[chosenKind] || 40);
+
+  const modifier = getStageScenarioModifier(level, stageNumber);
+  const timeByKind = { mcq: 36, group: 42, order: 46, text: 48, dialogue: 44 };
+  const challenge = withMeta(picked, "Escenario", picked.baseXp || 40, timeByKind[chosenKind] || 40);
+  if (level === "B2" && (chosenKind === "text" || chosenKind === "dialogue")) {
+    challenge.baseXp += 6;
+  }
+  challenge.stageModifier = modifier;
+  return challenge;
 }
 
 function buildBossPhases(level, stageNumber) {
@@ -5912,19 +7216,34 @@ function buildBossPhases(level, stageNumber) {
   if (!bank) return [];
 
   const run = ensureCurrentRun(level, "campaign", false);
-  const bossPool = [
-    ...buildBossDialoguePhases(level, stageNumber).map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 98 : 78, stageNumber === 11 ? 46 : 42)),
-    ...bank.mcq.map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 80 : 60, stageNumber === 11 ? 34 : 38)),
-    ...bank.group.map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 84 : 66, stageNumber === 11 ? 36 : 40)),
-    ...bank.order.map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 88 : 70, stageNumber === 11 ? 38 : 42)),
-    ...buildBossTextPhases(level).map(q => withMeta(q, stageNumber === 11 ? "Jefe Final" : "Semijefe", stageNumber === 11 ? 94 : 76, stageNumber === 11 ? 42 : 46)),
-  ];
-  const count = stageNumber === 11 ? 10 : 5;
+  const planSet = LEVEL_BOSS_PHASE_PLANS[level] || LEVEL_BOSS_PHASE_PLANS.A1;
+  const isFinal = stageNumber === 11;
+  const kindPlan = isFinal ? planSet.final : planSet.mini;
+  const baseLabel = isFinal ? "Jefe Final" : "Semijefe";
+  const mechanicText = isFinal ? planSet.finalMechanic : planSet.miniMechanic;
+  const byKind = {
+    mcq: (bank.mcq || []).map(q => withMeta(q, baseLabel, isFinal ? 82 : 62, isFinal ? 34 : 38)),
+    group: (bank.group || []).map(q => withMeta(q, baseLabel, isFinal ? 86 : 68, isFinal ? 36 : 40)),
+    order: (bank.order || []).map(q => withMeta(q, baseLabel, isFinal ? 90 : 72, isFinal ? 38 : 42)),
+    text: buildBossTextPhases(level).map(q => withMeta(q, baseLabel, isFinal ? 100 : 80, isFinal ? 42 : 46)),
+    dialogue: buildBossDialoguePhases(level, stageNumber).map(q => withMeta(q, baseLabel, isFinal ? 102 : 82, isFinal ? 46 : 42)),
+  };
+
   const phases = [];
   const bossSet = stageNumber === 11 ? run.bossUsed.final : run.bossUsed.mini;
-  while (phases.length < count && bossPool.length) {
-    const picked = pickUniqueChallenge(bossPool, bossSet);
+  for (let i = 0; i < kindPlan.length; i++) {
+    const kind = kindPlan[i];
+    const pool = byKind[kind] || [];
+    let picked = pickUniqueChallenge(pool, bossSet);
+    if (!picked) {
+      const allKinds = ["mcq", "group", "order", "text", "dialogue"];
+      for (let j = 0; j < allKinds.length; j++) {
+        picked = pickUniqueChallenge(byKind[allKinds[j]] || [], bossSet);
+        if (picked) break;
+      }
+    }
     if (!picked) break;
+    picked.bossMechanic = mechanicText;
     phases.push(picked);
   }
   return phases;
@@ -5936,6 +7255,23 @@ function withMeta(challenge, label, xp, time) {
   c.baseXp = xp;
   c.time = time;
   return c;
+}
+
+function getBossPhaseSignalText(level, type, phaseIndex, phaseTotal) {
+  const kind = type || "mcq";
+  const hints = {
+    mcq: "prioriza lectura fina y descarta distractores rápido.",
+    group: "agrupa por función gramatical antes de confirmar.",
+    order: "arma primero núcleo verbal y luego complementos.",
+    text: "incluye estructura completa y conectores clave.",
+    dialogue: "cuida tono, precisión y objetivo comunicativo.",
+  };
+  const lvl = level || STATE.level || "A1";
+  const weakest = getWeakestCombatType(lvl);
+  const weaknessText = weakest
+    ? (" Enfoque personalizado: refuerza " + weakest.label + " (" + weakest.pct + "%).")
+    : "";
+  return "Fase " + phaseIndex + "/" + phaseTotal + " · " + lvl + " · " + (hints[kind] || hints.mcq) + weaknessText;
 }
 
 function renderChallenge() {
@@ -5962,8 +7298,13 @@ function renderChallenge() {
   if (c.stage === 11) shell.classList.add("boss-final");
 
   const revealBtn = document.getElementById("btn-reveal");
-  revealBtn.disabled = false;
+  revealBtn.disabled = !!c.revealLocked;
   revealBtn.style.display = c.english ? "inline-block" : "none";
+  if (c.revealLocked) {
+    revealBtn.textContent = "Pista bloqueada por condición";
+  } else {
+    revealBtn.textContent = "Revelar traducción";
+  }
 
   document.getElementById("feedback").style.display = "none";
   document.getElementById("btn-next").style.display = "none";
@@ -5977,6 +7318,43 @@ function renderChallenge() {
     tip.className = "small";
     tip.textContent = "Nota: " + c.explain;
     body.appendChild(tip);
+  }
+  if (c.stageModifier && c.stageModifier.text) {
+    const condition = document.createElement("div");
+    condition.className = "small mt8";
+    condition.style.color = "#d7ecff";
+    condition.textContent = c.stageModifier.text;
+    body.appendChild(condition);
+  }
+  const preventiveAlert = getAdaptivePreventiveAlert((currentBossRun && currentBossRun.level) || (currentRun && currentRun.level) || STATE.level);
+  if (preventiveAlert) {
+    const alert = document.createElement("div");
+    alert.className = "small mt8";
+    alert.style.color = "#ffe7a8";
+    alert.textContent = preventiveAlert;
+    body.appendChild(alert);
+  }
+  const fatigueAlert = getAdaptiveFatigueSignal((currentBossRun && currentBossRun.level) || (currentRun && currentRun.level) || STATE.level);
+  if (fatigueAlert) {
+    const fatigue = document.createElement("div");
+    fatigue.className = "small mt8";
+    fatigue.style.color = "#ffd7b0";
+    fatigue.textContent = fatigueAlert;
+    body.appendChild(fatigue);
+  }
+  if (c.bossMechanic) {
+    const bossNote = document.createElement("div");
+    bossNote.className = "small mt8";
+    bossNote.style.color = "#ffe3a4";
+    bossNote.textContent = "Mecánica de jefe: " + c.bossMechanic;
+    body.appendChild(bossNote);
+    const phaseIdx = currentBossRun ? (currentBossRun.phaseIndex + 1) : 1;
+    const phaseTotal = currentBossRun && currentBossRun.phases ? currentBossRun.phases.length : 1;
+    const phaseSignal = document.createElement("div");
+    phaseSignal.className = "small mt8";
+    phaseSignal.style.color = "#ffd7b0";
+    phaseSignal.textContent = getBossPhaseSignalText((currentBossRun && currentBossRun.level) || STATE.level, c.type, phaseIdx, phaseTotal);
+    body.appendChild(phaseSignal);
   }
 
   if (c.type === "mcq") renderMcq(body, c);
@@ -6181,6 +7559,14 @@ function renderBuildZone() {
 
 function toggleEnglish() {
   if (!currentChallenge || !currentChallenge.english) return;
+  if (currentChallenge.revealLocked) {
+    const btnLocked = document.getElementById("btn-reveal");
+    if (btnLocked) {
+      btnLocked.textContent = "Pista bloqueada por condición";
+      btnLocked.disabled = true;
+    }
+    return notify("Condición de escenario: pista bloqueada en este combate.");
+  }
   currentChallenge.revealedEnglish = true;
   const affinityFree = !!currentChallenge.affinityFreeRevealAvailable;
   currentChallenge.revealUsedFree = affinityFree || STATE.freeRevealCharges > 0;
@@ -6288,13 +7674,65 @@ function paintMcqResults(correctIndex, selectedIndex) {
   });
 }
 
+function getCampaignMissionAttemptPolicy(level, stage, isReplay, correct) {
+  if (isReplay) return { allowed: false, reason: "revision" };
+  const stageNum = Number(stage);
+  if (!Number.isFinite(stageNum)) return { allowed: false, reason: "invalid-stage" };
+
+  if (!STATE.levelMissionDailyAttempts || typeof STATE.levelMissionDailyAttempts !== "object") {
+    STATE.levelMissionDailyAttempts = {};
+  }
+
+  const today = todayKey();
+  const maxAgeDays = 14;
+  Object.keys(STATE.levelMissionDailyAttempts).forEach(k => {
+    const datePart = (k || "").split("|")[0] || "";
+    if (!datePart || datePart.length !== 10) return;
+    const ageMs = Date.now() - new Date(datePart + "T00:00:00").getTime();
+    if (ageMs > maxAgeDays * 86400000) delete STATE.levelMissionDailyAttempts[k];
+  });
+
+  const key = today + "|" + level + "|" + String(stageNum);
+  const existing = STATE.levelMissionDailyAttempts[key];
+  if (existing) {
+    return {
+      allowed: false,
+      reason: existing.firstCorrect ? "already-counted" : "first-attempt-failed",
+    };
+  }
+
+  STATE.levelMissionDailyAttempts[key] = {
+    firstCorrect: !!correct,
+    stamp: Date.now(),
+  };
+  return {
+    allowed: !!correct,
+    reason: correct ? "first-correct" : "first-failed",
+  };
+}
+
 function resolveAnswer(correct, timeout) {
   const c = currentChallenge;
   c.answered = true;
   c.wasCorrect = correct;
+  c.missionProgressHint = "";
+  c.missionNoCountReason = "";
+  c.stageModifierHint = "";
+  c.adaptiveTransitionHint = "";
   const loadoutBonus = getInventoryLoadoutBonus();
   const missionLevel = ((currentRun && currentRun.level) || STATE.level || "A1");
   const missionStats = getLevelMissionStats(missionLevel);
+  const adaptiveBefore = getAdaptiveTelemetryProfile(missionLevel);
+  registerCombatTelemetry(missionLevel, c, !!correct, !!timeout, currentMode);
+  const adaptiveAfter = getAdaptiveTelemetryProfile(missionLevel);
+  if ((adaptiveBefore.adaptive || "neutral") !== (adaptiveAfter.adaptive || "neutral")) {
+    c.adaptiveTransitionHint = "Ajuste adaptativo: " + adaptiveBefore.adaptive + " -> " + adaptiveAfter.adaptive
+      + " por " + (adaptiveAfter.desiredReason || "cambio de rendimiento") + ".";
+    notify(c.adaptiveTransitionHint);
+  }
+  const missionPolicy = currentMode === "campaign"
+    ? getCampaignMissionAttemptPolicy(missionLevel, c.stage, !!(currentRun && currentRun.replay), correct)
+    : { allowed: false, reason: "not-campaign" };
   c.loadoutApplied = {
     count: loadoutBonus.count || 0,
     xpBonus: loadoutBonus.xpBonus || 0,
@@ -6306,10 +7744,37 @@ function resolveAnswer(correct, timeout) {
   let gainedXp = 0;
   if (correct) {
     if (currentMode === "campaign") {
-      const t = c.type || "mcq";
-      missionStats.winsByType[t] = Math.max(0, Number(missionStats.winsByType[t] || 0) + 1);
-      if (t === "dialogue") {
-        missionStats.dialogueCorrect = Math.max(0, Number(missionStats.dialogueCorrect || 0) + 1);
+      if (missionPolicy.allowed) {
+        const t = c.type || "mcq";
+        missionStats.winsByType[t] = Math.max(0, Number(missionStats.winsByType[t] || 0) + 1);
+        if (t === "dialogue") {
+          missionStats.dialogueCorrect = Math.max(0, Number(missionStats.dialogueCorrect || 0) + 1);
+        }
+        const liveRows = getLevelMissionStatus(missionLevel).rows;
+        const focusRows = liveRows.filter(row => {
+          if (row.done) return false;
+          const tags = Array.isArray(row.tags) ? row.tags : [];
+          if (!tags.includes("challenge")) return false;
+          if (t === "text") return tags.includes("text") || tags.includes("order");
+          return tags.includes(t);
+        });
+        if (focusRows.length) {
+          const r = focusRows[0];
+          const p = r.progress || { value: 0, target: 0, suffix: "" };
+          const pv = Math.min(p.target || 0, p.value || 0);
+          const s = p.suffix || "";
+          c.missionProgressHint = "Misión CEFR: " + missionLevel + " · " + pv + s + "/" + (p.target || 0) + s;
+          notify(c.missionProgressHint);
+        }
+      } else if (missionPolicy.reason === "revision") {
+        c.missionProgressHint = "Misión CEFR: esta revisión no suma progreso de misión.";
+        c.missionNoCountReason = "estás en modo revisión";
+      } else if (missionPolicy.reason === "first-attempt-failed") {
+        c.missionProgressHint = "Misión CEFR: este escenario ya consumió su primer intento.";
+        c.missionNoCountReason = "el primer intento de este escenario hoy fue fallido";
+      } else if (missionPolicy.reason === "already-counted") {
+        c.missionProgressHint = "Misión CEFR: este escenario ya sumó su progreso hoy.";
+        c.missionNoCountReason = "el escenario ya sumó su progreso diario";
       }
     }
     const revealPenalty = c.revealedEnglish && !c.revealUsedFree;
@@ -6344,6 +7809,14 @@ function resolveAnswer(correct, timeout) {
     const timeBonus = Math.max(0, timerRemaining || 0) * 4;
     const scoreGain = Math.max(20, Math.floor((c.baseXp || 20) * 1.5)) + timeBonus;
     let finalScoreGain = revealPenalty ? Math.floor(scoreGain * 0.5) : scoreGain;
+    if (currentMode === "campaign" && c.cleanBonus && !c.revealedEnglish && !timeout) {
+      const bonusXp = Number(c.cleanBonus.xp || 0);
+      const bonusScore = Number(c.cleanBonus.score || 0);
+      if (bonusXp > 0) gainedXp += bonusXp;
+      if (bonusScore > 0) finalScoreGain += bonusScore;
+      c.stageModifierHint = "Bonus de condición: +" + bonusXp + " XP, +" + bonusScore + " score por respuesta limpia.";
+      notify(c.stageModifierHint);
+    }
     if (loadoutBonus.scoreBonus > 0) {
       finalScoreGain += loadoutBonus.scoreBonus;
       notify("Carga activa: +" + loadoutBonus.scoreBonus + " score.");
@@ -6366,6 +7839,9 @@ function resolveAnswer(correct, timeout) {
       currentRun.timeBonus += Math.max(0, timerRemaining || 0);
       currentRun.score += Math.max(0, finalScoreGain);
       currentRun.stageScore += Math.max(0, finalScoreGain);
+    }
+    if (currentMode === "campaign" && maybeGrantConsistencyBonus(missionLevel)) {
+      c.missionProgressHint = (c.missionProgressHint ? (c.missionProgressHint + " ") : "") + "Bonus de consistencia desbloqueado.";
     }
   } else {
     STATE.streak = 0;
@@ -6393,6 +7869,10 @@ function resolveAnswer(correct, timeout) {
           currentRun.stageScore = Math.max(0, currentRun.stageScore + malus);
         }
       }
+    }
+    if (currentMode === "campaign" && missionPolicy.reason === "first-failed") {
+      c.missionProgressHint = "Misión CEFR: para sumar este escenario, el acierto debe ser en el primer intento.";
+      c.missionNoCountReason = "el primer intento de hoy en este escenario no fue correcto";
     }
   }
 
@@ -6433,6 +7913,18 @@ function showFeedback(correct, gainedXp, timeout) {
       msg += " Evento diario: +" + tv.xp + " XP, +" + tv.coins + " monedas" + (tv.word ? ", palabra '" + tv.word + "'" : "") + ".";
     }
     msg += " " + currentChallenge.dialogueEval.npcReaction;
+  }
+  if (currentChallenge.missionProgressHint) {
+    msg += " " + currentChallenge.missionProgressHint;
+  }
+  if (currentChallenge.missionNoCountReason) {
+    msg += " No sumó porque: " + currentChallenge.missionNoCountReason + ".";
+  }
+  if (currentChallenge.stageModifierHint) {
+    msg += " " + currentChallenge.stageModifierHint;
+  }
+  if (currentChallenge.adaptiveTransitionHint) {
+    msg += " " + currentChallenge.adaptiveTransitionHint;
   }
 
   document.getElementById("feedback-text").textContent = msg;
@@ -6479,6 +7971,7 @@ function showFeedback(correct, gainedXp, timeout) {
 function nextAfterChallenge() {
   if (currentMode === "daily") return nextDailyStep();
   if (currentMode === "path") return nextPathStep();
+  if (currentMode === "adaptive") return nextAdaptiveStep();
   if (currentMode === "academy") return endAcademyChallenge();
   return endCampaignChallenge();
 }
@@ -6588,6 +8081,21 @@ function endAcademyChallenge() {
   goAcademy();
 }
 
+function getBossPostBattleSummary(level) {
+  const lvl = level || STATE.level || "A1";
+  const profile = getAdaptiveTelemetryProfile(lvl);
+  const typeRows = getCombatTypeAccuracySummary(lvl);
+  const strong = [...typeRows].sort((a, b) => b.pct - a.pct)[0] || null;
+  const weak = getWeakestCombatType(lvl);
+  const adaptiveLine = profile.adaptive === "assist"
+    ? "el sistema activó asistencia para estabilizar rendimiento"
+    : (profile.adaptive === "challenge" ? "el sistema elevó desafío por consistencia alta" : "el balance se mantuvo neutral");
+  const a = strong ? ("Fortaleza: " + strong.label + " (" + strong.pct + "%).") : "Fortaleza: sin datos robustos todavía.";
+  const b = weak ? ("Riesgo: " + weak.label + " (" + weak.pct + "%).") : "Riesgo: sin punto débil claro aún.";
+  const c = "Siguiente foco: " + adaptiveLine + ".";
+  return a + " " + b + " " + c;
+}
+
 function endCampaignChallenge() {
   const clearedStage = currentChallenge.stage;
   const runLevel = (currentRun && currentRun.level) || STATE.level;
@@ -6665,11 +8173,12 @@ function endCampaignChallenge() {
   }
 
   if (clearedStage === 11) {
+    const bossSummary = getBossPostBattleSummary(runLevel);
     if (isReplay) {
       document.getElementById("result-title").textContent = "Revisión completada";
       document.getElementById("result-xp").textContent = (currentRun ? currentRun.score : 0) + " puntos";
       document.getElementById("result-score").textContent = "Mejor puntuación en este nivel: " + getBestStageScore(runLevel, 11);
-      document.getElementById("result-msg").textContent = "Has repetido el jefe final sin avanzar la historia. La puntuación queda guardada para este nivel.";
+      document.getElementById("result-msg").textContent = "Has repetido el jefe final sin avanzar la historia. La puntuación queda guardada para este nivel. Resumen del jefe: " + bossSummary;
       setResultPedagogy(
         "Has practicado el cierre del nivel y consolidado estructuras de mayor exigencia.",
         "Puedes repetir la revisión para subir puntuación o volver a Campaña para seguir la historia."
@@ -6697,7 +8206,7 @@ function endCampaignChallenge() {
 
       document.getElementById("result-title").textContent = "Nivel superado";
       document.getElementById("result-xp").textContent = nextLevel + " desbloqueado";
-      document.getElementById("result-msg").textContent = "Has derrotado al jefe final. Vidas restauradas. El pueblo celebra tu avance y desbloqueas una ayuda gratuita de revelación para el siguiente tramo.";
+      document.getElementById("result-msg").textContent = "Has derrotado al jefe final. Vidas restauradas. El pueblo celebra tu avance y desbloqueas una ayuda gratuita de revelación para el siguiente tramo. Resumen del jefe: " + bossSummary;
       setResultPedagogy(
         "Has integrado el foco principal del nivel y ya estás listo para el siguiente bloque CEFR.",
         "Entra en la Biblioteca del nuevo nivel y usa la ayuda gratuita para llegar con mejor base."
@@ -6705,7 +8214,7 @@ function endCampaignChallenge() {
     } else {
       document.getElementById("result-title").textContent = "Victoria total";
       document.getElementById("result-xp").textContent = "Campaña completada";
-      document.getElementById("result-msg").textContent = "Has completado A1-A2-B1-B2. Puedes repetir niveles para mejorar tu puntuación y seguir practicando.";
+      document.getElementById("result-msg").textContent = "Has completado A1-A2-B1-B2. Puedes repetir niveles para mejorar tu puntuación y seguir practicando. Resumen del jefe: " + bossSummary;
       setResultPedagogy(
         "Has cubierto toda la progresión de la campaña y consolidado las bases A1-B2.",
         "Vuelve a repetir niveles, itinerarios o Biblioteca para afinar precisión y velocidad."
@@ -7442,7 +8951,19 @@ function loadProgress() {
               B1: !!(data.levelMissionRewardsClaimed && data.levelMissionRewardsClaimed.B1),
               B2: !!(data.levelMissionRewardsClaimed && data.levelMissionRewardsClaimed.B2),
             },
+            levelConsistencyBonusClaimed: {
+              A1: !!(data.levelConsistencyBonusClaimed && data.levelConsistencyBonusClaimed.A1),
+              A2: !!(data.levelConsistencyBonusClaimed && data.levelConsistencyBonusClaimed.A2),
+              B1: !!(data.levelConsistencyBonusClaimed && data.levelConsistencyBonusClaimed.B1),
+              B2: !!(data.levelConsistencyBonusClaimed && data.levelConsistencyBonusClaimed.B2),
+            },
+            levelMissionDailyAttempts: data.levelMissionDailyAttempts && typeof data.levelMissionDailyAttempts === "object" ? data.levelMissionDailyAttempts : {},
             levelMissionStats: data.levelMissionStats && typeof data.levelMissionStats === "object" ? data.levelMissionStats : {},
+            adaptivePracticeLastByLevel: data.adaptivePracticeLastByLevel && typeof data.adaptivePracticeLastByLevel === "object" ? data.adaptivePracticeLastByLevel : {},
+            adaptiveWeakMemo: data.adaptiveWeakMemo && typeof data.adaptiveWeakMemo === "object" ? data.adaptiveWeakMemo : {},
+            adaptiveWeeklyStability: data.adaptiveWeeklyStability && typeof data.adaptiveWeeklyStability === "object" ? data.adaptiveWeeklyStability : {},
+            adaptiveWeeklyClaimed: data.adaptiveWeeklyClaimed && typeof data.adaptiveWeeklyClaimed === "object" ? data.adaptiveWeeklyClaimed : {},
+            adaptiveTransferTracking: data.adaptiveTransferTracking && typeof data.adaptiveTransferTracking === "object" ? data.adaptiveTransferTracking : {},
             stageBestScores: data.stageBestScores || {},
             shopSeen: !!data.shopSeen,
             tutorialDone: !!data.tutorialDone,
@@ -7494,6 +9015,12 @@ function formatDateTime(ts) {
 }
 
 // Init
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape") {
+    closeAdaptiveDiagnostics();
+  }
+});
+
 loadProgress();
 decorateSectionPanels();
 screen("title");
