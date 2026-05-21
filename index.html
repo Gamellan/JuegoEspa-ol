@@ -865,6 +865,42 @@
   .inv-chip.uncommon { border-color: rgba(110, 231, 183, 0.55); color: #d5ffe8; }
   .inv-chip.rare { border-color: rgba(96, 165, 250, 0.6); color: #d7eaff; }
   .inv-chip.epic { border-color: rgba(212, 175, 55, 0.68); color: #ffecb2; box-shadow: inset 0 0 0 1px rgba(255, 226, 150, 0.2); }
+  .inv-chip-btn {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-size: 12px;
+    background: var(--card);
+    cursor: pointer;
+  }
+  .inv-chip-btn.favorite {
+    box-shadow: 0 0 0 1px rgba(255, 214, 124, 0.22), inset 0 0 0 1px rgba(255, 214, 124, 0.22);
+  }
+  .inv-chip-btn.equipped {
+    border-color: rgba(110, 231, 183, 0.72);
+    box-shadow: 0 0 0 1px rgba(110, 231, 183, 0.24), inset 0 0 0 1px rgba(110, 231, 183, 0.2);
+  }
+  .inv-chip-btn.recommended {
+    border-color: rgba(212, 175, 55, 0.72);
+    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.22), inset 0 0 0 1px rgba(212, 175, 55, 0.14);
+  }
+  .inv-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .inv-input,
+  .inv-select {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 10px;
+    background: rgba(10, 20, 32, 0.85);
+    color: var(--text);
+    font-size: 12px;
+  }
+  .inv-input::placeholder { color: #9cb2c8; }
   #inv-craft-status {
     color: #c7d7e9;
   }
@@ -1016,6 +1052,195 @@
     font-size: 11px;
     line-height: 1.35;
   }
+  .town-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .town-node {
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 12px;
+    padding: 10px;
+    background: linear-gradient(180deg, rgba(22, 37, 53, 0.96), rgba(16, 29, 43, 0.95));
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  .town-node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(5, 12, 20, 0.18);
+    border-color: rgba(110, 231, 183, 0.3);
+  }
+  .town-node.active {
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.2);
+  }
+  .town-node-name {
+    color: #f6e8be;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .town-detail {
+    margin-top: 10px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(16, 30, 45, 0.92);
+  }
+  .town-visual-wrap {
+    margin-top: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 14px;
+    padding: 10px;
+    background:
+      radial-gradient(circle at 22% 18%, rgba(110, 231, 183, 0.1), transparent 32%),
+      radial-gradient(circle at 78% 16%, rgba(245, 111, 74, 0.1), transparent 35%),
+      linear-gradient(180deg, rgba(18, 32, 46, 0.96), rgba(14, 26, 38, 0.95));
+  }
+  .town-village {
+    position: relative;
+    min-height: 260px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(180deg, rgba(112, 164, 208, 0.12), rgba(112, 164, 208, 0) 30%),
+      linear-gradient(180deg, rgba(86, 128, 90, 0.08), rgba(33, 66, 41, 0.2)),
+      repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0 8px, rgba(255, 255, 255, 0.01) 8px 16px);
+    overflow: hidden;
+  }
+  .town-house {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 54px;
+    height: 42px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(180deg, rgba(206, 156, 109, 0.45), rgba(125, 93, 66, 0.6));
+    box-shadow: 0 8px 14px rgba(8, 14, 22, 0.22);
+  }
+  .town-house::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    right: 7px;
+    top: -11px;
+    height: 12px;
+    border-radius: 4px 4px 2px 2px;
+    background: linear-gradient(180deg, rgba(133, 77, 64, 0.9), rgba(97, 57, 47, 0.92));
+  }
+  .town-house.shop { background: linear-gradient(180deg, rgba(211, 178, 98, 0.5), rgba(138, 112, 59, 0.62)); }
+  .town-house.hall { background: linear-gradient(180deg, rgba(161, 133, 201, 0.46), rgba(97, 76, 137, 0.64)); }
+  .town-house.station { background: linear-gradient(180deg, rgba(136, 170, 214, 0.5), rgba(79, 107, 146, 0.64)); }
+  .town-house.archive { background: linear-gradient(180deg, rgba(122, 184, 182, 0.5), rgba(66, 122, 121, 0.62)); }
+  .town-house-sprite {
+    width: 52px;
+    height: 40px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    display: block;
+  }
+  .town-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(12, 24, 36, 0.9);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .town-pin:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    border-color: rgba(110, 231, 183, 0.62);
+    box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.14);
+  }
+  .town-pin.active {
+    border-color: rgba(245, 214, 130, 0.85);
+    box-shadow: 0 0 0 3px rgba(245, 214, 130, 0.16);
+  }
+  .town-pin-label {
+    position: absolute;
+    top: 46px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #dbe8f5;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  }
+  .model-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .model-chip {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 11px;
+    color: #d6e4f1;
+    background: rgba(10, 22, 34, 0.8);
+  }
+  .town-pin-sprite {
+    width: 28px;
+    height: 28px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    display: block;
+    pointer-events: none;
+  }
+  .npc-mini-sprite {
+    width: 26px;
+    height: 26px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    vertical-align: middle;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    margin-right: 6px;
+    background: rgba(9, 20, 31, 0.85);
+  }
+  .npc-portrait-sprite {
+    width: 52px;
+    height: 52px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(10, 22, 34, 0.86);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  .enemy-preview-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .enemy-preview-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 8px;
+    min-width: 180px;
+    background: rgba(11, 22, 35, 0.82);
+  }
+  .enemy-sprite {
+    width: 40px;
+    height: 40px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(10, 22, 34, 0.9);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
 
   .shop-grid {
     display: grid;
@@ -1149,6 +1374,7 @@
       min-width: 42px;
     }
     #btn-nav-campaign::before { content: "🗺️"; font-size: 16px; }
+    #btn-nav-map::before { content: "🧭"; font-size: 16px; }
     #btn-nav-library::before { content: "📚"; font-size: 16px; }
     #btn-nav-extras::before { content: "✨"; font-size: 16px; }
     #btn-nav-daily::before { content: "📅"; font-size: 16px; }
@@ -1242,6 +1468,7 @@
   </div>
   <div class="hud-nav">
     <button id="btn-nav-campaign" class="btn ghost nav-btn" onclick="goCampaign()" aria-label="Campaña">Campaña</button>
+    <button id="btn-nav-map" class="btn ghost nav-btn" onclick="goMap()" aria-label="Mapa">Mapa</button>
     <button id="btn-nav-library" class="btn ghost nav-btn" onclick="goLibrary()" aria-label="Biblioteca">Biblioteca</button>
     <button id="btn-nav-extras" class="btn ghost nav-btn" onclick="goAcademy()" aria-label="Extras">Extras</button>
     <button id="btn-nav-daily" class="btn ghost nav-btn" onclick="goDaily()" aria-label="Retos diarios">Retos diarios</button>
@@ -1258,7 +1485,7 @@
   <div class="title-wrap">
     <div class="title-box">
       <h1>El Pueblo Encantado</h1>
-      <p class="subtitle">Campaña completa A1 -> B2 con 44 escenarios troncales, semijefes, jefes finales, retos variados y progreso guardado en cookies.</p>
+      <p class="subtitle">Campaña completa A1 -> B2 con 44 escenarios troncales, semijefes, jefes finales y retos variados</p>
       <div class="row center mt24" style="justify-content:center;">
         <button class="btn primary" onclick="newGame()">Nueva Partida</button>
         <button class="btn secondary" onclick="continueGame()">Continuar</button>
@@ -1306,6 +1533,11 @@
       <div class="medal-row" id="campaign-medal-summary"></div>
     </div>
     <div class="panel mt12">
+      <div class="small"><strong>Misiones de progresión CEFR</strong></div>
+      <div class="small mt8">Objetivos prácticos para consolidar el tramo actual antes del siguiente salto.</div>
+      <div id="campaign-level-missions" class="mt8"></div>
+    </div>
+    <div class="panel mt12">
       <div class="small"><strong>Relaciones del pueblo</strong></div>
       <div class="small mt8">La afinidad en diálogo desbloquea pequeñas ventajas contextuales.</div>
       <div class="npc-rel-grid" id="campaign-npc-relations"></div>
@@ -1313,8 +1545,42 @@
     <div class="campaign-grid" id="stage-grid"></div>
     <div class="row mt16">
       <button class="btn secondary" onclick="startNextStage()">Jugar Siguiente Escenario</button>
+      <button class="btn ghost" onclick="openGhostBriefing(STATE.selectedLevel || STATE.level, false)">Briefing del Fantasma</button>
       <button class="btn ghost" onclick="goAcademy()">Escenarios Extra</button>
     </div>
+  </div>
+</section>
+
+<section id="screen-briefing" class="screen">
+  <div class="panel">
+    <h2 id="briefing-title">Briefing del Fantasma</h2>
+    <p class="small mt8" id="briefing-intro">Preparación guiada antes de entrar en campaña.</p>
+    <div class="panel mt12">
+      <div class="small"><strong>Conceptos que vas a trabajar</strong></div>
+      <div id="briefing-forecast" class="small mt8"></div>
+      <div id="briefing-concepts" class="small mt8"></div>
+    </div>
+    <div class="panel mt12">
+      <div class="small"><strong>Práctica previa</strong></div>
+      <div id="briefing-drills" class="mt8"></div>
+      <div id="briefing-status" class="small mt8"></div>
+    </div>
+    <div class="row mt12">
+      <button class="btn ghost" onclick="skipGhostBriefing()">Omitir y entrar en campaña</button>
+      <button class="btn secondary" id="briefing-continue-btn" onclick="finishGhostBriefing()" disabled>Continuar a campaña</button>
+    </div>
+  </div>
+</section>
+
+<section id="screen-map" class="screen">
+  <div class="panel">
+    <h2>Mapa del Pueblo / Town Map</h2>
+    <p class="small mt8">Explora a los NPC del pueblo, su estado relacional y oportunidades de interacción.</p>
+    <div id="town-map-board" class="town-detail small mt8">Tablón diario en carga...</div>
+    <div id="town-visual" class="town-visual-wrap"></div>
+    <div id="town-map-grid" class="town-grid"></div>
+    <div id="town-map-detail" class="town-detail small">Selecciona un nodo del mapa para ver detalle.</div>
+    <div id="town-model-preview" class="town-detail small mt8">Modelos de NPC y jefes en preparación.</div>
   </div>
 </section>
 
@@ -1432,6 +1698,33 @@
     <p class="small mt8">Palabras ganadas en escenarios y jefes.</p>
     <div class="small mt8" id="inv-summary"></div>
     <div class="panel mt12">
+      <div class="small"><strong>Carga activa (combate y diálogo)</strong></div>
+      <div class="small mt8" id="inv-loadout-summary">Equipa hasta 3 palabras favoritas para activar bonus ligeros.</div>
+      <div class="inv-items" id="inv-loadout-list"></div>
+    </div>
+    <div class="panel mt12">
+      <div class="small"><strong>Gestión de colección</strong></div>
+      <div class="inv-controls">
+        <input id="inv-search" class="inv-input" type="text" placeholder="Buscar palabra..." oninput="setInventoryQuery(this.value)">
+        <select id="inv-filter" class="inv-select" onchange="setInventoryFilter(this.value)">
+          <option value="all">Filtro: Todo</option>
+          <option value="favorites">Solo favoritas</option>
+          <option value="duplicates">Solo duplicadas</option>
+          <option value="common">Comunes</option>
+          <option value="uncommon">Poco comunes</option>
+          <option value="rare">Raras</option>
+          <option value="epic">Épicas</option>
+        </select>
+        <select id="inv-sort" class="inv-select" onchange="setInventorySort(this.value)">
+          <option value="rarity">Orden: Rareza</option>
+          <option value="count">Orden: Cantidad</option>
+          <option value="alpha">Orden: A-Z</option>
+          <option value="newest">Orden: Recientes</option>
+        </select>
+      </div>
+      <div class="small mt8" id="inv-filter-summary">Mostrando colección completa.</div>
+    </div>
+    <div class="panel mt12">
       <div class="small"><strong>Fusión de duplicados</strong></div>
       <div class="small mt8" id="inv-craft-status">Convierte copias sobrantes en palabras de mayor rareza.</div>
       <div class="row mt8" style="align-items:center;">
@@ -1456,6 +1749,7 @@
     <div class="big-number mt12" id="result-xp">+0 XP</div>
     <div class="small mt8" id="result-score">Puntuación: 0</div>
     <p class="small mt8" id="result-msg"></p>
+    <div class="small mt12" id="result-loadout-history"></div>
     <div class="result-brief mt16">
       <div class="result-note">
         <div class="small">Qué has reforzado</div>
@@ -1480,6 +1774,127 @@ const LEVEL_META = {
   A2: { name: "A2 - Interacción", focus: "Presente, compras, tiempos y rutinas" },
   B1: { name: "B1 - Narrativa", focus: "Indefinido vs imperfecto y secuencia" },
   B2: { name: "B2 - Precisión", focus: "Subjuntivo, hipótesis y matiz" },
+};
+
+const LEVEL_PROGRESS_MISSIONS = {
+  A1: [
+    { id: "camp3", text: "Completa hasta el escenario 3 de A1.", check: level => (STATE.progress[level] || 0) >= 3 },
+    { id: "brief70", text: "Logra al menos 70% de precisión en el briefing A1.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.7 },
+    { id: "mcq4", text: "Acierta 4 retos de elección múltiple en campaña A1.", check: level => (getLevelMissionStats(level).winsByType.mcq || 0) >= 4 },
+    { id: "dialog2", text: "Acierta 2 retos de diálogo en campaña A1.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 2 },
+  ],
+  A2: [
+    { id: "camp4", text: "Completa hasta el escenario 4 de A2.", check: level => (STATE.progress[level] || 0) >= 4 },
+    { id: "brief75", text: "Logra al menos 75% de precisión en el briefing A2.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.75 },
+    { id: "order4", text: "Acierta 4 retos de orden de frase en campaña A2.", check: level => (getLevelMissionStats(level).winsByType.order || 0) >= 4 },
+    { id: "dialog3", text: "Acierta 3 retos de diálogo en campaña A2.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 3 },
+  ],
+  B1: [
+    { id: "camp5", text: "Supera el semijefe del escenario 5 en B1.", check: level => (STATE.progress[level] || 0) >= 5 },
+    { id: "brief75", text: "Logra al menos 75% de precisión en el briefing B1.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.75 },
+    { id: "group4", text: "Acierta 4 retos de agrupación en campaña B1.", check: level => (getLevelMissionStats(level).winsByType.group || 0) >= 4 },
+    { id: "dialog4", text: "Acierta 4 retos de diálogo en campaña B1.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 4 },
+  ],
+  B2: [
+    { id: "camp11", text: "Derrota al jefe final del escenario 11 en B2.", check: level => (STATE.progress[level] || 0) >= 11 },
+    { id: "brief80", text: "Logra al menos 80% de precisión en el briefing B2.", check: level => (getLevelMissionStats(level).briefingBestAccuracy || 0) >= 0.8 },
+    { id: "dialog6", text: "Acierta 6 retos de diálogo en campaña B2.", check: level => (getLevelMissionStats(level).dialogueCorrect || 0) >= 6 },
+    { id: "precision8", text: "Consigue 8 aciertos combinados en retos de texto/orden en campaña B2.", check: level => {
+      const s = getLevelMissionStats(level);
+      return ((s.winsByType.text || 0) + (s.winsByType.order || 0)) >= 8;
+    } },
+  ],
+};
+
+const GHOST_BRIEFING_CONTENT = {
+  A1: {
+    title: "Briefing A1 · Supervivencia comunicativa",
+    intro: "Soy tu fantasma guía. Antes de combatir, repasaremos A1 de forma completa: qué regla se evalúa, cómo aparece en batalla y qué errores penalizan más. Tu objetivo es comunicarte con frases claras, corteses y gramaticalmente estables.",
+    concepts: [
+      "Saludos y cortesía: abrir, mantener y cerrar interacción.",
+      "Artículos y concordancia básica: el/la/los/las, un/una.",
+      "Pronombres y sujeto explícito vs omitido.",
+      "SER para identidad/origen y ESTAR para estado/ubicación.",
+      "Frase mínima funcional para pedir información o servicio.",
+      "Negación simple con no + verbo conjugado.",
+      "Errores esperables en combate: verbo sin conjugar, artículo incorrecto, omisión de cortesía.",
+      "Qué verás en campaña: elección múltiple, agrupación y construcción de frase corta.",
+    ],
+    drills: [
+      { prompt: "Selecciona la forma correcta:", options: ["El estación está cerca", "La estación está cerca", "La estación estar cerca"], correct: 1, explain: "'Estación' es femenino: la estación." },
+      { prompt: "¿Qué opción usa SER correctamente?", options: ["Soy en Madrid", "Estoy de México", "Soy de México"], correct: 2, explain: "Origen con SER + de." },
+      { prompt: "Elige la petición más funcional:", options: ["Yo querer café", "Quiero un café, por favor", "Café ahora"], correct: 1, explain: "A1 valora claridad y cortesía básica." },
+      { prompt: "Selecciona la negación correcta:", options: ["No quiero azúcar", "Quiero no azúcar", "No querer azúcar"], correct: 0, explain: "Negación básica: no + verbo conjugado." },
+      { prompt: "¿Qué saludo encaja mejor por la tarde?", options: ["Buenos días", "Buenas tardes", "Buenas noches"], correct: 1, explain: "Registro temporal correcto: buenas tardes." },
+      { prompt: "Frase de ubicación bien formada:", options: ["Estoy en la estación", "Soy en la estación", "Estación yo"], correct: 0, explain: "Ubicación actual con ESTAR + en." },
+    ],
+  },
+  A2: {
+    title: "Briefing A2 · Interacción funcional",
+    intro: "Aquí entrenamos interacción real de servicios. No basta con decir algo aproximado: debes incluir datos útiles (hora, destino, petición) y mantener cortesía operativa.",
+    concepts: [
+      "Verbos en presente para rutinas y acciones actuales.",
+      "Gustar y concordancia con el elemento que gusta.",
+      "Expresiones de viaje: billetes, andenes, horarios, dirección.",
+      "Contracciones obligatorias (al, del).",
+      "Perífrasis ir a + infinitivo para planificación inmediata.",
+      "Opinión funcional breve con justificación.",
+      "Errores esperables en combate: falta de datos clave (hora/destino) y estructuras incompletas.",
+      "Qué verás en campaña: microdecisiones de servicio con foco pragmático.",
+    ],
+    drills: [
+      { prompt: "Completa correctamente:", options: ["Voy a el mercado", "Voy al mercado", "Voy del mercado"], correct: 1, explain: "a + el = al." },
+      { prompt: "Elige la frase correcta:", options: ["Me gustan los libros", "Me gusta los libros", "Yo gustan libros"], correct: 0, explain: "Con sujeto plural: gustan." },
+      { prompt: "Plan inmediato bien formado:", options: ["Voy llegar temprano", "Voy a llegar temprano", "Llegar voy temprano"], correct: 1, explain: "Estructura: ir a + infinitivo." },
+      { prompt: "Petición de billete más completa:", options: ["Quiero billete", "Quiero un billete para Sevilla a las cinco, por favor", "Billete Sevilla cinco"], correct: 1, explain: "A2 premia información completa y cortesía." },
+      { prompt: "Hora correcta para 3:30:", options: ["Las tres y media", "Las tres y cuarto", "Tres y media la"], correct: 0, explain: "Formato estándar de hora en servicio." },
+      { prompt: "Expresión de preferencia más natural:", options: ["Prefiero el tren porque es rápido", "Yo preferir tren rápido", "Prefiero tren porque rápido"], correct: 0, explain: "Opinión + justificación breve." },
+    ],
+  },
+  B1: {
+    title: "Briefing B1 · Narración y pasado",
+    intro: "En B1 ya no basta acertar formas aisladas: debes sostener relatos coherentes, con eje temporal claro y decisiones aspectuales consistentes.",
+    concepts: [
+      "Imperfecto para contexto, hábito y descripción.",
+      "Indefinido para eventos puntuales cerrados.",
+      "Pluscuamperfecto para anterioridad en pasado.",
+      "Conectores narrativos: primero, luego, mientras, de repente.",
+      "Secuencia temporal clara en relatos.",
+      "Causa-efecto y reformulación de decisiones.",
+      "Errores esperables en combate: mezclar tiempos sin lógica narrativa.",
+      "Qué verás en campaña: secuencias con interrupción, causa y cierre puntual.",
+    ],
+    drills: [
+      { prompt: "Selecciona la secuencia más natural:", options: ["Mientras caminaba, vi el anuncio", "Mientras caminé, veía el anuncio", "Mientras camino, vi el anuncio"], correct: 0, explain: "Imperfecto de fondo + indefinido puntual." },
+      { prompt: "Acción anterior a otra pasada:", options: ["Cuando llegué, ya salieron", "Cuando llegué, ya habían salido", "Cuando llegué, ya salen"], correct: 1, explain: "Pasado del pasado: habían salido." },
+      { prompt: "Relato con cierre puntual:", options: ["Al final aceptaba la propuesta", "Al final acepté la propuesta", "Al final acepto la propuesta"], correct: 1, explain: "Decisión cerrada: indefinido." },
+      { prompt: "Fondo habitual correcto:", options: ["De niño vivía en un pueblo", "De niño viví en un pueblo cada verano", "De niño vivir en un pueblo"], correct: 0, explain: "Hábito/contexto con imperfecto." },
+      { prompt: "Conector narrativo más adecuado:", options: ["Ayer no obstante en primero", "Primero llegué, luego llamé", "Primero llamar y luego llegué"], correct: 1, explain: "Secuencia lógica con conectores claros." },
+      { prompt: "Causa-efecto coherente:", options: ["Como había tráfico, llegué tarde", "Como hubo tráfico, llegaba tarde siempre", "Como tráfico, llegué"], correct: 0, explain: "Causa contextual + resultado puntual." },
+    ],
+  },
+  B2: {
+    title: "Briefing B2 · Precisión y matiz",
+    intro: "En B2 buscamos precisión de alto nivel: escoger el modo verbal por matiz, sostener hipótesis complejas y producir formulaciones diplomáticas con intención clara.",
+    concepts: [
+      "Subjuntivo en duda, deseo, valoración y finalidad.",
+      "Hipótesis irreal: si + imperfecto subjuntivo + condicional.",
+      "Concesivas y matiz argumentativo (aunque, no es que...).",
+      "Relativos con referente no específico.",
+      "Probabilidad e incertidumbre con marcas formales.",
+      "Registro diplomático y precisión sintáctica.",
+      "Errores esperables en combate: indicativo donde la intención exige subjuntivo.",
+      "Qué verás en campaña: decisiones de matiz entre opciones casi correctas.",
+    ],
+    drills: [
+      { prompt: "Elige la opción correcta:", options: ["Es probable que llegamos antes", "Es probable que lleguemos antes", "Es probable que llegamos antes de que"], correct: 1, explain: "Probabilidad con subjuntivo." },
+      { prompt: "Hipótesis irreal bien formada:", options: ["Si tendría tiempo, iría", "Si tengo tiempo, iría", "Si tuviera tiempo, iría"], correct: 2, explain: "Patrón irreal correcto en B2." },
+      { prompt: "Finalidad formal correcta:", options: ["Te explico para que puedes decidir", "Te explico para que puedas decidir", "Te explico para puedes decidir"], correct: 1, explain: "Para que + subjuntivo." },
+      { prompt: "Concesiva con matiz hipotético:", options: ["Aunque es tarde, terminaremos", "Aunque sea tarde, terminaremos", "Aunque ser tarde, terminaremos"], correct: 1, explain: "Concesiva de hipótesis: aunque + subjuntivo." },
+      { prompt: "No especificidad correcta:", options: ["Busco un piso que está cerca", "Busco un piso que esté cerca", "Busco piso estar cerca"], correct: 1, explain: "Referente no identificado: subjuntivo." },
+      { prompt: "Registro diplomático más preciso:", options: ["No es que está mal, pero revise", "No es que esté mal, pero convendría revisarlo", "No es malo, revisa"], correct: 1, explain: "No es que + subjuntivo + recomendación formal." },
+    ],
+  },
 };
 
 const WORD_REWARDS = {
@@ -2017,6 +2432,10 @@ let STATE = {
   inventory: [],
   wordCollection: {},
   lootHistory: [],
+  equippedWords: [],
+  inventoryQuery: "",
+  inventoryFilter: "all",
+  inventorySort: "rarity",
   craftLevel: "A1",
   completedAcademy: [],
   dailyDone: {},
@@ -2025,6 +2444,9 @@ let STATE = {
   freeRevealCharges: 0,
   nextTimeBonusSeconds: 0,
   shieldCharges: 0,
+  levelBriefingSeen: { A1: false, A2: false, B1: false, B2: false },
+  levelMissionRewardsClaimed: { A1: false, A2: false, B1: false, B2: false },
+  levelMissionStats: {},
   stageBestScores: {},
   shopSeen: false,
   tutorialDone: false,
@@ -2032,6 +2454,7 @@ let STATE = {
     streak9: false,
     flawlessBoss: false,
     daily7: false,
+    townPolyglot: false,
   },
   badgeHistory: [],
   badgesUnlockedAt: {},
@@ -2039,6 +2462,16 @@ let STATE = {
   npcAffinity: {},
   npcEventRewards: {},
   npcTrustDaily: {},
+  npcMapDaily: {},
+  npcTalkDaily: {},
+  npcTalkProgress: {},
+  npcTalkNotes: {},
+  townBoardDaily: {},
+  townBoardStats: {},
+  townPerfectDaily: {},
+  townPerfectWeeklyClaims: {},
+  npcWeeklyActivity: {},
+  loadoutRunHistory: [],
   currentScreen: "campaign",
   audioMuted: false,
   audioVolume: 70,
@@ -2054,6 +2487,9 @@ let currentDailyRun = null;
 let currentPathRun = null;
 let currentRun = null;
 let tutorialIndex = 0;
+let activeTownTalkDrill = null;
+let activeGhostBriefing = null;
+let pendingCampaignStage = null;
 
 function setGameMode(mode) {
   currentMode = mode;
@@ -2123,6 +2559,177 @@ const NPC_PERSONAS = {
   "Oráculo": { role: "Visión", style: "abstracto", expects: "matiz y valoración" },
 };
 
+const TOWN_HOUSE_LAYOUT = [
+  { id: "hall", label: "Plaza Mayor", type: "hall", x: 18, y: 28 },
+  { id: "bridge", label: "Puente", type: "default", x: 12, y: 65 },
+  { id: "station", label: "Estación", type: "station", x: 79, y: 64 },
+  { id: "market", label: "Mercado", type: "shop", x: 52, y: 70 },
+  { id: "messenger", label: "Casa de Mensajes", type: "default", x: 34, y: 54 },
+  { id: "archive", label: "Archivo", type: "archive", x: 67, y: 38 },
+  { id: "council", label: "Consejo", type: "hall", x: 48, y: 23 },
+  { id: "oracle", label: "Santuario", type: "archive", x: 85, y: 25 },
+];
+
+const NPC_VISUAL_LIBRARY = {
+  "Guardia del puente": { avatar: "🛡️", outfit: "guardián de hierro", palette: "acero", houseId: "bridge", x: 18, y: 62 },
+  Alcalde: { avatar: "🎩", outfit: "ropa de gala municipal", palette: "granate", houseId: "hall", x: 22, y: 24 },
+  "Control de estación": { avatar: "🚉", outfit: "uniforme ferroviario", palette: "azul carbón", houseId: "station", x: 74, y: 60 },
+  "Capitana del mercado": { avatar: "🧺", outfit: "capa mercantil", palette: "ocres", houseId: "market", x: 56, y: 66 },
+  Mensajera: { avatar: "✉️", outfit: "atuendo ligero de ruta", palette: "cobre", houseId: "messenger", x: 39, y: 50 },
+  Cronista: { avatar: "📜", outfit: "túnica de archivo", palette: "verde tinta", houseId: "archive", x: 63, y: 34 },
+  "Consejera real": { avatar: "👑", outfit: "vestimenta de corte", palette: "púrpura real", houseId: "council", x: 52, y: 20 },
+  "Oráculo": { avatar: "🔮", outfit: "manto ritual", palette: "índigo", houseId: "oracle", x: 82, y: 21 },
+};
+
+const ENEMY_MODEL_LIBRARY = {
+  A1: {
+    miniBoss: { id: "mb-a1-herrero-fantasma", archetype: "herrero espectral", rig: "humano básico", note: "modelo lowpoly con herramientas encantadas" },
+    finalBoss: { id: "fb-a1-guardian-umbral", archetype: "guardián de palabras", rig: "humano pesado", note: "versión base del guardián final" },
+  },
+  A2: {
+    miniBoss: { id: "mb-a2-cobrador-anden", archetype: "cobrador mecánico", rig: "humano medio", note: "animación de sellado de billetes" },
+    finalBoss: { id: "fb-a2-maestra-rutas", archetype: "capitana de trayectos", rig: "humano ágil", note: "ataques de órdenes de viaje" },
+  },
+  B1: {
+    miniBoss: { id: "mb-b1-cronista-ruido", archetype: "escriba temporal", rig: "humano medio", note: "efectos de eco narrativo" },
+    finalBoss: { id: "fb-b1-devorador-recuerdos", archetype: "bestia de memoria", rig: "criatura grande", note: "dos fases con ruptura de tiempo" },
+  },
+  B2: {
+    miniBoss: { id: "mb-b2-juez-hipotesis", archetype: "juez de matices", rig: "humano élite", note: "contraataque condicional" },
+    finalBoss: { id: "fb-b2-soberano-subjuntivo", archetype: "entidad modal", rig: "jefe místico", note: "modelo final con capa de partículas" },
+  },
+};
+
+function getNpcVisualMeta(npcName) {
+  return NPC_VISUAL_LIBRARY[npcName] || { avatar: "👤", outfit: "atuendo base", palette: "neutral", houseId: "hall", x: 50, y: 50 };
+}
+
+function svgToDataUri(svg) {
+  try {
+    return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
+  } catch (e) {
+    return "data:image/svg+xml;utf8," + encodeURIComponent(svg).replace(/%0A/g, "");
+  }
+}
+
+function makeNpcSprite(primary, secondary, skin, mark) {
+  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' shape-rendering='crispEdges'>"
+    + "<rect width='64' height='64' fill='#0e1a26'/>"
+    + "<rect x='20' y='6' width='24' height='10' fill='" + secondary + "'/>"
+    + "<rect x='18' y='16' width='28' height='22' rx='4' fill='" + primary + "'/>"
+    + "<rect x='24' y='20' width='16' height='14' rx='3' fill='" + skin + "'/>"
+    + "<rect x='26' y='24' width='3' height='3' fill='#101820'/>"
+    + "<rect x='35' y='24' width='3' height='3' fill='#101820'/>"
+    + "<rect x='28' y='30' width='8' height='2' fill='#101820'/>"
+    + "<rect x='16' y='38' width='32' height='18' rx='4' fill='" + secondary + "'/>"
+    + "<rect x='22' y='42' width='20' height='10' rx='2' fill='" + primary + "'/>"
+    + "<rect x='4' y='4' width='12' height='12' rx='2' fill='" + mark + "'/>"
+    + "<rect x='6' y='6' width='8' height='8' rx='2' fill='" + secondary + "'/>"
+    + "</svg>";
+  return svgToDataUri(svg);
+}
+
+function makeHouseSprite(base, roof, accent) {
+  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='64' height='48' viewBox='0 0 64 48' shape-rendering='crispEdges'>"
+    + "<rect width='64' height='48' fill='transparent'/>"
+    + "<polygon points='6,20 32,4 58,20' fill='" + roof + "' stroke='#2d1d18' stroke-width='2'/>"
+    + "<rect x='8' y='20' width='48' height='24' rx='4' fill='" + base + "' stroke='#2d1d18' stroke-width='2'/>"
+    + "<rect x='26' y='28' width='12' height='16' fill='#3a271f'/>"
+    + "<rect x='14' y='26' width='8' height='8' fill='" + accent + "'/><rect x='42' y='26' width='8' height='8' fill='" + accent + "'/>"
+    + "</svg>";
+  return svgToDataUri(svg);
+}
+
+function makeEnemySprite(main, glow, horn) {
+  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' shape-rendering='crispEdges'>"
+    + "<rect width='64' height='64' fill='#0f1824'/>"
+    + "<circle cx='32' cy='30' r='18' fill='" + main + "' stroke='#0b0f16' stroke-width='3'/><circle cx='32' cy='30' r='6' fill='" + glow + "'/>"
+    + "<polygon points='22,14 28,4 32,14' fill='" + horn + "'/><polygon points='42,14 36,4 32,14' fill='" + horn + "'/>"
+    + "<rect x='16' y='44' width='32' height='12' rx='5' fill='" + main + "'/><rect x='26' y='48' width='12' height='4' fill='" + glow + "'/>"
+    + "</svg>";
+  return svgToDataUri(svg);
+}
+
+const HOUSE_SPRITES = {
+  default: makeHouseSprite("#8a6542", "#8a483a", "#89b1d8"),
+  hall: makeHouseSprite("#7562a1", "#5d3d7d", "#d9be7a"),
+  station: makeHouseSprite("#5876a4", "#455f86", "#afd4ef"),
+  shop: makeHouseSprite("#9f7a45", "#7c5730", "#f2d58e"),
+  archive: makeHouseSprite("#518d86", "#3d6e69", "#c9e6df"),
+};
+
+const NPC_SPRITES = {
+  "Guardia del puente": makeNpcSprite("#4f6b8f", "#2f4865", "#e2b587", "#7ca3d1"),
+  Alcalde: makeNpcSprite("#7f3f4f", "#5f2836", "#e6bd94", "#d0a86a"),
+  "Control de estación": makeNpcSprite("#3e6288", "#2b4663", "#dfb78f", "#8eb5df"),
+  "Capitana del mercado": makeNpcSprite("#8f5c34", "#6a4528", "#e2ba93", "#cfa05a"),
+  Mensajera: makeNpcSprite("#8c5e4a", "#694233", "#e8c19d", "#d8b089"),
+  Cronista: makeNpcSprite("#3f7772", "#2f5b57", "#dcb28c", "#85c2bb"),
+  "Consejera real": makeNpcSprite("#7451a0", "#563a7a", "#e9c09a", "#d7b06d"),
+  "Oráculo": makeNpcSprite("#49559c", "#333e75", "#e2b692", "#98a7f3"),
+  "Fantasma guía": makeNpcSprite("#8ba9bf", "#6f879a", "#d8edf8", "#b7d6eb"),
+};
+
+const ENEMY_SPRITES = {
+  A1: { miniBoss: makeEnemySprite("#6f8ea8", "#c6ecff", "#8fb8d1"), finalBoss: makeEnemySprite("#5e7f97", "#f3f5ff", "#9eb0be") },
+  A2: { miniBoss: makeEnemySprite("#7e6b4c", "#f7ddb1", "#b89964"), finalBoss: makeEnemySprite("#8a5f3e", "#ffd8aa", "#c18b62") },
+  B1: { miniBoss: makeEnemySprite("#5c7b64", "#d8f3df", "#8cb497"), finalBoss: makeEnemySprite("#3f5a66", "#d2f0ff", "#7da4b6") },
+  B2: { miniBoss: makeEnemySprite("#6a4f8f", "#ead7ff", "#a487d4"), finalBoss: makeEnemySprite("#3f3a72", "#f0e4ff", "#8277d8") },
+};
+
+function getNpcSprite(npcName) {
+  return NPC_SPRITES[npcName] || NPC_SPRITES["Fantasma guía"];
+}
+
+function getHouseSprite(type) {
+  return HOUSE_SPRITES[type] || HOUSE_SPRITES.default;
+}
+
+function renderTownVillage(selectedNpc) {
+  const root = document.getElementById("town-visual");
+  if (!root) return;
+  const names = Object.keys(NPC_PERSONAS);
+  const houses = TOWN_HOUSE_LAYOUT.map(house =>
+    "<div class='town-house " + (house.type || "default") + "' style='left:" + house.x + "%;top:" + house.y + "%;' title='" + house.label + "'>"
+    + "<img class='town-house-sprite' src='" + getHouseSprite(house.type || "default") + "' alt='" + house.label + "'>"
+    + "</div>"
+  ).join("");
+  const pins = names.map(name => {
+    const visual = getNpcVisualMeta(name);
+    const isActive = name === selectedNpc;
+    return "<button class='town-pin" + (isActive ? " active" : "") + "' style='left:" + visual.x + "%;top:" + visual.y + "%;' onclick='renderTownMap(\"" + name + "\")' title='" + name + " · " + visual.outfit + "'>"
+      + "<img class='town-pin-sprite' src='" + getNpcSprite(name) + "' alt='" + name + "'>"
+      + "<span class='town-pin-label'>" + name + "</span>"
+      + "</button>";
+  }).join("");
+  root.innerHTML = "<div class='town-village'>" + houses + pins + "</div>"
+    + "<div class='small mt8'>Vista prototipo de aldea: casas, rutas y posicionamiento de NPC. Preparada para migrar a arte/modelos reales.</div>";
+}
+
+function renderEnemyModelPreview(level) {
+  const root = document.getElementById("town-model-preview");
+  if (!root) return;
+  const key = level || STATE.level || "A1";
+  const pack = ENEMY_MODEL_LIBRARY[key] || ENEMY_MODEL_LIBRARY.A1;
+  const spritePack = ENEMY_SPRITES[key] || ENEMY_SPRITES.A1;
+  if (!pack) {
+    root.textContent = "Modelos de enemigos aún no configurados para este nivel.";
+    return;
+  }
+  root.innerHTML = "<div class='badge-name'>Pipeline de modelado · " + key + "</div>"
+    + "<div class='enemy-preview-row'>"
+    + "<div class='enemy-preview-card'><img class='enemy-sprite' src='" + spritePack.miniBoss + "' alt='Semijefe'>Semijefe: " + pack.miniBoss.archetype + "<div class='small mt8'>ID " + pack.miniBoss.id + " · Rig " + pack.miniBoss.rig + "</div></div>"
+    + "<div class='enemy-preview-card'><img class='enemy-sprite' src='" + spritePack.finalBoss + "' alt='Jefe final'>Jefe final: " + pack.finalBoss.archetype + "<div class='small mt8'>ID " + pack.finalBoss.id + " · Rig " + pack.finalBoss.rig + "</div></div>"
+    + "<div class='enemy-preview-card'><img class='enemy-sprite' src='" + getNpcSprite("Fantasma guía") + "' alt='Fantasma guía'>Guía: Fantasma tutor<div class='small mt8'>Mentor visual para onboarding y ayuda contextual.</div></div>"
+    + "</div>"
+    + "<div class='small mt8'>Notas de arte: " + pack.miniBoss.note + " / " + pack.finalBoss.note + "</div>"
+    + "<div class='model-chip-row'>"
+    + "<span class='model-chip'>NPC Variants: rostro + outfit + paleta</span>"
+    + "<span class='model-chip'>Boss Variants: silueta + VFX + fase</span>"
+    + "<span class='model-chip'>Estado: sprites 2D base listos</span>"
+    + "</div>";
+}
+
 const NPC_ALLIANCE_EVENTS = {
   "Guardia del puente": {
     line: "El guardia baja la barrera y te llama por tu nombre: ya eres de confianza en el puente.",
@@ -2184,6 +2791,342 @@ const NPC_TRUST_EVENTS = {
   "Consejera real": { line: "La consejera plantea un mini debate para fortalecer tus matices.", words: ["criterio", "matiz"] },
   "Oráculo": { line: "El oráculo te susurra una variante más elegante para tu respuesta.", words: ["presente", "augurio"] },
 };
+
+const TOWN_TALK_LINES = {
+  A1: [
+    { text: "Buenos días. Hoy practicamos saludo y presentación breve.", focus: "saludos y cortesía" },
+    { text: "Di una frase simple con artículo correcto: el o la.", focus: "artículos básicos" },
+    { text: "Responde con una estructura corta y clara.", focus: "frase mínima funcional" },
+  ],
+  A2: [
+    { text: "Incluye destino y hora para que tu mensaje sea útil.", focus: "comunicación funcional" },
+    { text: "Usa una petición completa con por favor.", focus: "pragmática en servicio" },
+    { text: "Practica una frase con planificación inmediata.", focus: "ir a + infinitivo" },
+  ],
+  B1: [
+    { text: "Describe el contexto y luego el evento principal.", focus: "narración en pasado" },
+    { text: "Combina fondo y acción puntual con tiempos adecuados.", focus: "imperfecto vs indefinido" },
+    { text: "Ordena la secuencia temporal con conectores.", focus: "coherencia narrativa" },
+  ],
+  B2: [
+    { text: "Argumenta con precisión y matiz.", focus: "valoración formal" },
+    { text: "Propón una hipótesis bien estructurada.", focus: "hipótesis y condición" },
+    { text: "Justifica tu postura con una finalidad clara.", focus: "subjuntivo y finalidad" },
+  ],
+};
+
+const TOWN_TALK_DRILLS = {
+  A1: [
+    {
+      prompt: "Elige la respuesta de saludo más adecuada:",
+      good: "Buenos días, soy Ana.",
+      bad: "Buenos días yo ser Ana.",
+      focus: "saludos y presentación",
+      feedbackWrong: "En A1 conviene usar verbo conjugado y presentación simple.",
+    },
+    {
+      prompt: "Selecciona la opción con artículo correcto:",
+      good: "La estación está cerca.",
+      bad: "El estación está cerca.",
+      focus: "artículos básicos",
+      feedbackWrong: "'Estación' es femenino, por eso usamos 'la'.",
+    },
+    {
+      prompt: "¿Qué frase es más clara y funcional?",
+      good: "Quiero un café, por favor.",
+      bad: "Yo querer café por favor.",
+      focus: "estructura mínima funcional",
+      feedbackWrong: "La forma verbal conjugada mejora claridad inmediata.",
+    },
+    {
+      prompt: "Elige la frase correcta para indicar ubicación:",
+      good: "El mercado está en la plaza.",
+      bad: "Mercado estar en plaza.",
+      focus: "oración simple completa",
+      feedbackWrong: "Incluye artículo y verbo conjugado para sonar natural.",
+    },
+    {
+      prompt: "Selecciona la pregunta más cortés:",
+      good: "¿Dónde está la estación, por favor?",
+      bad: "¿Dónde estación?",
+      focus: "pregunta básica de cortesía",
+      feedbackWrong: "Las fórmulas completas son más claras y educadas.",
+    },
+    {
+      prompt: "¿Cuál es la despedida más adecuada?",
+      good: "Gracias, hasta luego.",
+      bad: "Gracias luego.",
+      focus: "cierres conversacionales",
+      feedbackWrong: "La despedida fija 'hasta luego' suena natural y completa.",
+    },
+  ],
+  A2: [
+    {
+      prompt: "Elige la petición más natural para servicio:",
+      good: "¿Me da un billete para Madrid, por favor?",
+      bad: "Da billete Madrid ahora.",
+      focus: "petición formal breve",
+      feedbackWrong: "En servicio, pregunta completa + cortesía funcionan mejor.",
+    },
+    {
+      prompt: "Selecciona la frase con plan inmediato correcto:",
+      good: "Voy a llegar a las ocho.",
+      bad: "Voy llegar las ocho.",
+      focus: "ir a + infinitivo",
+      feedbackWrong: "La perífrasis correcta es 'ir a + infinitivo'.",
+    },
+    {
+      prompt: "¿Cuál comunica mejor tiempo y destino?",
+      good: "Salimos mañana a las nueve hacia Sevilla.",
+      bad: "Salir mañana nueve Sevilla.",
+      focus: "información funcional completa",
+      feedbackWrong: "A2 prioriza mensajes con tiempo, acción y destino explícitos.",
+    },
+    {
+      prompt: "Elige la opción correcta para pedir ayuda:",
+      good: "¿Puede repetirlo más despacio, por favor?",
+      bad: "Repite despacio ahora.",
+      focus: "petición de aclaración",
+      feedbackWrong: "En interacción real conviene suavizar con 'puede... por favor'.",
+    },
+    {
+      prompt: "Selecciona la frase más natural para rutina:",
+      good: "Normalmente desayuno antes de salir.",
+      bad: "Normalmente yo desayunar antes salir.",
+      focus: "rutinas en presente",
+      feedbackWrong: "Conjugación en presente + conectores sencillos mejora fluidez.",
+    },
+    {
+      prompt: "¿Qué opción expresa mejor preferencia?",
+      good: "Prefiero el tren porque es más rápido.",
+      bad: "Preferir tren porque más rápido.",
+      focus: "opinión con justificación",
+      feedbackWrong: "A2 ya pide opinión breve con razón explícita.",
+    },
+  ],
+  B1: [
+    {
+      prompt: "Elige la narración temporal más coherente:",
+      good: "Mientras caminaba, vi el anuncio.",
+      bad: "Mientras caminé, veía el anuncio.",
+      focus: "imperfecto vs indefinido",
+      feedbackWrong: "En B1 usamos imperfecto para fondo e indefinido para evento puntual.",
+    },
+    {
+      prompt: "Selecciona la secuencia más clara:",
+      good: "Primero llegué, luego llamé y después esperé.",
+      bad: "Primero llegué después llamé luego esperar.",
+      focus: "orden narrativo",
+      feedbackWrong: "Los conectores temporales ordenan la historia con claridad.",
+    },
+    {
+      prompt: "¿Qué opción suena más natural para relato?",
+      good: "Ayer estaba cansado, pero terminé el informe.",
+      bad: "Ayer estuve cansado, pero terminaba el informe.",
+      focus: "fondo + acción puntual",
+      feedbackWrong: "Describe estado con imperfecto y cierre de acción con indefinido.",
+    },
+    {
+      prompt: "Elige la frase más coherente para causa-efecto:",
+      good: "Como había tráfico, llegué tarde a la reunión.",
+      bad: "Como hubo tráfico, llegaba tarde a la reunión.",
+      focus: "coherencia causal en pasado",
+      feedbackWrong: "B1 exige mantener coherencia entre causa y resultado narrado.",
+    },
+    {
+      prompt: "Selecciona la reformulación más precisa:",
+      good: "Al principio dudé, pero al final acepté la propuesta.",
+      bad: "Al principio dudaba, pero al final aceptaba la propuesta.",
+      focus: "decisión puntual",
+      feedbackWrong: "Las decisiones cerradas suelen expresarse con indefinido.",
+    },
+    {
+      prompt: "¿Qué opción estructura mejor un recuerdo?",
+      good: "Cuando era niño, vivía en un pueblo y visitaba el río cada verano.",
+      bad: "Cuando fui niño, viví en un pueblo y visité el río cada verano.",
+      focus: "hábitos en pasado",
+      feedbackWrong: "Hábitos repetidos en el pasado requieren imperfecto.",
+    },
+  ],
+  B2: [
+    {
+      prompt: "Elige la formulación más precisa:",
+      good: "Es probable que lleguemos antes si salimos ahora.",
+      bad: "Es probable que llegamos antes si salimos ahora.",
+      focus: "subjuntivo en probabilidad",
+      feedbackWrong: "Tras expresiones de probabilidad se espera subjuntivo.",
+    },
+    {
+      prompt: "Selecciona la hipótesis mejor construida:",
+      good: "Si tuviera más tiempo, revisaría el informe.",
+      bad: "Si tendría más tiempo, revisaría el informe.",
+      focus: "condicional e hipótesis",
+      feedbackWrong: "En hipótesis irreales: 'si' + imperfecto de subjuntivo.",
+    },
+    {
+      prompt: "¿Cuál expresa finalidad formal correcta?",
+      good: "Te lo explico para que puedas decidir.",
+      bad: "Te lo explico para que puedes decidir.",
+      focus: "subjuntivo y finalidad",
+      feedbackWrong: "Con 'para que' usamos subjuntivo para marcar finalidad.",
+    },
+    {
+      prompt: "Elige la opción con matiz concesivo correcto:",
+      good: "Aunque sea tarde, terminaremos hoy.",
+      bad: "Aunque es tarde, terminaremos hoy.",
+      focus: "concesivas con subjuntivo",
+      feedbackWrong: "Para hipótesis o valoración, 'aunque' suele ir con subjuntivo.",
+    },
+    {
+      prompt: "Selecciona la formulación más diplomática:",
+      good: "No es que esté en desacuerdo, pero convendría revisar los datos.",
+      bad: "No es que está en desacuerdo, pero convendría revisar datos.",
+      focus: "matiz argumentativo",
+      feedbackWrong: "B2 trabaja matices; 'no es que' activa subjuntivo.",
+    },
+    {
+      prompt: "¿Qué opción expresa condición formal adecuada?",
+      good: "En caso de que surjan dudas, avísame de inmediato.",
+      bad: "En caso de que surgen dudas, avísame de inmediato.",
+      focus: "condición formal con subjuntivo",
+      feedbackWrong: "'En caso de que' requiere subjuntivo para condición posible.",
+    },
+  ],
+};
+
+const TOWN_TALK_HARD_DISTRACTORS = {
+  A1: [
+    { text: "Buenos dias, soy Ana.", why: "Falta tilde en 'dias'; en practica guiada cuidamos ortografia basica." },
+    { text: "La estacion esta cerca.", why: "Faltan tildes en 'estacion' y 'esta'." },
+    { text: "Quiero cafe, por favor.", why: "En este ejercicio se evalua el uso correcto de acentos ('cafe')." },
+  ],
+  A2: [
+    { text: "?Me da un billete para Madrid, por favor?", why: "La forma escrita correcta usa signos de apertura de interrogacion." },
+    { text: "Voy a llegar a las 8.", why: "Respuesta comprensible, pero en estos retos priorizamos registro escrito completo ('ocho')." },
+    { text: "Salimos manana a las nueve hacia Sevilla.", why: "Falta tilde en 'manana'." },
+  ],
+  B1: [
+    { text: "Mientras caminaba vi el anuncio.", why: "Sin coma, la estructura temporal pierde claridad narrativa." },
+    { text: "Al principio dude, pero al final acepte la propuesta.", why: "Faltan tildes en 'dude' y 'acepte'." },
+    { text: "Cuando era nino, vivia en un pueblo y visitaba el rio cada verano.", why: "Faltan tildes claves para mantener precision de registro." },
+  ],
+  B2: [
+    { text: "Es probable que lleguemos antes, si salimos ahora.", why: "La coma antes de 'si' es evitable y puede alterar el ritmo argumentativo." },
+    { text: "Te lo explico para que puedas decidir,", why: "El cierre con coma final es un error de puntuacion en escritura cuidada." },
+    { text: "No es que este en desacuerdo, pero convendria revisar los datos.", why: "Faltan tildes en formas verbales clave ('este', 'convendria')." },
+  ],
+};
+
+function pickTownHardDistractor(level, correctText, seedBase) {
+  const list = TOWN_TALK_HARD_DISTRACTORS[level] || TOWN_TALK_HARD_DISTRACTORS.A1;
+  if (!list || !list.length) return null;
+  const start = seedBase % list.length;
+  for (let i = 0; i < list.length; i++) {
+    const candidate = list[(start + i) % list.length];
+    if (candidate && candidate.text && candidate.text !== correctText) return candidate;
+  }
+  return null;
+}
+
+function getTownTalkLine(npcName, level) {
+  const list = TOWN_TALK_LINES[level] || TOWN_TALK_LINES.A1;
+  const seed = Math.abs(hashCode((npcName || "NPC") + "|" + todayKey() + "|" + (level || "A1")));
+  const chosen = list[seed % list.length] || list[0];
+  const persona = getNpcPersona(npcName);
+  return {
+    text: chosen.text,
+    focus: chosen.focus,
+    speaker: npcName + " (" + persona.style + ")",
+  };
+}
+
+function buildTownTalkDrill(npcName, level) {
+  const selectedLevel = level || "A1";
+  const list = TOWN_TALK_DRILLS[selectedLevel] || TOWN_TALK_DRILLS.A1;
+  const difficulty = getTownTalkDifficultyInfo(npcName);
+  let pool = list;
+  if (difficulty.code === "facil") {
+    pool = list.slice(0, Math.max(3, Math.ceil(list.length * 0.6)));
+  } else if (difficulty.code === "media") {
+    pool = list.slice(Math.max(1, Math.floor(list.length * 0.2)));
+  }
+  const seedBase = Math.abs(hashCode((npcName || "NPC") + "|" + todayKey() + "|" + selectedLevel + "|drill"));
+  const item = pool[seedBase % pool.length] || pool[0] || list[0];
+  let distractor = item.bad;
+  let hardWhy = "";
+  if (difficulty.code === "alta") {
+    const handcrafted = pickTownHardDistractor(selectedLevel, item.good, seedBase);
+    if (handcrafted) {
+      distractor = handcrafted.text;
+      hardWhy = handcrafted.why || "";
+    } else {
+      const hardDistractor = list.find(entry => entry.good !== item.good && entry.focus !== item.focus);
+      if (hardDistractor) distractor = hardDistractor.good;
+    }
+  }
+  const flip = (seedBase % 2) === 1;
+  const options = flip ? [distractor, item.good] : [item.good, distractor];
+  const correctIndex = flip ? 1 : 0;
+  const fallbackFeedback = difficulty.code === "alta"
+    ? "En dificultad alta, ambas opciones pueden sonar correctas; prioriza la que responde exactamente al objetivo del NPC."
+    : ("Mejor opción: " + item.good);
+  const hint = difficulty.code === "facil"
+    ? "Pista: prioriza frases completas, con verbo conjugado y cortesía básica."
+    : (difficulty.code === "media"
+      ? "Pista: busca precisión gramatical y adecuación al contexto."
+      : "Modo alta: ambas respuestas pueden parecer válidas; decide por intención comunicativa.");
+  return {
+    prompt: item.prompt,
+    options,
+    correctIndex,
+    correctText: item.good,
+    incorrectText: distractor,
+    feedbackWrong: item.feedbackWrong || fallbackFeedback,
+    focus: item.focus,
+    level: selectedLevel,
+    difficultyCode: difficulty.code,
+    difficultyLabel: difficulty.label,
+    hardWhy,
+    hint,
+  };
+}
+
+function getTownTalkProgress(npcName) {
+  if (!STATE.npcTalkProgress) STATE.npcTalkProgress = {};
+  const current = STATE.npcTalkProgress[npcName] || { tier: 0, streak: 0, wins: 0, attempts: 0, altaWins: 0 };
+  return {
+    tier: Math.max(0, Math.min(2, Number(current.tier) || 0)),
+    streak: Math.max(0, Number(current.streak) || 0),
+    wins: Math.max(0, Number(current.wins) || 0),
+    attempts: Math.max(0, Number(current.attempts) || 0),
+    altaWins: Math.max(0, Number(current.altaWins) || 0),
+  };
+}
+
+function getTownHighMasteryNpcCount() {
+  if (!STATE.npcTalkProgress) return 0;
+  return Object.values(STATE.npcTalkProgress).filter(item => {
+    const wins = Math.max(0, Number(item && item.altaWins) || 0);
+    return wins >= 2;
+  }).length;
+}
+
+function getTownTalkDifficultyInfo(npcName) {
+  const progress = getTownTalkProgress(npcName);
+  if (progress.tier <= 0) return { code: "facil", label: "Facil", progress };
+  if (progress.tier === 1) return { code: "media", label: "Media", progress };
+  return { code: "alta", label: "Alta", progress };
+}
+
+function getTownTalkRewards(difficultyCode, correct) {
+  const table = {
+    facil: { ok: { xp: 4, coins: 2, affinity: 1 }, fail: { xp: 2, coins: 1, affinity: 0 } },
+    media: { ok: { xp: 5, coins: 3, affinity: 1 }, fail: { xp: 2, coins: 1, affinity: 0 } },
+    alta: { ok: { xp: 7, coins: 4, affinity: 2 }, fail: { xp: 3, coins: 2, affinity: 0 } },
+  };
+  const bucket = table[difficultyCode] || table.media;
+  return correct ? bucket.ok : bucket.fail;
+}
 
 function getNpcPersona(npcName) {
   return NPC_PERSONAS[npcName] || { role: "Interlocutor", style: "neutral", expects: "claridad" };
@@ -2312,6 +3255,7 @@ function finalizeResultTransition() {
   updateHUD();
   saveProgress();
   screen("result");
+  renderResultLoadoutHistory();
   // Persistimos la pantalla actual para una reanudación coherente.
   saveProgress();
 }
@@ -2413,6 +3357,8 @@ function pulseStreakBadge() {
 }
 
 function newGame() {
+  activeGhostBriefing = null;
+  pendingCampaignStage = null;
   STATE = {
     level: "A1",
     unlockedLevels: ["A1"],
@@ -2425,6 +3371,10 @@ function newGame() {
     inventory: ["hola", "el", "la"],
     wordCollection: {},
     lootHistory: [],
+    equippedWords: [],
+    inventoryQuery: "",
+    inventoryFilter: "all",
+    inventorySort: "rarity",
     craftLevel: "A1",
     completedAcademy: [],
     dailyDone: {},
@@ -2433,6 +3383,9 @@ function newGame() {
     freeRevealCharges: 0,
     nextTimeBonusSeconds: 0,
     shieldCharges: 0,
+    levelBriefingSeen: { A1: false, A2: false, B1: false, B2: false },
+    levelMissionRewardsClaimed: { A1: false, A2: false, B1: false, B2: false },
+    levelMissionStats: {},
     stageBestScores: {},
     shopSeen: false,
     tutorialDone: false,
@@ -2440,6 +3393,7 @@ function newGame() {
       streak9: false,
       flawlessBoss: false,
       daily7: false,
+      townPolyglot: false,
     },
     badgeHistory: [],
     badgesUnlockedAt: {},
@@ -2447,6 +3401,15 @@ function newGame() {
     npcAffinity: {},
     npcEventRewards: {},
     npcTrustDaily: {},
+    npcMapDaily: {},
+    npcTalkDaily: {},
+    npcTalkProgress: {},
+    npcTalkNotes: {},
+    townBoardDaily: {},
+    townBoardStats: {},
+    townPerfectDaily: {},
+    townPerfectWeeklyClaims: {},
+    npcWeeklyActivity: {},
     currentScreen: "campaign",
     audioMuted: false,
     audioVolume: 70,
@@ -2467,7 +3430,7 @@ function resetSave() {
 }
 
 function getSafeResumeScreen(screenId) {
-  const allowed = new Set(["campaign", "library", "academy", "daily", "shop", "glossary", "badges", "inventory"]);
+  const allowed = new Set(["campaign", "briefing", "map", "library", "academy", "daily", "shop", "glossary", "badges", "inventory"]);
   return allowed.has(screenId) ? screenId : "campaign";
 }
 
@@ -2478,6 +3441,8 @@ function modeForScreen(screenId) {
 }
 
 function openScreenById(screenId) {
+  if (screenId === "briefing") return openGhostBriefing(STATE.selectedLevel || STATE.level, false);
+  if (screenId === "map") return goMap();
   if (screenId === "library") return goLibrary();
   if (screenId === "academy") return goAcademy();
   if (screenId === "daily") return goDaily();
@@ -2499,6 +3464,689 @@ function goCampaign() {
   renderCampaign();
   updateHUD();
   screen("campaign");
+  const currentLevel = STATE.level || "A1";
+  if (needsGhostBriefing(currentLevel) && !activeGhostBriefing) {
+    openGhostBriefing(currentLevel, false);
+  }
+}
+
+function needsGhostBriefing(level) {
+  const key = level || STATE.level || "A1";
+  const seen = STATE.levelBriefingSeen || {};
+  return !seen[key];
+}
+
+function getLevelMissionStats(level) {
+  const key = level || STATE.level || "A1";
+  if (!STATE.levelMissionStats) STATE.levelMissionStats = {};
+  if (!STATE.levelMissionStats[key]) {
+    STATE.levelMissionStats[key] = {
+      briefingBestAccuracy: 0,
+      winsByType: { mcq: 0, group: 0, order: 0, text: 0, dialogue: 0 },
+      dialogueCorrect: 0,
+    };
+  }
+  const row = STATE.levelMissionStats[key];
+  if (!row.winsByType) row.winsByType = { mcq: 0, group: 0, order: 0, text: 0, dialogue: 0 };
+  return row;
+}
+
+function getBriefingDifficultyForecast(level) {
+  const key = level || STATE.level || "A1";
+  let played = 0;
+  let starSum = 0;
+  for (let i = 1; i <= 11; i++) {
+    const best = getBestStageScore(key, i);
+    if (best > 0) {
+      played += 1;
+      starSum += getStageStars(i, best);
+    }
+  }
+
+  const levelErrors = (STATE.glossary || []).filter(item => (item.level || "") === key);
+  const errorWeight = levelErrors.reduce((acc, item) => acc + Math.max(1, Number(item.count) || 0), 0);
+
+  if (!played) {
+    return {
+      label: "Sin histórico",
+      text: "Dificultad esperada: base de entrada. El objetivo es reconocer patrones y construir seguridad antes del primer combate real.",
+    };
+  }
+
+  const avgStars = starSum / Math.max(played, 1);
+  const pressure = avgStars - Math.min(1.2, errorWeight / 18);
+  if (pressure >= 2.1) {
+    return {
+      label: "Asequible",
+      text: "Dificultad esperada: asequible. Tu histórico sugiere buena estabilidad para avanzar con foco en precisión y velocidad.",
+    };
+  }
+  if (pressure >= 1.2) {
+    return {
+      label: "Media",
+      text: "Dificultad esperada: media. Puedes avanzar, pero conviene completar bien la práctica para consolidar estructuras críticas.",
+    };
+  }
+  return {
+    label: "Retadora",
+    text: "Dificultad esperada: retadora. Prioriza exactitud gramatical y lectura de contexto antes de entrar al combate.",
+  };
+}
+
+function renderGhostBriefingConceptProgress(content) {
+  const conceptsNode = document.getElementById("briefing-concepts");
+  if (!conceptsNode || !content) return;
+  const concepts = Array.isArray(content.concepts) ? content.concepts : [];
+  const drills = Array.isArray(content.drills) ? content.drills : [];
+  const answers = (activeGhostBriefing && activeGhostBriefing.answers) ? activeGhostBriefing.answers : {};
+
+  const stats = concepts.map(() => ({ total: 0, ok: 0 }));
+  drills.forEach((drill, idx) => {
+    const conceptIndex = Number.isFinite(drill && drill.conceptIndex)
+      ? Math.max(0, Math.min(concepts.length - 1, Number(drill.conceptIndex)))
+      : Math.max(0, Math.min(concepts.length - 1, idx));
+    if (!stats[conceptIndex]) return;
+    stats[conceptIndex].total += 1;
+    const ans = answers[idx];
+    if (ans && ans.correct) stats[conceptIndex].ok += 1;
+  });
+
+  const lines = concepts.map((line, idx) => {
+    const row = stats[idx] || { total: 0, ok: 0 };
+    if (row.total <= 0) {
+      return "• ◻ " + line;
+    }
+    const pct = Math.round((row.ok / row.total) * 100);
+    const icon = row.ok >= row.total ? "✅" : (row.ok > 0 ? "🟨" : "◻");
+    return "• " + icon + " " + line + " (" + row.ok + "/" + row.total + " · " + pct + "%)";
+  });
+
+  conceptsNode.innerHTML = lines.join("<br>");
+}
+
+function openGhostBriefing(level, autoFlow) {
+  const key = level || STATE.level || "A1";
+  const content = GHOST_BRIEFING_CONTENT[key] || GHOST_BRIEFING_CONTENT.A1;
+  activeGhostBriefing = {
+    level: key,
+    autoFlow: !!autoFlow,
+    answers: {},
+  };
+
+  const titleNode = document.getElementById("briefing-title");
+  const introNode = document.getElementById("briefing-intro");
+  const forecastNode = document.getElementById("briefing-forecast");
+  const conceptsNode = document.getElementById("briefing-concepts");
+  const drillsNode = document.getElementById("briefing-drills");
+  const statusNode = document.getElementById("briefing-status");
+  const continueBtn = document.getElementById("briefing-continue-btn");
+  if (!titleNode || !introNode || !forecastNode || !conceptsNode || !drillsNode || !statusNode || !continueBtn) return;
+
+  titleNode.textContent = content.title;
+  introNode.textContent = "👻 " + content.intro;
+  const forecast = getBriefingDifficultyForecast(key);
+  forecastNode.innerHTML = "<strong>Lectura del fantasma:</strong> " + forecast.text;
+  renderGhostBriefingConceptProgress(content);
+  drillsNode.innerHTML = "";
+
+  (content.drills || []).forEach((drill, idx) => {
+    const card = document.createElement("div");
+    card.className = "town-detail small mt8";
+    card.id = "brief-drill-" + idx;
+    const optionsHtml = (drill.options || []).map((opt, optionIdx) =>
+      "<button class='btn ghost' onclick='answerGhostBriefingDrill(" + idx + "," + optionIdx + ")'>" + String.fromCharCode(65 + optionIdx) + ") " + opt + "</button>"
+    ).join(" ");
+    card.innerHTML = "<div><strong>Ejercicio " + (idx + 1) + "</strong></div>"
+      + "<div class='small mt8'>" + drill.prompt + "</div>"
+      + "<div class='row mt8'>" + optionsHtml + "</div>"
+      + "<div class='small mt8' id='brief-drill-feedback-" + idx + "'>Sin responder.</div>";
+    drillsNode.appendChild(card);
+  });
+
+  statusNode.textContent = "Completa los ejercicios para continuar, o usa 'Omitir' si prefieres entrar directamente en campaña.";
+  continueBtn.disabled = true;
+
+  prepareSectionNavigation("campaign");
+  updateHUD();
+  screen("briefing");
+}
+
+function answerGhostBriefingDrill(drillIdx, optionIdx) {
+  if (!activeGhostBriefing) return;
+  const level = activeGhostBriefing.level || STATE.level || "A1";
+  const content = GHOST_BRIEFING_CONTENT[level] || GHOST_BRIEFING_CONTENT.A1;
+  const drill = (content.drills || [])[drillIdx];
+  if (!drill) return;
+
+  const correct = Number(optionIdx) === Number(drill.correct);
+  activeGhostBriefing.answers[drillIdx] = { optionIdx, correct };
+
+  const feedback = document.getElementById("brief-drill-feedback-" + drillIdx);
+  if (feedback) {
+    feedback.textContent = (correct ? "Correcto. " : "Revisemos. ") + (drill.explain || "");
+    feedback.style.color = correct ? "#9fe8b2" : "#ffd1c2";
+  }
+
+  const total = (content.drills || []).length;
+  const answered = Object.keys(activeGhostBriefing.answers).length;
+  const correctCount = Object.values(activeGhostBriefing.answers).filter(x => x && x.correct).length;
+  const minAccuracy = 0.6;
+  const accuracy = total > 0 ? (correctCount / total) : 0;
+  renderGhostBriefingConceptProgress(content);
+  const conceptCount = (content.concepts || []).length;
+  let mastered = 0;
+  for (let i = 0; i < conceptCount; i++) {
+    const related = (content.drills || []).filter((drill, idx) => {
+      const conceptIndex = Number.isFinite(drill && drill.conceptIndex)
+        ? Math.max(0, Math.min(conceptCount - 1, Number(drill.conceptIndex)))
+        : Math.max(0, Math.min(conceptCount - 1, idx));
+      return conceptIndex === i;
+    });
+    if (!related.length) continue;
+    const allOk = related.every((drill, idxWithin) => {
+      const globalIdx = (content.drills || []).indexOf(drill);
+      const ans = activeGhostBriefing.answers[globalIdx];
+      return !!(ans && ans.correct);
+    });
+    if (allOk) mastered += 1;
+  }
+  const statusNode = document.getElementById("briefing-status");
+  if (statusNode) {
+    const neededPct = Math.round(minAccuracy * 100);
+    const currentPct = Math.round(accuracy * 100);
+    const accText = currentPct >= neededPct
+      ? "Precisión suficiente para continuar (" + currentPct + "%)."
+      : "Necesitas al menos " + neededPct + "% de precisión para continuar (actual: " + currentPct + "%).";
+    statusNode.textContent = "Progreso práctico: " + answered + "/" + total + " respondidos · " + correctCount + " correctos · Conceptos dominados: " + mastered + "/" + conceptCount + ". " + accText;
+  }
+  const continueBtn = document.getElementById("briefing-continue-btn");
+  if (continueBtn) continueBtn.disabled = answered < total || accuracy < minAccuracy;
+}
+
+function skipGhostBriefing() {
+  finishGhostBriefing(true);
+}
+
+function resumePendingCampaignStage() {
+  if (!pendingCampaignStage) {
+    goCampaign();
+    return;
+  }
+  const p = pendingCampaignStage;
+  pendingCampaignStage = null;
+  startStage(p.stageNumber, p.level, p.mode, p.options || {});
+}
+
+function finishGhostBriefing(fromSkip) {
+  if (!activeGhostBriefing) {
+    resumePendingCampaignStage();
+    return;
+  }
+  const level = activeGhostBriefing.level || STATE.level || "A1";
+  if (!fromSkip) {
+    const content = GHOST_BRIEFING_CONTENT[level] || GHOST_BRIEFING_CONTENT.A1;
+    const total = (content.drills || []).length;
+    const correctCount = Object.values(activeGhostBriefing.answers || {}).filter(x => x && x.correct).length;
+    const accuracy = total > 0 ? (correctCount / total) : 0;
+    const stats = getLevelMissionStats(level);
+    stats.briefingBestAccuracy = Math.max(Number(stats.briefingBestAccuracy || 0), accuracy);
+  }
+  if (!STATE.levelBriefingSeen) STATE.levelBriefingSeen = { A1: false, A2: false, B1: false, B2: false };
+  STATE.levelBriefingSeen[level] = true;
+  saveProgress();
+  activeGhostBriefing = null;
+  if (fromSkip) notify("Briefing omitido. Puedes revisarlo cuando quieras desde Campaña.");
+  resumePendingCampaignStage();
+}
+
+function parseDateKey(dateKey) {
+  const parts = String(dateKey || "").split("-").map(n => Number(n));
+  if (parts.length !== 3) return new Date();
+  return new Date(parts[0], Math.max(0, parts[1] - 1), Math.max(1, parts[2]));
+}
+
+function formatDateKey(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const d = String(dateObj.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + d;
+}
+
+function shiftDateKey(dateKey, deltaDays) {
+  const d = parseDateKey(dateKey);
+  d.setDate(d.getDate() + (deltaDays || 0));
+  return formatDateKey(d);
+}
+
+function getTownPerfectWeekKey(dateKey) {
+  const d = parseDateKey(dateKey);
+  const offset = (d.getDay() + 6) % 7;
+  d.setDate(d.getDate() - offset);
+  return formatDateKey(d);
+}
+
+function getTownPerfectStreak(dateKey) {
+  const map = STATE.townPerfectDaily || {};
+  let cursor = dateKey || todayKey();
+  let streak = 0;
+  while (map[cursor]) {
+    streak += 1;
+    if (streak >= 30) break;
+    cursor = shiftDateKey(cursor, -1);
+  }
+  return streak;
+}
+
+function recordNpcWeeklyActivity(npcName, points, source) {
+  if (!npcName) return;
+  if (!STATE.npcWeeklyActivity) STATE.npcWeeklyActivity = {};
+  const weekKey = getTownPerfectWeekKey(todayKey());
+  if (!STATE.npcWeeklyActivity[weekKey]) STATE.npcWeeklyActivity[weekKey] = {};
+  if (!STATE.npcWeeklyActivity[weekKey][npcName]) {
+    STATE.npcWeeklyActivity[weekKey][npcName] = { points: 0, talk: 0, errand: 0 };
+  }
+  const row = STATE.npcWeeklyActivity[weekKey][npcName];
+  row.points = Math.max(0, Number(row.points || 0) + (Number(points) || 0));
+  if (source === "talk") row.talk = Math.max(0, Number(row.talk || 0) + 1);
+  if (source === "errand") row.errand = Math.max(0, Number(row.errand || 0) + 1);
+}
+
+function getNpcWeeklyTop(weekKey) {
+  const wk = weekKey || getTownPerfectWeekKey(todayKey());
+  const bucket = (STATE.npcWeeklyActivity && STATE.npcWeeklyActivity[wk]) || {};
+  return Object.entries(bucket)
+    .map(([name, data]) => ({
+      name,
+      points: Number((data && data.points) || 0),
+      talk: Number((data && data.talk) || 0),
+      errand: Number((data && data.errand) || 0),
+    }))
+    .sort((a, b) => b.points - a.points || b.talk - a.talk || a.name.localeCompare(b.name))
+    .slice(0, 3);
+}
+
+function getTownBoardStats(today) {
+  if (!STATE.townBoardStats) STATE.townBoardStats = {};
+  const key = today || todayKey();
+  if (!STATE.townBoardStats[key]) {
+    STATE.townBoardStats[key] = {
+      talkCorrect: 0,
+      talkCompleted: 0,
+      errandCompleted: 0,
+    };
+  }
+  return STATE.townBoardStats[key];
+}
+
+function getTownBoardProgress() {
+  const today = todayKey();
+  const talkDone = Object.values(STATE.npcTalkDaily || {}).filter(v => v === today).length;
+  const errandDone = Object.values(STATE.npcMapDaily || {}).filter(v => v === today).length;
+  const talkGoal = 2;
+  const errandGoal = 2;
+  const ready = talkDone >= talkGoal && errandDone >= errandGoal;
+  const claimed = !!((STATE.townBoardDaily || {})[today]);
+  const stats = getTownBoardStats(today);
+  const perfectReady = ready && (stats.talkCorrect || 0) >= talkGoal;
+  return { today, talkDone, errandDone, talkGoal, errandGoal, ready, claimed, stats, perfectReady };
+}
+
+function renderTownBoard() {
+  const node = document.getElementById("town-map-board");
+  if (!node) return;
+  const p = getTownBoardProgress();
+  const streak = getTownPerfectStreak(p.today);
+  const weeklyKey = getTownPerfectWeekKey(p.today);
+  const weeklyClaimed = !!((STATE.townPerfectWeeklyClaims || {})[weeklyKey]);
+  const weeklyTop = getNpcWeeklyTop(weeklyKey);
+  const rankingHtml = weeklyTop.length
+    ? weeklyTop.map((row, idx) => (idx + 1) + ". " + row.name + " · " + row.points + " pts (H " + row.talk + " / E " + row.errand + ")").join("<br>")
+    : "Sin actividad social suficiente esta semana.";
+  const talkText = p.talkDone + "/" + p.talkGoal;
+  const errandText = p.errandDone + "/" + p.errandGoal;
+  const perfectText = (p.stats.talkCorrect || 0) + "/" + p.talkGoal;
+  const status = p.claimed
+    ? "Recompensa de ruta reclamada hoy."
+    : (p.ready ? "Ruta diaria lista para reclamar." : "Completa objetivos para activar recompensa de ruta.");
+  node.innerHTML = "<div class='badge-name'>Tablón diario del pueblo</div>"
+    + "<div class='small mt8'>Objetivo 1: Hablar con NPC distintos · " + talkText + "</div>"
+    + "<div class='small mt8'>Objetivo 2: Encargos rápidos completados · " + errandText + "</div>"
+    + "<div class='small mt8'>Ruta perfecta: conversaciones correctas hoy · " + perfectText + "</div>"
+    + "<div class='small mt8'>Racha perfecta: " + streak + "/3 días consecutivos</div>"
+    + "<div class='small mt8'>Estado: " + status + "</div>"
+    + "<div class='small mt8'>Recompensa de ruta: +16 XP, +10 monedas y botín poco común garantizado.</div>"
+    + "<div class='small mt8'>Bono ruta perfecta: +6 XP y +4 monedas extra.</div>"
+    + "<div class='small mt8'>Bono semanal (3 días seguidos): +20 XP, +12 monedas" + (weeklyClaimed ? " · ya reclamado esta semana." : ".") + "</div>"
+    + "<div class='small mt8'><strong>Ranking social semanal</strong><br>" + rankingHtml + "</div>"
+    + "<div class='row mt8'><button class='btn secondary' " + ((p.ready && !p.claimed) ? "" : "disabled") + " onclick='claimTownBoardReward()'>Reclamar recompensa diaria</button></div>";
+}
+
+function claimTownBoardReward() {
+  const p = getTownBoardProgress();
+  if (!p.ready || p.claimed) {
+    notify("Aún no puedes reclamar la recompensa diaria del tablón.");
+    return;
+  }
+  if (!STATE.townBoardDaily) STATE.townBoardDaily = {};
+  STATE.townBoardDaily[p.today] = true;
+
+  const xpGain = 16;
+  const coinGain = 10;
+  let totalXp = xpGain;
+  let totalCoins = coinGain;
+  let perfectMsg = "";
+  if (p.perfectReady) {
+    if (!STATE.townPerfectDaily) STATE.townPerfectDaily = {};
+    STATE.townPerfectDaily[p.today] = true;
+    totalXp += 6;
+    totalCoins += 4;
+    perfectMsg = " Bono de ruta perfecta aplicado (+6 XP, +4 monedas).";
+
+    const streak = getTownPerfectStreak(p.today);
+    const weeklyKey = getTownPerfectWeekKey(p.today);
+    if (!STATE.townPerfectWeeklyClaims) STATE.townPerfectWeeklyClaims = {};
+    if (streak >= 3 && !STATE.townPerfectWeeklyClaims[weeklyKey]) {
+      STATE.townPerfectWeeklyClaims[weeklyKey] = true;
+      totalXp += 20;
+      totalCoins += 12;
+      perfectMsg += " Bonus semanal aplicado (+20 XP, +12 monedas).";
+    }
+  }
+  STATE.xp += totalXp;
+  STATE.coins += totalCoins;
+  const level = STATE.level || "A1";
+  const loot = pickWordByRarity(level, "uncommon") || pickWordLoot(level);
+  let lootMsg = "";
+  if (loot) {
+    const gained = grantWord(loot.word, {
+      rarity: loot.rarity || "uncommon",
+      level,
+      source: "tablon",
+      noDuplicateRefund: true,
+    });
+    lootMsg = " Botín de ruta: " + gained.word + ".";
+  }
+
+  notify("Tablón diario completado: +" + totalXp + " XP y +" + totalCoins + " monedas." + perfectMsg + lootMsg);
+  saveProgress();
+  updateHUD();
+  renderTownBoard();
+}
+
+function getTownNpcStatus(npcName) {
+  const points = getNpcAffinity(npcName);
+  const tier = affinityTier(points);
+  const trustReady = points >= 4 && (!STATE.npcTrustDaily || STATE.npcTrustDaily[npcName] !== todayKey());
+  const mapReady = points >= 4 && (!STATE.npcMapDaily || STATE.npcMapDaily[npcName] !== todayKey());
+  const talkReady = !STATE.npcTalkDaily || STATE.npcTalkDaily[npcName] !== todayKey();
+  const talkDifficulty = getTownTalkDifficultyInfo(npcName);
+  const allianceUnlocked = !!(STATE.npcEventRewards && STATE.npcEventRewards[npcName]);
+  return { points, tier, trustReady, mapReady, talkReady, talkDifficulty, allianceUnlocked };
+}
+
+function resolveTownTalkChoice(npcName, optionIndex) {
+  if (!activeTownTalkDrill || activeTownTalkDrill.npcName !== npcName) return;
+  if (!STATE.npcTalkNotes) STATE.npcTalkNotes = {};
+  if (!STATE.npcTalkDaily) STATE.npcTalkDaily = {};
+  if (!STATE.npcTalkProgress) STATE.npcTalkProgress = {};
+
+  const today = todayKey();
+  const selected = activeTownTalkDrill.options[optionIndex] || "";
+  const correct = optionIndex === activeTownTalkDrill.correctIndex;
+  const alreadyDone = STATE.npcTalkDaily[npcName] === today;
+  const difficultyCode = activeTownTalkDrill.difficultyCode || "media";
+  const difficultyLabel = activeTownTalkDrill.difficultyLabel || "Media";
+  const rewards = getTownTalkRewards(difficultyCode, correct);
+  const progress = getTownTalkProgress(npcName);
+
+  let xpGain = 0;
+  let coinGain = 0;
+  let affinityGain = 0;
+  let promoted = false;
+  if (!alreadyDone) {
+    xpGain = rewards.xp;
+    coinGain = rewards.coins;
+    affinityGain = rewards.affinity;
+    STATE.xp += xpGain;
+    STATE.coins += coinGain;
+    if (affinityGain) {
+      const current = getNpcAffinity(npcName);
+      STATE.npcAffinity[npcName] = Math.max(-12, Math.min(24, current + affinityGain));
+    }
+    progress.attempts += 1;
+    if (correct) {
+      progress.wins += 1;
+      if (difficultyCode === "alta") {
+        progress.altaWins = (progress.altaWins || 0) + 1;
+      }
+      progress.streak += 1;
+      if (progress.streak >= 2 && progress.tier < 2) {
+        progress.tier += 1;
+        progress.streak = 0;
+        promoted = true;
+      }
+    } else {
+      progress.streak = 0;
+    }
+    STATE.npcTalkProgress[npcName] = progress;
+    const boardStats = getTownBoardStats(today);
+    boardStats.talkCompleted = Math.max(0, Number(boardStats.talkCompleted) || 0) + 1;
+    if (correct) {
+      boardStats.talkCorrect = Math.max(0, Number(boardStats.talkCorrect) || 0) + 1;
+    }
+    const talkPoints = (correct ? 3 : 1) + (difficultyCode === "alta" ? 1 : 0);
+    recordNpcWeeklyActivity(npcName, talkPoints, "talk");
+    if (!STATE.badges.townPolyglot && getTownHighMasteryNpcCount() >= 3) {
+      unlockBadge("townPolyglot");
+    }
+    STATE.npcTalkDaily[npcName] = today;
+  }
+
+  STATE.npcTalkNotes[npcName] = {
+    text: selected,
+    prompt: activeTownTalkDrill.prompt,
+    focus: activeTownTalkDrill.focus,
+    level: activeTownTalkDrill.level,
+    difficulty: difficultyLabel,
+    correct,
+    correction: correct
+      ? "Correcto. Mantuviste el foco de " + activeTownTalkDrill.focus + "."
+      : activeTownTalkDrill.feedbackWrong
+        + (activeTownTalkDrill.difficultyCode === "alta" && activeTownTalkDrill.hardWhy ? " Diferencia clave: " + activeTownTalkDrill.hardWhy : "")
+        + " Modelo recomendado: " + activeTownTalkDrill.correctText,
+    rewarded: !alreadyDone,
+    ts: Date.now(),
+  };
+
+  const resultLabel = correct ? "Respuesta sólida" : "Respuesta mejorable";
+  const pedagogicHint = correct
+    ? " Bien: forma adecuada para " + activeTownTalkDrill.focus + "."
+    : " " + activeTownTalkDrill.feedbackWrong
+      + (activeTownTalkDrill.difficultyCode === "alta" && activeTownTalkDrill.hardWhy ? " Diferencia clave: " + activeTownTalkDrill.hardWhy : "");
+  const promotionText = promoted ? " Nuevo rango de conversación con " + npcName + ": dificultad " + getTownTalkDifficultyInfo(npcName).label + "." : "";
+  if (alreadyDone) {
+    notify("[" + difficultyLabel + "] " + resultLabel + ". Ya completaste la práctica de hoy con " + npcName + ". Se guarda el registro sin recompensas." + pedagogicHint);
+  } else {
+    notify("[" + difficultyLabel + "] " + resultLabel + " con " + npcName + ": +" + xpGain + " XP, +" + coinGain + " monedas" + (affinityGain ? " y +" + affinityGain + " afinidad." : ".") + pedagogicHint + promotionText);
+    const board = getTownBoardProgress();
+    if (board.ready && !board.claimed) {
+      notify("Tablón diario listo: ya puedes reclamar recompensa de ruta en el mapa.");
+    }
+  }
+
+  activeTownTalkDrill = null;
+  saveProgress();
+  updateHUD();
+  renderTownMap(npcName);
+}
+
+function performTownNpcAction(npcName, actionType) {
+  if (!npcName) return;
+  const status = getTownNpcStatus(npcName);
+
+  if (actionType === "talk") {
+    const level = STATE.level || "A1";
+    const talk = getTownTalkLine(npcName, level);
+    const drill = buildTownTalkDrill(npcName, level);
+    activeTownTalkDrill = {
+      ...drill,
+      npcName,
+      speaker: talk.speaker,
+      intro: talk.text,
+    };
+    notify(talk.speaker + ": " + talk.text + " Elige la mejor respuesta para completar la práctica.");
+    renderTownMap(npcName);
+    return;
+  }
+
+  if (actionType === "errand") {
+    if (status.points < 4) {
+      notify("Necesitas al menos confianza para recibir encargos de este NPC.");
+      return;
+    }
+    if (!STATE.npcMapDaily) STATE.npcMapDaily = {};
+    const today = todayKey();
+    if (STATE.npcMapDaily[npcName] === today) {
+      notify("Ya completaste el encargo rápido de hoy con este NPC.");
+      return;
+    }
+
+    const xpGain = status.tier === "alianza" ? 8 : 6;
+    const coinGain = status.tier === "alianza" ? 6 : 4;
+    STATE.xp += xpGain;
+    STATE.coins += coinGain;
+    STATE.npcMapDaily[npcName] = today;
+    const boardStats = getTownBoardStats(today);
+    boardStats.errandCompleted = Math.max(0, Number(boardStats.errandCompleted) || 0) + 1;
+    const errandPoints = status.tier === "alianza" ? 3 : 2;
+    recordNpcWeeklyActivity(npcName, errandPoints, "errand");
+
+    if (Math.random() < (status.tier === "alianza" ? 0.45 : 0.3)) {
+      const level = STATE.level || "A1";
+      const loot = pickWordByRarity(level, "uncommon") || pickWordLoot(level);
+      if (loot) {
+        const gained = grantWord(loot.word, {
+          rarity: loot.rarity || "uncommon",
+          level,
+          source: "mapa",
+          noDuplicateRefund: true,
+        });
+        notify("Encargo completado con " + npcName + ": +" + xpGain + " XP, +" + coinGain + " monedas, botín " + gained.word + ".");
+      } else {
+        notify("Encargo completado con " + npcName + ": +" + xpGain + " XP y +" + coinGain + " monedas.");
+      }
+    } else {
+      notify("Encargo completado con " + npcName + ": +" + xpGain + " XP y +" + coinGain + " monedas.");
+    }
+
+    saveProgress();
+    updateHUD();
+    const board = getTownBoardProgress();
+    if (board.ready && !board.claimed) {
+      notify("Tablón diario listo: ya puedes reclamar recompensa de ruta en el mapa.");
+    }
+    renderTownMap(npcName);
+  }
+}
+
+function renderTownMap(selectedNpc) {
+  const grid = document.getElementById("town-map-grid");
+  const detail = document.getElementById("town-map-detail");
+  if (!grid || !detail) return;
+  const highMasteryCount = getTownHighMasteryNpcCount();
+  const names = Object.keys(NPC_PERSONAS).sort((a, b) => getNpcAffinity(b) - getNpcAffinity(a) || a.localeCompare(b));
+  const current = selectedNpc || names[0] || null;
+  renderTownBoard();
+  renderTownVillage(current);
+  renderEnemyModelPreview(STATE.level || "A1");
+  grid.innerHTML = "";
+
+  names.forEach(name => {
+    const persona = getNpcPersona(name);
+    const visual = getNpcVisualMeta(name);
+    const status = getTownNpcStatus(name);
+    const npcTalkProgress = getTownTalkProgress(name);
+    const npcHighWins = Math.min(2, npcTalkProgress.altaWins || 0);
+    const card = document.createElement("div");
+    card.className = "town-node" + (name === current ? " active" : "");
+    card.innerHTML = "<div class='town-node-name'><img class='npc-mini-sprite' src='" + getNpcSprite(name) + "' alt='" + name + "'>" + name + "</div>"
+      + "<div class='small mt8'>Aspecto: " + visual.outfit + " · paleta " + visual.palette + "</div>"
+      + "<div class='small mt8'>" + persona.role + " · estilo " + persona.style + "</div>"
+      + "<div class='small mt8'>Afinidad: <strong>" + status.points + "</strong> · " + status.tier + "</div>"
+      + "<div class='small mt8'>Dificultad conversación: " + status.talkDifficulty.label + "</div>"
+      + "<div class='small mt8'>Dominio alta NPC: " + npcHighWins + "/2</div>"
+      + "<div class='small mt8'>Hablar: " + (status.talkReady ? "Práctica disponible" : "Práctica completada hoy") + "</div>"
+      + "<div class='small mt8'>" + (status.trustReady ? "Evento diálogo disponible" : "Sin evento diálogo") + "</div>"
+      + "<div class='small mt8'>" + (status.mapReady ? "Encargo rápido disponible" : "Encargo completado hoy") + "</div>";
+    card.onclick = () => renderTownMap(name);
+    grid.appendChild(card);
+  });
+
+  if (!current) {
+    detail.textContent = "Aún no hay NPC disponibles en el mapa.";
+    return;
+  }
+
+  const persona = getNpcPersona(current);
+  const visual = getNpcVisualMeta(current);
+  const status = getTownNpcStatus(current);
+  const currentTalkProgress = getTownTalkProgress(current);
+  const currentHighWins = Math.min(2, currentTalkProgress.altaWins || 0);
+  const dailyText = status.trustReady
+    ? "Hoy hay evento diario disponible con este NPC."
+    : "No hay evento diario pendiente con este NPC hoy.";
+  const errandText = status.mapReady
+    ? "Puedes hacer un encargo rápido ahora."
+    : "Encargo rápido ya completado hoy con este NPC.";
+  const talkDailyText = status.talkReady
+    ? "Práctica de conversación disponible ahora."
+    : "Práctica de conversación ya completada hoy (puedes repetir sin recompensa).";
+  const allianceText = status.allianceUnlocked
+    ? "Evento de alianza ya desbloqueado."
+    : "Evento de alianza pendiente al alcanzar vínculo alto.";
+  const talkNote = STATE.npcTalkNotes && STATE.npcTalkNotes[current] ? STATE.npcTalkNotes[current] : null;
+  const talkText = talkNote
+    ? "Última práctica [" + (talkNote.level || STATE.level) + "/" + (talkNote.difficulty || "Media") + "]: " + talkNote.text + " · Foco: " + talkNote.focus + (talkNote.correction ? " · Nota: " + talkNote.correction : "")
+    : "Aún no has practicado conversación guiada con este NPC.";
+  const activeDrill = activeTownTalkDrill && activeTownTalkDrill.npcName === current ? activeTownTalkDrill : null;
+  const practiceBlock = activeDrill
+    ? "<div class='panel mt12'>"
+      + "<div><strong>Micro-reto de conversación</strong> [" + activeDrill.level + " · " + activeDrill.difficultyLabel + "]</div>"
+      + "<div class='small mt8'>" + activeDrill.prompt + "</div>"
+      + "<div class='row mt8'>"
+      + "<button class='btn secondary' onclick='resolveTownTalkChoice(\"" + current + "\", 0)'>A) " + activeDrill.options[0] + "</button>"
+      + "<button class='btn secondary' onclick='resolveTownTalkChoice(\"" + current + "\", 1)'>B) " + activeDrill.options[1] + "</button>"
+      + "</div>"
+      + "<div class='small mt8'>" + activeDrill.hint + "</div>"
+      + "<div class='small mt8'>Foco evaluado: " + activeDrill.focus + "</div>"
+      + "</div>"
+    : "";
+
+  detail.innerHTML = "<div class='badge-name'><img class='npc-portrait-sprite' src='" + getNpcSprite(current) + "' alt='" + current + "'>" + current + "</div>"
+    + "<div class='small mt8'>Rol: " + persona.role + " · Estilo: " + persona.style + "</div>"
+    + "<div class='small mt8'>Aspecto base: " + visual.outfit + " · Paleta: " + visual.palette + " · Sprite 2D activo</div>"
+    + "<div class='small mt8'>Espera comunicativa: " + persona.expects + "</div>"
+    + "<div class='small mt8'><strong>Insignia Voz del Pueblo:</strong> " + Math.min(3, highMasteryCount) + "/3 NPC dominados en alta</div>"
+    + "<div class='small mt8'>Estado: " + status.tier + " (" + status.points + " de afinidad)</div>"
+    + "<div class='small mt8'>Rango de conversación actual: " + status.talkDifficulty.label + "</div>"
+    + "<div class='small mt8'>Dominio alta con este NPC: " + currentHighWins + "/2 aciertos</div>"
+    + "<div class='small mt8'>" + talkDailyText + "</div>"
+    + "<div class='small mt8'>" + dailyText + "</div>"
+    + "<div class='small mt8'>" + errandText + "</div>"
+    + "<div class='small mt8'>" + allianceText + "</div>"
+    + "<div class='small mt8'>" + talkText + "</div>"
+    + practiceBlock
+    + "<div class='row mt12'>"
+    + "<button class='btn secondary' onclick='performTownNpcAction(\"" + current + "\", \"talk\")'>Hablar (micro-reto)</button>"
+    + "<button class='btn ghost' " + (status.mapReady ? "" : "disabled") + " onclick='performTownNpcAction(\"" + current + "\", \"errand\")'>Encargo rápido</button>"
+    + "</div>";
+}
+
+function goMap() {
+  prepareSectionNavigation("campaign");
+  renderTownMap();
+  updateHUD();
+  screen("map");
 }
 
 function goLibrary() {
@@ -2558,6 +4206,8 @@ function goGlossary() {
 
 const SECTION_IDENTITIES = {
   campaign: { title: "Campaña / Campaign", subtitle: "Avanza por escenarios, gana dominio y desbloquea el siguiente tramo.", accent: "#d4af37", mark: "⚔" },
+  briefing: { title: "Briefing / Ghost Prep", subtitle: "Explicación completa y práctica previa antes del combate.", accent: "#8be9fd", mark: "👻" },
+  map: { title: "Mapa / Town Map", subtitle: "Nodos sociales del pueblo y estado de relación con cada NPC.", accent: "#7dd3fc", mark: "🧭" },
   challenge: { title: "Combate / Challenge", subtitle: "Responde, gana XP y protege tus vidas.", accent: "#f59e0b", mark: "✦" },
   academy: { title: "Extras / Extra Scenarios", subtitle: "Microlecciones para practicar reglas concretas sin presión.", accent: "#60a5fa", mark: "✎" },
   library: { title: "Biblioteca / Learning Library", subtitle: "Lee el resumen, amplía la explicación y mira ejemplos reales.", accent: "#6ee7b7", mark: "☰" },
@@ -2736,6 +4386,13 @@ function finishTutorial() {
   if (overlay) overlay.classList.remove("show");
   STATE.tutorialDone = true;
   saveProgress();
+  activeGhostBriefing = null;
+  pendingCampaignStage = null;
+  const level = STATE.level || "A1";
+  if (needsGhostBriefing(level)) {
+    openGhostBriefing(level, false);
+    return;
+  }
   goCampaign();
 }
 
@@ -2758,16 +4415,28 @@ function goInventory() {
   const summary = document.getElementById("inv-summary");
   const history = document.getElementById("inv-history");
   const craftStatus = document.getElementById("inv-craft-status");
+  const loadoutSummary = document.getElementById("inv-loadout-summary");
+  const loadoutList = document.getElementById("inv-loadout-list");
+  const searchInput = document.getElementById("inv-search");
+  const filterSelect = document.getElementById("inv-filter");
+  const sortSelect = document.getElementById("inv-sort");
+  const filterSummary = document.getElementById("inv-filter-summary");
   if (!list) return;
   populateCraftLevelSelector();
   list.innerHTML = "";
   ensureWordCollection();
+  if (searchInput) searchInput.value = STATE.inventoryQuery || "";
+  if (filterSelect) filterSelect.value = STATE.inventoryFilter || "all";
+  if (sortSelect) sortSelect.value = STATE.inventorySort || "rarity";
   const items = Object.entries(STATE.wordCollection || {});
 
   if (!items.length) {
     if (summary) summary.textContent = "Aún no has recogido palabras de botín.";
     if (history) history.innerHTML = "";
     if (craftStatus) craftStatus.textContent = "Convierte copias sobrantes en palabras de mayor rareza.";
+    if (filterSummary) filterSummary.textContent = "Sin palabras para filtrar todavía.";
+    if (loadoutSummary) loadoutSummary.textContent = "Aún no tienes palabras favoritas equipables.";
+    if (loadoutList) loadoutList.innerHTML = "";
     renderCraftPreview();
     updateCraftButtons();
     list.innerHTML = "<span class='small'>Todavía no tienes palabras.</span>";
@@ -2776,7 +4445,7 @@ function goInventory() {
     return;
   }
 
-  const ordered = items
+  let ordered = items
     .map(([word, data]) => ({ word, ...data }))
     .sort((a, b) => {
       const rb = (WORD_RARITY[b.rarity] || WORD_RARITY.common).rank;
@@ -2786,9 +4455,43 @@ function goInventory() {
       return a.word.localeCompare(b.word);
     });
 
+  const query = (STATE.inventoryQuery || "").toLowerCase().trim();
+  const activeFilter = STATE.inventoryFilter || "all";
+  if (activeFilter !== "all") {
+    ordered = ordered.filter(item => {
+      if (activeFilter === "favorites") return !!item.favorite;
+      if (activeFilter === "duplicates") return (item.count || 0) > 1;
+      return (item.rarity || "common") === activeFilter;
+    });
+  }
+  if (query) {
+    ordered = ordered.filter(item => item.word.toLowerCase().includes(query));
+  }
+
+  const sortMode = STATE.inventorySort || "rarity";
+  ordered.sort((a, b) => {
+    if (sortMode === "count") {
+      if ((b.count || 0) !== (a.count || 0)) return (b.count || 0) - (a.count || 0);
+      return a.word.localeCompare(b.word);
+    }
+    if (sortMode === "alpha") return a.word.localeCompare(b.word);
+    if (sortMode === "newest") return (b.lastTs || 0) - (a.lastTs || 0);
+    const rb = (WORD_RARITY[b.rarity] || WORD_RARITY.common).rank;
+    const ra = (WORD_RARITY[a.rarity] || WORD_RARITY.common).rank;
+    if (rb !== ra) return rb - ra;
+    if ((b.count || 0) !== (a.count || 0)) return (b.count || 0) - (a.count || 0);
+    return a.word.localeCompare(b.word);
+  });
+
   if (summary) {
-    const totalDrops = ordered.reduce((acc, x) => acc + (x.count || 0), 0);
-    summary.textContent = "Colección: " + ordered.length + " palabras únicas · " + totalDrops + " drops totales.";
+    const allUnique = items.length;
+    const allDrops = items.reduce((acc, row) => acc + (row[1].count || 0), 0);
+    const favorites = items.filter(([, row]) => !!row.favorite).length;
+    summary.textContent = "Colección: " + allUnique + " palabras únicas · " + allDrops + " drops totales · Favoritas: " + favorites + ".";
+  }
+  renderInventoryLoadout(items, loadoutSummary, loadoutList);
+  if (filterSummary) {
+    filterSummary.textContent = "Mostrando " + ordered.length + " de " + items.length + " palabras.";
   }
   if (craftStatus) {
     const c = getCraftMaterialCount("common");
@@ -2797,14 +4500,24 @@ function goInventory() {
     craftStatus.textContent = "Material de fusión (copias sobrantes): C " + c + " · PC " + u + " · R " + r + ". Nivel objetivo: " + getCraftTargetLevel() + ".";
   }
   renderCraftPreview();
+  const recommendedSets = getRecommendedSetNamesFromHistory(STATE.level);
+  const equippedNow = getInventoryLoadout();
 
   ordered.forEach(item => {
-    const chip = document.createElement("span");
+    const chip = document.createElement("button");
     const rarity = WORD_RARITY[item.rarity] || WORD_RARITY.common;
-    chip.className = "inv-chip " + rarity.className;
-    chip.textContent = item.word + " · " + rarity.label + " · x" + (item.count || 1);
+    const hint = getRecommendedWordHint(item, item.word, equippedNow, recommendedSets);
+    chip.className = "inv-chip inv-chip-btn " + rarity.className + (item.favorite ? " favorite" : "") + (hint ? " recommended" : "");
+    chip.type = "button";
+    chip.textContent = (item.favorite ? "★ " : "☆ ") + item.word + " · " + rarity.label + " · x" + (item.count || 1) + (hint ? " · 🎯" : "");
+    chip.title = (item.favorite ? "Quitar de favoritas" : "Marcar como favorita") + (hint ? "\n" + hint : "");
+    chip.onclick = () => toggleWordFavorite(item.word);
     list.appendChild(chip);
   });
+
+  if (!ordered.length) {
+    list.innerHTML = "<span class='small'>No hay palabras que coincidan con el filtro actual.</span>";
+  }
 
   if (history) {
     const recent = (STATE.lootHistory || []).slice(0, 8);
@@ -2825,6 +4538,156 @@ function goInventory() {
   updateCraftButtons();
   updateHUD();
   screen("inventory");
+}
+
+function setInventoryQuery(value) {
+  STATE.inventoryQuery = String(value || "").slice(0, 40);
+  saveProgress();
+  goInventory();
+}
+
+function getLoadoutSetNames(entries) {
+  const activeSets = [];
+  const distinctRarities = new Set(entries.map(item => item.rarity || "common"));
+  if (entries.length >= 3 && distinctRarities.size >= 3) {
+    activeSets.push("Tríada cromática (+2 score)");
+  }
+  if (entries.length >= 3) {
+    const sameLevel = entries.every(item => item.level === entries[0].level);
+    if (sameLevel) {
+      const lvl = entries[0].level;
+      if (lvl === "A1") activeSets.push("Set A1 supervivencia (+1 XP)");
+      else if (lvl === "A2") activeSets.push("Set A2 interacción (+3 score)");
+      else if (lvl === "B1") activeSets.push("Set B1 narración (+1 diálogo)");
+      else if (lvl === "B2") activeSets.push("Set B2 precisión (+1 XP, +2 score, +1 diálogo)");
+    }
+  }
+  return activeSets;
+}
+
+function getLoadoutWordTooltip(item, isEquipped, equippedWords, activeSetNames) {
+  const rarity = item.rarity || "common";
+  const itemBonus = getRarityLoadoutBonus(rarity);
+  const parts = [];
+  parts.push("Aporte base: +" + itemBonus.xp + " XP, +" + itemBonus.score + " score" + (itemBonus.dialogueImpact ? ", +" + itemBonus.dialogueImpact + " diálogo" : ""));
+  parts.push("Nivel CEFR de palabra: " + (item.level || "A1"));
+
+  if (isEquipped) {
+    parts.push("Actualmente equipada en carga activa.");
+    if (activeSetNames && activeSetNames.length) {
+      parts.push("Sets activos: " + activeSetNames.join(" | "));
+    }
+    return parts.join("\n");
+  }
+
+  if (equippedWords.length >= 3) {
+    parts.push("No se puede equipar ahora: carga completa (3/3).");
+    return parts.join("\n");
+  }
+
+  if (equippedWords.length === 2) {
+    const candidateEntries = [...equippedWords, item.word]
+      .map(word => ({ word, ...(STATE.wordCollection[word] || {}) }))
+      .filter(row => !!row.word);
+    const potential = getLoadoutSetNames(candidateEntries);
+    if (potential.length) {
+      parts.push("Si la equipas ahora activarías: " + potential.join(" | "));
+    } else {
+      parts.push("Si la equipas ahora no activa set adicional.");
+    }
+  } else {
+    parts.push("Equípala para sumar su bonus al combate y diálogo.");
+  }
+
+  return parts.join("\n");
+}
+
+function renderInventoryLoadout(items, summaryNode, listNode) {
+  if (!summaryNode || !listNode) return;
+  const raw = (items || []).map(([word, data]) => ({ word, ...data }));
+  const favorites = raw.filter(item => !!item.favorite).sort((a, b) => a.word.localeCompare(b.word));
+  const equipped = getInventoryLoadout();
+  const bonus = getInventoryLoadoutBonus();
+  const recommendedSets = getRecommendedSetNamesFromHistory(STATE.level);
+
+  const bonusDetail = bonus.byWord.length
+    ? bonus.byWord.map(item => item.word + " (" + (WORD_RARITY[item.rarity] ? WORD_RARITY[item.rarity].label : "Común") + ")").join(", ")
+    : "sin palabras equipadas";
+  const activeSetNames = bonus.activeSets || [];
+  const setsText = bonus.activeSets && bonus.activeSets.length
+    ? " · Sets activos: " + bonus.activeSets.join(" | ")
+    : "";
+  const recText = recommendedSets.length ? " · Sugerencia build: " + recommendedSets.join(" + ") : "";
+  summaryNode.textContent = "Equipadas: " + equipped.length + "/3 · Bonus total: +" + bonus.xpBonus + " XP/acierto, +" + bonus.scoreBonus + " score, +" + bonus.dialogueImpactBonus + " impacto diálogo. · " + bonusDetail + "." + setsText + recText;
+  listNode.innerHTML = "";
+
+  if (!favorites.length) {
+    listNode.innerHTML = "<span class='small'>Marca palabras como favoritas (☆) para poder equiparlas.</span>";
+    return;
+  }
+
+  favorites.forEach(item => {
+    const rarity = WORD_RARITY[item.rarity] || WORD_RARITY.common;
+    const isEquipped = equipped.includes(item.word);
+    const hint = getRecommendedWordHint(item, item.word, equipped, recommendedSets);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "inv-chip inv-chip-btn " + rarity.className + (isEquipped ? " equipped" : "") + (hint ? " recommended" : "");
+    const itemBonus = getRarityLoadoutBonus(item.rarity || "common");
+    btn.textContent = (isEquipped ? "🗡 " : "＋ ") + item.word + " · " + rarity.label + " · +" + itemBonus.xp + "XP +" + itemBonus.score + "S" + (itemBonus.dialogueImpact ? " +" + itemBonus.dialogueImpact + "D" : "") + (hint ? " · 🎯" : "");
+    const actionText = isEquipped ? "Quitar de la carga activa" : "Equipar en carga activa";
+    btn.title = actionText + "\n" + getLoadoutWordTooltip(item, isEquipped, equipped, activeSetNames) + (hint ? "\n" + hint : "");
+    btn.onclick = () => toggleEquipWord(item.word);
+    listNode.appendChild(btn);
+  });
+}
+
+function setInventoryFilter(value) {
+  const allowed = new Set(["all", "favorites", "duplicates", "common", "uncommon", "rare", "epic"]);
+  STATE.inventoryFilter = allowed.has(value) ? value : "all";
+  saveProgress();
+  goInventory();
+}
+
+function setInventorySort(value) {
+  const allowed = new Set(["rarity", "count", "alpha", "newest"]);
+  STATE.inventorySort = allowed.has(value) ? value : "rarity";
+  saveProgress();
+  goInventory();
+}
+
+function toggleWordFavorite(word) {
+  ensureWordCollection();
+  if (!STATE.wordCollection[word]) return;
+  STATE.wordCollection[word].favorite = !STATE.wordCollection[word].favorite;
+  if (!STATE.wordCollection[word].favorite) {
+    STATE.equippedWords = (STATE.equippedWords || []).filter(w => w !== word);
+  }
+  saveProgress();
+  goInventory();
+}
+
+function toggleEquipWord(word) {
+  ensureWordCollection();
+  const entry = STATE.wordCollection[word];
+  if (!entry || !entry.favorite) {
+    notify("Solo puedes equipar palabras marcadas como favoritas.");
+    return;
+  }
+  const current = getInventoryLoadout();
+  if (current.includes(word)) {
+    STATE.equippedWords = current.filter(w => w !== word);
+    saveProgress();
+    goInventory();
+    return;
+  }
+  if (current.length >= 3) {
+    notify("La carga activa ya está completa (3/3). Quita una palabra para equipar otra.");
+    return;
+  }
+  STATE.equippedWords = [...current, word];
+  saveProgress();
+  goInventory();
 }
 
 function getCraftPreviewByRarity(level, rarity) {
@@ -3000,6 +4863,10 @@ function ensureWordCollection() {
   if (!STATE.wordCollection) STATE.wordCollection = {};
   if (!Array.isArray(STATE.lootHistory)) STATE.lootHistory = [];
   if (!Array.isArray(STATE.inventory)) STATE.inventory = [];
+  if (!Array.isArray(STATE.equippedWords)) STATE.equippedWords = [];
+  if (!STATE.inventoryQuery) STATE.inventoryQuery = "";
+  if (!STATE.inventoryFilter) STATE.inventoryFilter = "all";
+  if (!STATE.inventorySort) STATE.inventorySort = "rarity";
 
   if (!Object.keys(STATE.wordCollection).length && STATE.inventory.length) {
     STATE.inventory.forEach(word => {
@@ -3012,6 +4879,88 @@ function ensureWordCollection() {
   }
 
   STATE.inventory = [...new Set(Object.keys(STATE.wordCollection))];
+  STATE.inventory.forEach(word => {
+    const entry = STATE.wordCollection[word];
+    if (!entry) return;
+    if (typeof entry.favorite !== "boolean") entry.favorite = false;
+    if (!Number.isFinite(entry.firstTs)) entry.firstTs = Date.now();
+    if (!Number.isFinite(entry.lastTs)) entry.lastTs = entry.firstTs;
+  });
+
+  // Keep only known words and limit equipment to 3 slots.
+  STATE.equippedWords = [...new Set((STATE.equippedWords || []).filter(word => !!STATE.wordCollection[word]))].slice(0, 3);
+}
+
+function getInventoryLoadout() {
+  ensureWordCollection();
+  return [...(STATE.equippedWords || [])].slice(0, 3);
+}
+
+function getRarityLoadoutBonus(rarity) {
+  const table = {
+    common: { xp: 1, score: 1, dialogueImpact: 0 },
+    uncommon: { xp: 1, score: 2, dialogueImpact: 1 },
+    rare: { xp: 2, score: 3, dialogueImpact: 1 },
+    epic: { xp: 2, score: 4, dialogueImpact: 2 },
+  };
+  return table[rarity] || table.common;
+}
+
+function getInventoryLoadoutBonus() {
+  const equipped = getInventoryLoadout();
+  let xpBonus = 0;
+  let scoreBonus = 0;
+  let dialogueImpactBonus = 0;
+  const activeSets = [];
+  const byWord = equipped.map(word => {
+    const entry = STATE.wordCollection[word] || {};
+    const rarity = entry.rarity || "common";
+    const level = entry.level || STATE.level || "A1";
+    const bonus = getRarityLoadoutBonus(rarity);
+    xpBonus += bonus.xp;
+    scoreBonus += bonus.score;
+    dialogueImpactBonus += bonus.dialogueImpact;
+    return { word, rarity, level, ...bonus };
+  });
+
+  // Small synergy if all equipped words are different rarities.
+  const distinctRarities = new Set(byWord.map(item => item.rarity));
+  if (byWord.length >= 3 && distinctRarities.size >= 3) {
+    scoreBonus += 2;
+    activeSets.push("Tríada cromática (+2 score)");
+  }
+
+  // CEFR set bonus when all equipped words belong to the same level.
+  if (byWord.length >= 3) {
+    const sameLevel = byWord.every(item => item.level === byWord[0].level);
+    if (sameLevel) {
+      const lvl = byWord[0].level;
+      if (lvl === "A1") {
+        xpBonus += 1;
+        activeSets.push("Set A1 supervivencia (+1 XP)");
+      } else if (lvl === "A2") {
+        scoreBonus += 3;
+        activeSets.push("Set A2 interacción (+3 score)");
+      } else if (lvl === "B1") {
+        dialogueImpactBonus += 1;
+        activeSets.push("Set B1 narración (+1 diálogo)");
+      } else if (lvl === "B2") {
+        xpBonus += 1;
+        scoreBonus += 2;
+        dialogueImpactBonus += 1;
+        activeSets.push("Set B2 precisión (+1 XP, +2 score, +1 diálogo)");
+      }
+    }
+  }
+
+  return {
+    count: equipped.length,
+    xpBonus,
+    scoreBonus,
+    dialogueImpactBonus,
+    activeSets,
+    byWord,
+  };
 }
 
 function pickWordLoot(level) {
@@ -3033,13 +4982,16 @@ function grantWord(word, opts) {
   const rarity = options.rarity || fallback.rarity || "common";
   const level = options.level || fallback.level || STATE.level;
   if (!STATE.wordCollection[word]) {
-    STATE.wordCollection[word] = { count: 0, rarity, level };
+    STATE.wordCollection[word] = { count: 0, rarity, level, favorite: false, firstTs: Date.now(), lastTs: Date.now() };
   }
   const item = STATE.wordCollection[word];
   const previous = item.count || 0;
   item.count = previous + 1;
   item.rarity = item.rarity || rarity;
   item.level = item.level || level;
+  item.lastTs = Date.now();
+  if (!Number.isFinite(item.firstTs)) item.firstTs = item.lastTs;
+  if (typeof item.favorite !== "boolean") item.favorite = false;
 
   const isDuplicate = previous > 0;
   if (isDuplicate && !options.noDuplicateRefund) {
@@ -3173,6 +5125,7 @@ function renderCampaign() {
   document.getElementById("campaign-desc").textContent = "Foco: " + meta.focus + ". Escenario 5 = semijefe. Escenario 11 = jefe final. Puedes revisar niveles ya superados.";
   renderBadges("badge-grid-campaign");
   renderCampaignMedals();
+  renderLevelMissions(selectedLevel);
   renderNpcRelationsCampaign();
 
   const selector = document.getElementById("level-selector");
@@ -3227,6 +5180,73 @@ function renderCampaign() {
       nextBtn.onclick = () => selectCampaignLevel(activeLevel);
     }
   }
+}
+
+function getLevelMissionStatus(level) {
+  const missions = LEVEL_PROGRESS_MISSIONS[level] || [];
+  const rows = missions.map(m => ({ ...m, done: !!m.check(level) }));
+  const done = rows.filter(r => r.done).length;
+  const total = rows.length;
+  const complete = total > 0 && done === total;
+  const claimed = !!((STATE.levelMissionRewardsClaimed || {})[level]);
+  return { level, rows, done, total, complete, claimed };
+}
+
+function claimLevelMissionReward(level) {
+  const status = getLevelMissionStatus(level);
+  if (!status.complete) {
+    notify("Aún no has completado todas las misiones CEFR de " + level + ".");
+    return;
+  }
+  if (!STATE.levelMissionRewardsClaimed) {
+    STATE.levelMissionRewardsClaimed = { A1: false, A2: false, B1: false, B2: false };
+  }
+  if (STATE.levelMissionRewardsClaimed[level]) {
+    notify("La recompensa de misiones de " + level + " ya fue reclamada.");
+    return;
+  }
+
+  STATE.levelMissionRewardsClaimed[level] = true;
+  const xpGain = 30;
+  const coinGain = 20;
+  STATE.xp += xpGain;
+  STATE.coins += coinGain;
+  const loot = pickWordByRarity(level, "rare") || pickWordLoot(level);
+  let lootMsg = "";
+  if (loot) {
+    const gained = grantWord(loot.word, {
+      rarity: loot.rarity || "rare",
+      level,
+      source: "mision-cefr",
+      noDuplicateRefund: true,
+    });
+    lootMsg = " Botín CEFR: " + gained.word + ".";
+  }
+  notify("Recompensa CEFR de " + level + ": +" + xpGain + " XP, +" + coinGain + " monedas." + lootMsg);
+  saveProgress();
+  updateHUD();
+  renderLevelMissions(level);
+}
+
+function renderLevelMissions(level) {
+  const root = document.getElementById("campaign-level-missions");
+  if (!root) return;
+  const status = getLevelMissionStatus(level);
+  const lines = status.rows.map((row, idx) => {
+    const mark = row.done ? "✅" : "◻";
+    return "<div class='small mt8'>" + mark + " M" + (idx + 1) + ": " + row.text + "</div>";
+  }).join("");
+
+  const progressPct = status.total > 0 ? Math.round((status.done / status.total) * 100) : 0;
+  const rewardState = status.claimed
+    ? "Recompensa de nivel ya reclamada."
+    : (status.complete ? "Recompensa lista para reclamar." : "Completa todas las misiones para desbloquear recompensa.");
+
+  root.innerHTML = "<div class='small'><strong>" + level + " · progreso de misión:</strong> " + status.done + "/" + status.total + " (" + progressPct + "%)</div>"
+    + "<div class='badge-progress mt8'><div style='width:" + progressPct + "%'></div></div>"
+    + lines
+    + "<div class='small mt8'>" + rewardState + " Premio: +30 XP, +20 monedas y botín raro.</div>"
+    + "<div class='row mt8'><button class='btn secondary' " + ((status.complete && !status.claimed) ? "" : "disabled") + " onclick='claimLevelMissionReward(\"" + level + "\")'>Reclamar recompensa CEFR</button></div>";
 }
 
 function renderNpcRelationsCampaign() {
@@ -3374,6 +5394,199 @@ function startNextStage() {
   startStage(nextStageForLevel(STATE.level), STATE.level, "campaign");
 }
 
+function registerRunLoadoutBonus(loadoutBonus) {
+  if (!currentRun || !loadoutBonus || (loadoutBonus.count || 0) <= 0) return;
+  if (!currentRun.loadoutStats) {
+    currentRun.loadoutStats = {
+      procs: 0,
+      totalXp: 0,
+      totalScore: 0,
+      totalDialogue: 0,
+      setCounts: {},
+    };
+  }
+  const stats = currentRun.loadoutStats;
+  stats.procs += 1;
+  stats.totalXp += Number(loadoutBonus.xpBonus || 0);
+  stats.totalScore += Number(loadoutBonus.scoreBonus || 0);
+  stats.totalDialogue += Number(loadoutBonus.dialogueImpactBonus || 0);
+  (loadoutBonus.activeSets || []).forEach(setName => {
+    stats.setCounts[setName] = (stats.setCounts[setName] || 0) + 1;
+  });
+}
+
+function getRunLoadoutSummaryText(run) {
+  const stats = run && run.loadoutStats;
+  if (!stats || stats.procs <= 0) return "";
+  const topSets = Object.entries(stats.setCounts || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([name, count]) => name + " x" + count)
+    .join(" | ");
+  let txt = " Rendimiento de carga: +" + stats.totalXp + " XP, +" + stats.totalScore + " score, +" + stats.totalDialogue + " diálogo en " + stats.procs + " aciertos con carga.";
+  if (topSets) txt += " Sets más rentables: " + topSets + ".";
+  return txt;
+}
+
+function appendRunLoadoutSummaryToResult(run) {
+  const extra = getRunLoadoutSummaryText(run);
+  if (!extra) return;
+  const node = document.getElementById("result-msg");
+  if (!node) return;
+  node.textContent = (node.textContent || "") + extra;
+}
+
+function recordRunLoadoutHistory(run, contextLabel) {
+  if (!run || !run.loadoutStats || run.loadoutStats.procs <= 0) return;
+  const setCounts = run.loadoutStats.setCounts || {};
+  const topSets = Object.entries(setCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([name, count]) => name + " x" + count);
+  const entry = {
+    at: Date.now(),
+    level: run.level || STATE.level,
+    mode: run.mode || "campaign",
+    context: contextLabel || "Run",
+    score: Number(run.score || 0),
+    procs: Number(run.loadoutStats.procs || 0),
+    xp: Number(run.loadoutStats.totalXp || 0),
+    scoreBonus: Number(run.loadoutStats.totalScore || 0),
+    dialogue: Number(run.loadoutStats.totalDialogue || 0),
+    topSets,
+  };
+  const next = Array.isArray(STATE.loadoutRunHistory) ? [...STATE.loadoutRunHistory] : [];
+  next.unshift(entry);
+  STATE.loadoutRunHistory = next.slice(0, 5);
+}
+
+function getRecommendedSetNamesFromHistory(level) {
+  const list = Array.isArray(STATE.loadoutRunHistory) ? STATE.loadoutRunHistory.slice(0, 5) : [];
+  if (!list.length) return [];
+  const sameLevel = list.filter(item => (item.level || "") === (level || ""));
+  const pool = sameLevel.length >= 2 ? sameLevel : list;
+  const setScore = {};
+  pool.forEach(item => {
+    const weight = Math.max(1, Number(item.score || 0) + Number(item.scoreBonus || 0) * 3 + Number(item.dialogue || 0) * 4);
+    (item.topSets || []).forEach(raw => {
+      const name = String(raw).split(" x")[0].trim();
+      if (!name) return;
+      setScore[name] = (setScore[name] || 0) + weight;
+    });
+  });
+  return Object.entries(setScore)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([name]) => name);
+}
+
+function getSetCefrLevel(setName) {
+  const m = String(setName || "").match(/Set\s+(A1|A2|B1|B2)/i);
+  return m ? m[1].toUpperCase() : "";
+}
+
+function getRecommendedWordHint(wordData, word, equippedWords, recommendedSets) {
+  if (!recommendedSets || !recommendedSets.length) return "";
+  const level = (wordData && wordData.level) || STATE.level || "A1";
+  const rarity = (wordData && wordData.rarity) || "common";
+  const eq = (equippedWords || []).map(w => ({ word: w, ...(STATE.wordCollection[w] || {}) }));
+
+  for (let i = 0; i < recommendedSets.length; i++) {
+    const setName = recommendedSets[i];
+    const setLevel = getSetCefrLevel(setName);
+    if (setLevel && setLevel === level) {
+      return "Set recomendado: " + setLevel;
+    }
+    if (setName.indexOf("Tríada cromática") === 0 && eq.length >= 1 && eq.length < 3) {
+      const rarities = new Set(eq.map(item => item.rarity || "common"));
+      if (!rarities.has(rarity) || equippedWords.includes(word)) {
+        return "Set recomendado: Tríada";
+      }
+    }
+  }
+  return "";
+}
+
+function getBestLoadoutRecommendationText(history, level) {
+  const list = (history || []).filter(item => !!item);
+  if (!list.length) return "";
+
+  const sameLevel = list.filter(item => (item.level || "") === (level || ""));
+  const pool = sameLevel.length >= 2 ? sameLevel : list;
+
+  const setScores = {};
+  let sumXp = 0;
+  let sumScore = 0;
+  let sumDialogue = 0;
+  let sumProcs = 0;
+
+  pool.forEach(item => {
+    const procs = Math.max(1, Number(item.procs || 0));
+    const entryPower = Number(item.score || 0)
+      + Number(item.scoreBonus || 0) * 4
+      + Number(item.xp || 0) * 3
+      + Number(item.dialogue || 0) * 5;
+    (item.topSets || []).forEach(raw => {
+      const setName = String(raw).split(" x")[0].trim();
+      if (!setName) return;
+      setScores[setName] = (setScores[setName] || 0) + entryPower;
+    });
+    sumXp += Number(item.xp || 0);
+    sumScore += Number(item.scoreBonus || 0);
+    sumDialogue += Number(item.dialogue || 0);
+    sumProcs += procs;
+  });
+
+  const topSets = Object.entries(setScores)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([name]) => name);
+
+  if (!topSets.length || sumProcs <= 0) {
+    return "Recomendación build: aún faltan datos de sets; sigue equipando 3 palabras para detectar tu combinación más rentable.";
+  }
+
+  const avgXp = sumXp / sumProcs;
+  const avgScore = sumScore / sumProcs;
+  const avgDialogue = sumDialogue / sumProcs;
+  const focus = avgDialogue >= avgScore && avgDialogue >= avgXp
+    ? "diálogo"
+    : (avgScore >= avgXp ? "score" : "XP");
+
+  return "Recomendación build: prioriza " + topSets.join(" + ") + ". Perfil actual orientado a " + focus + " (media por acierto con carga: +" + avgXp.toFixed(1) + " XP, +" + avgScore.toFixed(1) + " score, +" + avgDialogue.toFixed(1) + " diálogo).";
+}
+
+function renderResultLoadoutHistory() {
+  const root = document.getElementById("result-loadout-history");
+  if (!root) return;
+  const list = Array.isArray(STATE.loadoutRunHistory) ? STATE.loadoutRunHistory.slice(0, 5) : [];
+  if (!list.length) {
+    root.innerHTML = "<span class='small'>Historial de builds: completa runs con carga activa para comparar rendimiento.</span>";
+    return;
+  }
+
+  const rows = list.map(item => {
+    const date = new Date(item.at || Date.now());
+    const stamp = date.toLocaleDateString() + " " + date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const sets = item.topSets && item.topSets.length ? item.topSets.join(" | ") : "sin set destacado";
+    return "<tr>"
+      + "<td>" + stamp + "</td>"
+      + "<td>" + (item.level || "A1") + " / " + (item.mode || "campaign") + "</td>"
+      + "<td>" + (item.context || "Run") + "</td>"
+      + "<td>" + (item.score || 0) + "</td>"
+      + "<td>+" + (item.xp || 0) + " XP · +" + (item.scoreBonus || 0) + " S · +" + (item.dialogue || 0) + " D</td>"
+      + "<td>" + sets + "</td>"
+      + "</tr>";
+  }).join("");
+  const recommendation = getBestLoadoutRecommendationText(list, STATE.level);
+
+  root.innerHTML = "<div class='small'><strong>Historial de builds (últimas 5 runs)</strong></div>"
+    + (recommendation ? "<div class='small mt8' style='color:#dff7d8'><strong>Build recomendado:</strong> " + recommendation + "</div>" : "")
+    + "<div class='small mt8' style='overflow:auto;'><table style='width:100%; border-collapse:collapse; font-size:12px;'>"
+    + "<thead><tr><th style='text-align:left; padding:4px;'>Fecha</th><th style='text-align:left; padding:4px;'>Nivel/Modo</th><th style='text-align:left; padding:4px;'>Contexto</th><th style='text-align:left; padding:4px;'>Score</th><th style='text-align:left; padding:4px;'>Bonus carga</th><th style='text-align:left; padding:4px;'>Sets top</th></tr></thead>"
+    + "<tbody>" + rows + "</tbody></table></div>";
+}
+
 function ensureCurrentRun(level, mode, replay) {
   const sameRun = currentRun && currentRun.level === level && currentRun.mode === mode && !!currentRun.replay === !!replay;
   if (sameRun) return currentRun;
@@ -3386,6 +5599,7 @@ function ensureCurrentRun(level, mode, replay) {
     correct: 0,
     answered: 0,
     timeBonus: 0,
+    loadoutStats: { procs: 0, totalXp: 0, totalScore: 0, totalDialogue: 0, setCounts: {} },
     used: { mcq: new Set(), group: new Set(), order: new Set() },
     bossUsed: { mini: new Set(), final: new Set() },
   };
@@ -3393,6 +5607,16 @@ function ensureCurrentRun(level, mode, replay) {
 }
 
 function startStage(stageNumber, level, mode, options = {}) {
+  if (mode === "campaign" && !options.skipBriefing && needsGhostBriefing(level)) {
+    pendingCampaignStage = {
+      stageNumber,
+      level,
+      mode,
+      options: { ...(options || {}), skipBriefing: true },
+    };
+    openGhostBriefing(level, true);
+    return;
+  }
   setGameMode(mode);
   currentBossRun = null;
   if (mode === "review") currentRun = null;
@@ -4068,9 +6292,26 @@ function resolveAnswer(correct, timeout) {
   const c = currentChallenge;
   c.answered = true;
   c.wasCorrect = correct;
+  const loadoutBonus = getInventoryLoadoutBonus();
+  const missionLevel = ((currentRun && currentRun.level) || STATE.level || "A1");
+  const missionStats = getLevelMissionStats(missionLevel);
+  c.loadoutApplied = {
+    count: loadoutBonus.count || 0,
+    xpBonus: loadoutBonus.xpBonus || 0,
+    scoreBonus: loadoutBonus.scoreBonus || 0,
+    dialogueImpactBonus: loadoutBonus.dialogueImpactBonus || 0,
+    activeSets: Array.isArray(loadoutBonus.activeSets) ? [...loadoutBonus.activeSets] : [],
+  };
 
   let gainedXp = 0;
   if (correct) {
+    if (currentMode === "campaign") {
+      const t = c.type || "mcq";
+      missionStats.winsByType[t] = Math.max(0, Number(missionStats.winsByType[t] || 0) + 1);
+      if (t === "dialogue") {
+        missionStats.dialogueCorrect = Math.max(0, Number(missionStats.dialogueCorrect || 0) + 1);
+      }
+    }
     const revealPenalty = c.revealedEnglish && !c.revealUsedFree;
     gainedXp = revealPenalty ? Math.floor(c.baseXp * 0.5) : c.baseXp;
     STATE.streak += 1;
@@ -4087,6 +6328,13 @@ function resolveAnswer(correct, timeout) {
       notify("Racha x" + STATE.streak + ": bonus +" + streakBonus + " XP");
     }
 
+    if (loadoutBonus.xpBonus > 0) {
+      gainedXp += loadoutBonus.xpBonus;
+      notify("Carga activa: +" + loadoutBonus.xpBonus + " XP adicional.");
+    }
+
+    registerRunLoadoutBonus(loadoutBonus);
+
     STATE.xp += gainedXp;
     STATE.coins += 5;
     rewardWord();
@@ -4096,8 +6344,12 @@ function resolveAnswer(correct, timeout) {
     const timeBonus = Math.max(0, timerRemaining || 0) * 4;
     const scoreGain = Math.max(20, Math.floor((c.baseXp || 20) * 1.5)) + timeBonus;
     let finalScoreGain = revealPenalty ? Math.floor(scoreGain * 0.5) : scoreGain;
+    if (loadoutBonus.scoreBonus > 0) {
+      finalScoreGain += loadoutBonus.scoreBonus;
+      notify("Carga activa: +" + loadoutBonus.scoreBonus + " score.");
+    }
     if (c.type === "dialogue" && c.dialogueEval) {
-      const toneBonus = Math.max(0, c.dialogueEval.impact || 0);
+      const toneBonus = Math.max(0, c.dialogueEval.impact || 0) + (loadoutBonus.dialogueImpactBonus || 0);
       gainedXp += Math.min(10, toneBonus);
       finalScoreGain += toneBonus;
       if (c.affinityPerks && c.affinityPerks.scoreBonus > 0) {
@@ -4162,6 +6414,13 @@ function showFeedback(correct, gainedXp, timeout) {
   if (correct && currentRun) msg += " Puntuación parcial: " + currentRun.score + ".";
   if (timeout) msg += " Se acabo el tiempo.";
   if (currentChallenge.revealedEnglish && !currentChallenge.revealUsedFree && correct) msg += " (Penalización del 50% aplicada por revelar inglés).";
+  if (correct && currentChallenge.loadoutApplied && currentChallenge.loadoutApplied.count > 0) {
+    const la = currentChallenge.loadoutApplied;
+    msg += " Carga activa: +" + la.xpBonus + " XP, +" + la.scoreBonus + " score, +" + la.dialogueImpactBonus + " diálogo.";
+    if (la.activeSets && la.activeSets.length) {
+      msg += " Sets: " + la.activeSets.join(" | ") + ".";
+    }
+  }
   if (currentChallenge.type === "dialogue" && currentChallenge.dialogueEval) {
     msg += " Tono: " + currentChallenge.dialogueEval.tone + " · Calidad: " + currentChallenge.dialogueEval.quality + ".";
     msg += " Afinidad: " + (currentChallenge.dialogueEval.affinityDelta >= 0 ? "+" : "") + currentChallenge.dialogueEval.affinityDelta + " (total " + currentChallenge.dialogueEval.affinityTotal + ").";
@@ -4182,6 +6441,7 @@ function showFeedback(correct, gainedXp, timeout) {
   if (detail) {
     if (currentChallenge.type === "dialogue" && currentChallenge.dialogueEval) {
       const dial = currentChallenge.dialogueEval;
+      const la = currentChallenge.loadoutApplied || null;
       const qualityClass = dial.quality === "alta" ? "good" : dial.quality === "media" ? "warn" : "bad";
       const impactClass = (dial.impact || 0) >= 0 ? "good" : "bad";
       detail.className = "feedback-detail show";
@@ -4192,7 +6452,13 @@ function showFeedback(correct, gainedXp, timeout) {
         "<span class='feedback-pill " + (dial.affinityDelta >= 0 ? "good" : "bad") + "'>Afinidad: " + (dial.affinityDelta >= 0 ? "+" : "") + dial.affinityDelta + "</span>" +
         "<span class='feedback-pill'>Estado: " + (dial.affinityTier || "neutral") + "</span>" +
         "<span class='feedback-pill'>Tono: " + dial.tone + "</span>" +
+        (la && la.count > 0
+          ? "<span class='feedback-pill good'>Carga: +" + (la.xpBonus || 0) + "XP / +" + (la.scoreBonus || 0) + "S / +" + (la.dialogueImpactBonus || 0) + "D</span>"
+          : "") +
         "</div>" +
+        (la && la.activeSets && la.activeSets.length
+          ? "<div class='small mt8'>Sets de carga activos: " + la.activeSets.join(" | ") + ".</div>"
+          : "") +
         (dial.allianceEvent
           ? "<div class='small mt8' style='color:#ffe3a4'><strong>Evento de alianza:</strong> " + dial.allianceEvent.line + " (+" + dial.allianceEvent.xp + " XP, +" + dial.allianceEvent.coins + " monedas" + (dial.allianceEvent.word ? ", +" + dial.allianceEvent.word : "") + ")</div>"
           : "") +
@@ -4338,6 +6604,8 @@ function endCampaignChallenge() {
         "Has detectado un tramo que todavía necesita refuerzo y eso ayuda a orientar el estudio.",
         "Vuelve a ese nivel o entra en Biblioteca para repasar la regla que más te ha fallado."
       );
+      appendRunLoadoutSummaryToResult(currentRun);
+      recordRunLoadoutHistory(currentRun, "Revision fallida");
       saveProgress();
       updateHUD();
       currentRun = null;
@@ -4357,6 +6625,8 @@ function endCampaignChallenge() {
       "La derrota indica qué parte del nivel necesita más práctica y evita avanzar con huecos.",
       "Repite el nivel desde el inicio o usa el Glosario para atacar la regla más débil."
     );
+    appendRunLoadoutSummaryToResult(currentRun);
+    recordRunLoadoutHistory(currentRun, "Derrota");
     currentRun = null;
     finalizeResultTransition();
     return;
@@ -4404,6 +6674,8 @@ function endCampaignChallenge() {
         "Has practicado el cierre del nivel y consolidado estructuras de mayor exigencia.",
         "Puedes repetir la revisión para subir puntuación o volver a Campaña para seguir la historia."
       );
+      appendRunLoadoutSummaryToResult(currentRun);
+      recordRunLoadoutHistory(currentRun, "Revision jefe");
       saveProgress();
       updateHUD();
       currentRun = null;
@@ -4445,6 +6717,8 @@ function endCampaignChallenge() {
     updateHUD();
     const rank = getLevelRank(runLevel);
     document.getElementById("result-score").textContent = "Puntuación total del intento: " + (currentRun ? currentRun.score : 0) + " | Rango " + rank.medal + " · " + rank.stars + "/" + rank.maxStars + "★";
+    appendRunLoadoutSummaryToResult(currentRun);
+    recordRunLoadoutHistory(currentRun, "Nivel completado");
     currentRun = null;
     finalizeResultTransition();
     return;
@@ -4460,6 +6734,8 @@ function endCampaignChallenge() {
       "Has repetido un escenario y reforzado la mecánica concreta de ese tramo.",
       "Si quieres más estabilidad, repite el mismo escenario o usa Biblioteca para leer la regla asociada."
     );
+    appendRunLoadoutSummaryToResult(currentRun);
+    recordRunLoadoutHistory(currentRun, "Revision escenario");
     saveProgress();
     updateHUD();
     currentRun = null;
@@ -4904,6 +7180,7 @@ function renderBadgeHistory() {
 }
 
 function getBadgeDefinitions(consecutive) {
+  const highMastery = getTownHighMasteryNpcCount();
   return [
     {
       id: "streak9",
@@ -4926,6 +7203,13 @@ function getBadgeDefinitions(consecutive) {
       text: Math.min(consecutive, 7) + "/7 días de retos diarios consecutivos",
       pct: Math.min(100, Math.floor((Math.min(consecutive, 7) / 7) * 100)),
     },
+    {
+      id: "townPolyglot",
+      name: "Voz del Pueblo",
+      unlocked: !!STATE.badges.townPolyglot,
+      text: Math.min(highMastery, 3) + "/3 NPC dominados en conversación alta",
+      pct: Math.min(100, Math.floor((Math.min(highMastery, 3) / 3) * 100)),
+    },
   ];
 }
 
@@ -4934,6 +7218,7 @@ function unlockBadge(badgeId) {
     streak9: "Racha de Acero",
     flawlessBoss: "Jefe Impecable",
     daily7: "Constancia Arcana",
+    townPolyglot: "Voz del Pueblo",
   };
   if (STATE.badges[badgeId]) return;
   STATE.badges[badgeId] = true;
@@ -4968,9 +7253,17 @@ function hasExtrasPending() {
   return done < lessons.length;
 }
 
+function hasMapPending() {
+  return Object.keys(NPC_PERSONAS || {}).some(name => {
+    const points = getNpcAffinity(name);
+    return points >= 4 && (!STATE.npcMapDaily || STATE.npcMapDaily[name] !== todayKey());
+  });
+}
+
 function updateNavButtons() {
   const map = {
     campaign: "btn-nav-campaign",
+    map: "btn-nav-map",
     library: "btn-nav-library",
     academy: "btn-nav-extras",
     daily: "btn-nav-daily",
@@ -4995,11 +7288,13 @@ function updateNavButtons() {
   const extrasBtn = document.getElementById(map.academy);
   const shopBtn = document.getElementById(map.shop);
   const badgesBtn = document.getElementById(map.badges);
+  const mapBtn = document.getElementById(map.map);
 
   if (dailyBtn && hasDailyPending() && STATE.currentScreen !== "daily") dailyBtn.classList.add("has-new");
   if (extrasBtn && hasExtrasPending() && STATE.currentScreen !== "academy") extrasBtn.classList.add("has-new");
   if (shopBtn && isShopUnlocked() && !STATE.shopSeen && STATE.currentScreen !== "shop") shopBtn.classList.add("has-new");
   if (badgesBtn && hasUnseenBadges() && STATE.currentScreen !== "badges") badgesBtn.classList.add("has-new");
+  if (mapBtn && hasMapPending() && STATE.currentScreen !== "map") mapBtn.classList.add("has-new");
 }
 
 function getConsecutiveDailyCount() {
@@ -5101,6 +7396,10 @@ function loadProgress() {
             inventory: data.inventory || [],
             wordCollection: data.wordCollection || {},
             lootHistory: Array.isArray(data.lootHistory) ? data.lootHistory : [],
+            equippedWords: Array.isArray(data.equippedWords) ? data.equippedWords : [],
+            inventoryQuery: typeof data.inventoryQuery === "string" ? data.inventoryQuery : "",
+            inventoryFilter: typeof data.inventoryFilter === "string" ? data.inventoryFilter : "all",
+            inventorySort: typeof data.inventorySort === "string" ? data.inventorySort : "rarity",
             craftLevel: data.craftLevel || data.selectedLevel || data.level || "A1",
             streak: Number.isFinite(data.streak) ? data.streak : 0,
             dailyDone: data.dailyDone || {},
@@ -5109,6 +7408,7 @@ function loadProgress() {
               streak9: !!(data.badges && data.badges.streak9),
               flawlessBoss: !!(data.badges && data.badges.flawlessBoss),
               daily7: !!(data.badges && data.badges.daily7),
+              townPolyglot: !!(data.badges && data.badges.townPolyglot),
             },
             badgeHistory: Array.isArray(data.badgeHistory) ? data.badgeHistory : [],
             badgesUnlockedAt: data.badgesUnlockedAt || {},
@@ -5116,10 +7416,33 @@ function loadProgress() {
             npcAffinity: data.npcAffinity || {},
             npcEventRewards: data.npcEventRewards || {},
             npcTrustDaily: data.npcTrustDaily || {},
+            npcMapDaily: data.npcMapDaily || {},
+            npcTalkDaily: data.npcTalkDaily || {},
+            npcTalkProgress: data.npcTalkProgress || {},
+            npcTalkNotes: data.npcTalkNotes || {},
+            townBoardDaily: data.townBoardDaily || {},
+            townBoardStats: data.townBoardStats || {},
+            townPerfectDaily: data.townPerfectDaily || {},
+            townPerfectWeeklyClaims: data.townPerfectWeeklyClaims || {},
+            npcWeeklyActivity: data.npcWeeklyActivity || {},
+            loadoutRunHistory: Array.isArray(data.loadoutRunHistory) ? data.loadoutRunHistory.slice(0, 5) : [],
             selectedLevel: data.selectedLevel || data.level || "A1",
             freeRevealCharges: Number.isFinite(data.freeRevealCharges) ? data.freeRevealCharges : 0,
             nextTimeBonusSeconds: Number.isFinite(data.nextTimeBonusSeconds) ? data.nextTimeBonusSeconds : 0,
             shieldCharges: Number.isFinite(data.shieldCharges) ? data.shieldCharges : 0,
+            levelBriefingSeen: {
+              A1: !!(data.levelBriefingSeen && data.levelBriefingSeen.A1),
+              A2: !!(data.levelBriefingSeen && data.levelBriefingSeen.A2),
+              B1: !!(data.levelBriefingSeen && data.levelBriefingSeen.B1),
+              B2: !!(data.levelBriefingSeen && data.levelBriefingSeen.B2),
+            },
+            levelMissionRewardsClaimed: {
+              A1: !!(data.levelMissionRewardsClaimed && data.levelMissionRewardsClaimed.A1),
+              A2: !!(data.levelMissionRewardsClaimed && data.levelMissionRewardsClaimed.A2),
+              B1: !!(data.levelMissionRewardsClaimed && data.levelMissionRewardsClaimed.B1),
+              B2: !!(data.levelMissionRewardsClaimed && data.levelMissionRewardsClaimed.B2),
+            },
+            levelMissionStats: data.levelMissionStats && typeof data.levelMissionStats === "object" ? data.levelMissionStats : {},
             stageBestScores: data.stageBestScores || {},
             shopSeen: !!data.shopSeen,
             tutorialDone: !!data.tutorialDone,
